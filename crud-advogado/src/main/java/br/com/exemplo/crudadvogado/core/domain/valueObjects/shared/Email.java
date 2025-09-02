@@ -1,31 +1,37 @@
 package br.com.exemplo.crudadvogado.core.domain.valueObjects.shared;
 
+import java.util.regex.Pattern;
+
 public class Email {
-    private String endereco;
 
-    public Email(String endereco) {
-        this.endereco = endereco;
+    private String enderacoEmail;
+
+    private Email(String enderacoEmail) {
+        this.enderacoEmail = enderacoEmail;
     }
 
-    public String getEndereco() {
-        return endereco;
+    public String getEnderacoEmail() {
+        return enderacoEmail;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setEnderacoEmail(String enderacoEmail) {
+        this.enderacoEmail = enderacoEmail;
     }
 
-    public static Boolean validar(String endereco) {
-        if (endereco == null || endereco.isEmpty()) {
-            throw new IllegalArgumentException("Email não pode ser vazio");
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+
+    public static Boolean validarEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            return false;
         }
-        return endereco.matches("^[\\w-\\.]+@[\\w-]+\\.[a-zA-Z]{2,}$");
+        return email.matches(EMAIL_PATTERN.pattern());
     }
 
-    public static Email criar(String endereco) {
-        if (validar(endereco)) {
-            return new Email(endereco);
+    public static Email criar(String email) {
+        if (validarEmail(email)) {
+            return new Email(email);
         }
-        throw new IllegalArgumentException("Email inválido");
+        throw new IllegalArgumentException("Endereço de email inválido");
     }
+
 }

@@ -1,39 +1,35 @@
 package br.com.exemplo.crudadvogado.core.domain;
 
-import br.com.exemplo.crudadvogado.core.domain.valueObjects.Cpf;
+import br.com.exemplo.crudadvogado.core.domain.valueObjects.advogado.Oab;
+import br.com.exemplo.crudadvogado.core.domain.valueObjects.advogado.Senha;
+import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Cpf;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Email;
-import br.com.exemplo.crudadvogado.core.domain.valueObjects.Oab;
 
-import java.util.List;
 import java.util.UUID;
 
 public class Advogado {
 
     private UUID idAdvogado;
     private String nome;
-    private Oab registroOab;
+    private Oab oab;
     private Cpf cpf;
     private Email email;
-    private String senha;
+    private Senha senha;
 
-    private List<Cliente> clientes;
-    private List<Processo> processos;
-    private List<Evento> eventos;
-    private List<Lead> leads;
-    private List<SolicitacaoAgendamento> solicitacoesAgendamento;
-    private List<CategoriaEvento> categoriasEvento;
+//    private list<Cliente> clientes;
+//    private list<Processo> processos;
+//    private list<Evento> eventos;
+//    private list<Lead> leads;
+//    private list<SolicitacaoAgendamento> solicitacoesAgendamento;
+//    private list<CategoriaEvento> categoriasEvento;
 
-    public Advogado(UUID idAdvogado, String nome, Oab registroOab, Cpf cpf, Email email, String senha) {
+    private Advogado(UUID idAdvogado, String nome, Oab oab, Cpf cpf, Email email, Senha senha) {
         this.idAdvogado = idAdvogado;
         this.nome = nome;
-        this.registroOab = registroOab;
+        this.oab = oab;
         this.cpf = cpf;
         this.email = email;
         this.senha = senha;
-    }
-
-    public Advogado() {
-
     }
 
     public UUID getIdAdvogado() {
@@ -52,12 +48,12 @@ public class Advogado {
         this.nome = nome;
     }
 
-    public Oab getRegistroOab() {
-        return registroOab;
+    public Oab getOab() {
+        return oab;
     }
 
-    public void setRegistroOab(Oab registroOab) {
-        this.registroOab = registroOab;
+    public void setOab(Oab oab) {
+        this.oab = oab;
     }
 
     public Cpf getCpf() {
@@ -76,27 +72,17 @@ public class Advogado {
         this.email = email;
     }
 
-    public String getSenha() {
+    public Senha getSenha() {
         return senha;
     }
 
-    public void setSenha(String senha) {
+    public void setSenha(Senha senha) {
         this.senha = senha;
     }
 
-    public static Advogado criar(String nome, Oab registroOab, Cpf cpf, Email email, String senha) throws IllegalArgumentException {
-
-        Email.criar(email.getEndereco());
-        Cpf.criar(cpf.getNumero());
-        Oab.criar(registroOab.getNumero());
-
-        Advogado advogado = new Advogado();
-        advogado.setNome(nome);
-        advogado.setRegistroOab(registroOab);
-        advogado.setCpf(cpf);
-        advogado.setEmail(email);
-        advogado.setSenha(senha);
-
-        return advogado;
+    public static Advogado criarNovo(String nome, String oab, String cpf, String email, String senha) {
+        String uniqueKey = oab + cpf + email;
+        UUID id = UUID.nameUUIDFromBytes(uniqueKey.getBytes());
+        return new Advogado(id, nome, Oab.criar(oab), Cpf.criar(cpf), Email.criar(email), Senha.criar(senha));
     }
 }
