@@ -13,10 +13,10 @@ public class Evento {
     private LocalTime horaInicio;
     private LocalTime horaFim;
 
-//    private Advogado advogado;
-//    private Cliente cliente;
-//    private CategoriaEvento categoria;
-//    private Processo processo;
+    private Advogado advogado;
+    private Cliente cliente;
+    private CategoriaEvento categoria;
+    private Processo processo;
 
 
     public Evento(String nome, String descricao, String local, String linkReuniao, Date dataReuniao, LocalTime horaInicio, LocalTime horaFim) {
@@ -83,5 +83,37 @@ public class Evento {
 
     public void setHoraFim(LocalTime horaFim) {
         this.horaFim = horaFim;
+    }
+
+    public Advogado getAdvogado() {
+        return advogado;
+    }
+
+    public void setAdvogado(Advogado advogado) {
+        this.advogado = advogado;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public CategoriaEvento getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(CategoriaEvento categoria) {
+        this.categoria = categoria;
+    }
+
+    public Processo getProcesso() {
+        return processo;
+    }
+
+    public void setProcesso(Processo processo) {
+        this.processo = processo;
     }
 }

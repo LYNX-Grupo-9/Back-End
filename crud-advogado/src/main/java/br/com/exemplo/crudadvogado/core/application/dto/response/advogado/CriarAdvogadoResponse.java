@@ -1,4 +1,4 @@
-package br.com.exemplo.crudadvogado.core.application.dto.response;
+package br.com.exemplo.crudadvogado.core.application.dto.response.advogado;
 
 import java.util.UUID;
 

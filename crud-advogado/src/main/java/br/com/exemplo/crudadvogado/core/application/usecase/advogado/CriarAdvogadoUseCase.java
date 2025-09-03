@@ -2,8 +2,8 @@ package br.com.exemplo.crudadvogado.core.application.usecase.advogado;
 
 
 import br.com.exemplo.crudadvogado.core.adapter.gateway.AdvogadoGateway;
-import br.com.exemplo.crudadvogado.core.application.dto.command.CriarAdvogadoCommand;
-import br.com.exemplo.crudadvogado.core.application.dto.response.CriarAdvogadoResponse;
+import br.com.exemplo.crudadvogado.core.application.dto.command.advogado.CriarAdvogadoCommand;
+import br.com.exemplo.crudadvogado.core.application.dto.response.advogado.CriarAdvogadoResponse;
 import br.com.exemplo.crudadvogado.core.application.exception.DuplicidadeException;
 import br.com.exemplo.crudadvogado.core.domain.Advogado;
 import org.springframework.security.crypto.password.PasswordEncoder;

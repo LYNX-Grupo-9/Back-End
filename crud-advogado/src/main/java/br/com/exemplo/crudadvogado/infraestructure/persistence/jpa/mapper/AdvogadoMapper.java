@@ -2,10 +2,9 @@ package br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.mapper;
 
 
 
-import br.com.exemplo.crudadvogado.core.application.dto.command.AdvogadoCommand;
-import br.com.exemplo.crudadvogado.core.application.dto.command.AdvogadoLoginCommand;
-import br.com.exemplo.crudadvogado.core.application.dto.response.AdvogadoResponse;
-import br.com.exemplo.crudadvogado.core.application.dto.response.AdvogadoToken;
+import br.com.exemplo.crudadvogado.core.application.dto.command.advogado.AdvogadoCommand;
+import br.com.exemplo.crudadvogado.core.application.dto.response.advogado.AdvogadoResponse;
+import br.com.exemplo.crudadvogado.core.application.dto.response.advogado.AdvogadoToken;
 import br.com.exemplo.crudadvogado.core.domain.Advogado;
 import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.entity.AdvogadoEntity;
 
@@ -53,6 +52,19 @@ public class AdvogadoMapper {
                 command.cpf(),
                 command.email(),
                 command.senha()
+        );
+    }
+
+    public static AdvogadoResponse toResponse(Advogado advogado) {
+        if (advogado == null) {
+            return null;
+        }
+
+        return new AdvogadoResponse(
+                advogado.getIdAdvogado(),
+                advogado.getNome(),
+                advogado.getEmail().getEnderacoEmail(),
+                advogado.getOab().getNumeroOab()
         );
     }
 

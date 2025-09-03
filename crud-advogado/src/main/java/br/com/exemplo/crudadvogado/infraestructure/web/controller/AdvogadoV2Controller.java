@@ -1,16 +1,18 @@
 package br.com.exemplo.crudadvogado.infraestructure.web.controller;
 
 
-import br.com.exemplo.crudadvogado.core.application.dto.command.AdvogadoLoginCommand;
-import br.com.exemplo.crudadvogado.core.application.dto.command.CriarAdvogadoCommand;
-import br.com.exemplo.crudadvogado.core.application.dto.response.AdvogadoToken;
-import br.com.exemplo.crudadvogado.core.application.dto.response.CriarAdvogadoResponse;
+import br.com.exemplo.crudadvogado.core.application.dto.command.advogado.AdvogadoLoginCommand;
+import br.com.exemplo.crudadvogado.core.application.dto.command.advogado.CriarAdvogadoCommand;
+import br.com.exemplo.crudadvogado.core.application.dto.response.advogado.AdvogadoResponse;
+import br.com.exemplo.crudadvogado.core.application.dto.response.advogado.AdvogadoToken;
+import br.com.exemplo.crudadvogado.core.application.dto.response.advogado.CriarAdvogadoResponse;
+import br.com.exemplo.crudadvogado.core.application.usecase.advogado.BuscarAdvogadoPorEmailUseCase;
 import br.com.exemplo.crudadvogado.core.application.usecase.advogado.CriarAdvogadoUseCase;
-import br.com.exemplo.crudadvogado.core.domain.Advogado;
 import br.com.exemplo.crudadvogado.infraestructure.config.GerenciadorTokenJwt;
 import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.entity.AdvogadoEntity;
 import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.mapper.AdvogadoMapper;
 import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.repository.AdvogadoJpaRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,12 +28,14 @@ public class AdvogadoV2Controller {
     private final CriarAdvogadoUseCase criarAdvogadoUseCase;
     private final AuthenticationManager authenticationManager;
     private final AdvogadoJpaRepository advogadoJpaRepository;
+    private final BuscarAdvogadoPorEmailUseCase buscarAdvogadoPorEmailUseCase;
 
-    public AdvogadoV2Controller(GerenciadorTokenJwt gerenciadorTokenJwt, CriarAdvogadoUseCase criarAdvogadoUseCase, AuthenticationManager authenticationManager, AdvogadoJpaRepository advogadoJpaRepository) {
+    public AdvogadoV2Controller(GerenciadorTokenJwt gerenciadorTokenJwt, CriarAdvogadoUseCase criarAdvogadoUseCase, AuthenticationManager authenticationManager, AdvogadoJpaRepository advogadoJpaRepository, BuscarAdvogadoPorEmailUseCase buscarAdvogadoPorEmailUseCase) {
         this.gerenciadorTokenJwt = gerenciadorTokenJwt;
         this.criarAdvogadoUseCase = criarAdvogadoUseCase;
         this.authenticationManager = authenticationManager;
         this.advogadoJpaRepository = advogadoJpaRepository;
+        this.buscarAdvogadoPorEmailUseCase = buscarAdvogadoPorEmailUseCase;
     }
 
     @PostMapping("/cadastrar")
@@ -57,6 +61,13 @@ public class AdvogadoV2Controller {
 
         AdvogadoToken response = AdvogadoMapper.of(advogadoAutenticado, token);
 
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/email/{email}")
+    @SecurityRequirement(name = "Bearer")
+    public ResponseEntity<AdvogadoResponse> buscarPorEmail(@PathVariable String email) {
+        AdvogadoResponse response = buscarAdvogadoPorEmailUseCase.executar(email);
         return ResponseEntity.ok(response);
     }
 }

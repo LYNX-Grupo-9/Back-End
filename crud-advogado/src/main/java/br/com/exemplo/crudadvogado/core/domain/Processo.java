@@ -1,8 +1,9 @@
 package br.com.exemplo.crudadvogado.core.domain;
 
 import java.math.BigDecimal;
+import java.util.List;
 
-public class processo {
+public class Processo {
 
     private String titulo;
     private String numeroProcesso;
@@ -17,13 +18,13 @@ public class processo {
     private String reu;
     private String advReu;
 
-//   private Advogado advogado;
-//    private Cliente cliente;
-//    private List<Evento> eventos;
-//    private Anexo anexo;
+    private Advogado advogado;
+    private Cliente cliente;
+    private List<Evento> eventos;
+    private Anexo anexo;
 
 
-    public processo(String titulo, String numeroProcesso, String descricao, String status, String classeProcessual, String assunto, String tribunal, BigDecimal valor, String autor, String advRequerente, String reu, String advReu) {
+    public Processo(String titulo, String numeroProcesso, String descricao, String status, String classeProcessual, String assunto, String tribunal, BigDecimal valor, String autor, String advRequerente, String reu, String advReu) {
         this.titulo = titulo;
         this.numeroProcesso = numeroProcesso;
         this.descricao = descricao;
@@ -132,5 +133,37 @@ public class processo {
 
     public void setAdvReu(String advReu) {
         this.advReu = advReu;
+    }
+
+    public Advogado getAdvogado() {
+        return advogado;
+    }
+
+    public void setAdvogado(Advogado advogado) {
+        this.advogado = advogado;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public List<Evento> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(List<Evento> eventos) {
+        this.eventos = eventos;
+    }
+
+    public Anexo getAnexo() {
+        return anexo;
+    }
+
+    public void setAnexo(Anexo anexo) {
+        this.anexo = anexo;
     }
 }

@@ -5,7 +5,6 @@ public class Anexo {
     private String nomeAnexo;
     private String idItem; //Id do item no bucket
 
-
-    // private Cliente cliente;
-    // private Processo processo;
+     private Cliente cliente;
+     private Processo processo;
 }

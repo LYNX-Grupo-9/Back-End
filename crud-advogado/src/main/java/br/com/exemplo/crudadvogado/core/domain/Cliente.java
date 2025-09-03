@@ -8,6 +8,7 @@ import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Genero;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Telefone;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class Cliente {
@@ -28,13 +29,11 @@ public class Cliente {
     private String naturalidade;
     private Long qtdProcessos;
 
-    /*RELACIONAMENTOS
+    // RELACIONAMENTOS
    private Advogado advogado;
    private List<Processo> processos;
    private List<Anexo> anexos;
    private List<Evento> eventos;
-*/
-
 
     public UUID getIdCliente() {
         return idCliente;
@@ -156,7 +155,39 @@ public class Cliente {
         this.qtdProcessos = qtdProcessos;
     }
 
-    private Cliente(UUID idCliente, String nome, String documento, String tipoDocumento, Email email, Telefone telefone,String endereco, Genero genero, Date dataNascimento, EstadoCivil estadoCivil, String profissao, String passaporte, String cnh, String naturalidade, Long qtdProcessos) {
+    public Advogado getAdvogado() {
+        return advogado;
+    }
+
+    public void setAdvogado(Advogado advogado) {
+        this.advogado = advogado;
+    }
+
+    public List<Processo> getProcessos() {
+        return processos;
+    }
+
+    public void setProcessos(List<Processo> processos) {
+        this.processos = processos;
+    }
+
+    public List<Anexo> getAnexos() {
+        return anexos;
+    }
+
+    public void setAnexos(List<Anexo> anexos) {
+        this.anexos = anexos;
+    }
+
+    public List<Evento> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(List<Evento> eventos) {
+        this.eventos = eventos;
+    }
+
+    private Cliente(UUID idCliente, String nome, String documento, String tipoDocumento, Email email, Telefone telefone, String endereco, Genero genero, Date dataNascimento, EstadoCivil estadoCivil, String profissao, String passaporte, String cnh, String naturalidade, Long qtdProcessos) {
         this.idCliente = idCliente;
         this.nome = nome;
         this.documento = documento;

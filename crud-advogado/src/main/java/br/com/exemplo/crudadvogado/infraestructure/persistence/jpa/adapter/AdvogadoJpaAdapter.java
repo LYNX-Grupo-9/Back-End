@@ -53,7 +53,8 @@ public class AdvogadoJpaAdapter implements AdvogadoGateway {
 
     @Override
     public Optional<Advogado> buscarPorEmail(String email) {
-        return Optional.empty();
+        return repository.findByEmail(email)
+                .map(AdvogadoMapper::toDomain);
     }
 
     @Override
@@ -65,5 +66,4 @@ public class AdvogadoJpaAdapter implements AdvogadoGateway {
     public List<Advogado> listarTodos() {
         return List.of();
     }
-
 }

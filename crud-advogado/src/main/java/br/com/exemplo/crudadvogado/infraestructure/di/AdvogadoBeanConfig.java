@@ -1,5 +1,6 @@
 package br.com.exemplo.crudadvogado.infraestructure.di;
 
+import br.com.exemplo.crudadvogado.core.application.usecase.advogado.BuscarAdvogadoPorEmailUseCase;
 import br.com.exemplo.crudadvogado.core.application.usecase.advogado.CriarAdvogadoUseCase;
 import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.adapter.AdvogadoJpaAdapter;
 import org.springframework.context.annotation.Bean;
@@ -19,5 +20,11 @@ public class AdvogadoBeanConfig {
     public CriarAdvogadoUseCase criarAdvogadoUseCase(AdvogadoJpaAdapter adapter, PasswordEncoder passwordEncoder) {
         return new CriarAdvogadoUseCase(adapter, passwordEncoder);
     }
+
+    @Bean
+    public BuscarAdvogadoPorEmailUseCase buscarAdvogadoPorEmailUseCase(AdvogadoJpaAdapter adapter) {
+        return new BuscarAdvogadoPorEmailUseCase(adapter);
+    }
+
 
 }

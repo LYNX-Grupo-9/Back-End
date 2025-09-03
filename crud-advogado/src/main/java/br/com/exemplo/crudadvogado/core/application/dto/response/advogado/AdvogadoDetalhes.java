@@ -1,10 +1,9 @@
-package br.com.exemplo.crudadvogado.core.application.dto;
+package br.com.exemplo.crudadvogado.core.application.dto.response.advogado;
 
 import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.entity.AdvogadoEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 import java.util.Collections;

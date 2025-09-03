@@ -1,4 +1,4 @@
-package br.com.exemplo.crudadvogado.core.application.dto.command;
+package br.com.exemplo.crudadvogado.core.application.dto.command.advogado;
 
 public record AdvogadoCommand(
         String nome,
