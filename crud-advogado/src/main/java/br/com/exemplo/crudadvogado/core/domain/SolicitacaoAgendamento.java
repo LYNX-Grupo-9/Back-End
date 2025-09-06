@@ -2,8 +2,11 @@ package br.com.exemplo.crudadvogado.core.domain;
 
 import java.sql.Date;
 import java.time.LocalTime;
+import java.util.UUID;
 
 public class SolicitacaoAgendamento {
+
+    private Long idSolicitacaoAgendamento;
     private String nome;
     private String telefone;
     private String email;
@@ -13,6 +16,6 @@ public class SolicitacaoAgendamento {
     private Boolean visualizado;
 
     // RELACIONAMENTOS
-    private Advogado advogado;
+    private UUID advogado;
 
 }

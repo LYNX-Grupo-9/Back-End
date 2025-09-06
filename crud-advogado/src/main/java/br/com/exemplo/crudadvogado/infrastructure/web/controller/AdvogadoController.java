@@ -1,4 +1,4 @@
-package br.com.exemplo.crudadvogado.infraestructure.web.controller;
+package br.com.exemplo.crudadvogado.infrastructure.web.controller;
 
 
 import br.com.exemplo.crudadvogado.core.application.dto.command.advogado.AdvogadoLoginCommand;
@@ -8,10 +8,10 @@ import br.com.exemplo.crudadvogado.core.application.dto.response.advogado.Advoga
 import br.com.exemplo.crudadvogado.core.application.dto.response.advogado.CriarAdvogadoResponse;
 import br.com.exemplo.crudadvogado.core.application.usecase.advogado.BuscarAdvogadoPorEmailUseCase;
 import br.com.exemplo.crudadvogado.core.application.usecase.advogado.CriarAdvogadoUseCase;
-import br.com.exemplo.crudadvogado.infraestructure.config.GerenciadorTokenJwt;
-import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.entity.AdvogadoEntity;
-import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.mapper.AdvogadoMapper;
-import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.repository.AdvogadoJpaRepository;
+import br.com.exemplo.crudadvogado.infrastructure.config.GerenciadorTokenJwt;
+import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.AdvogadoEntity;
+import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.mapper.AdvogadoMapper;
+import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.repository.AdvogadoJpaRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,8 +21,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v2/advogados")
-public class AdvogadoV2Controller {
+@RequestMapping("/api/advogados")
+public class AdvogadoController {
 
     private final GerenciadorTokenJwt gerenciadorTokenJwt;
     private final CriarAdvogadoUseCase criarAdvogadoUseCase;
@@ -30,7 +30,7 @@ public class AdvogadoV2Controller {
     private final AdvogadoJpaRepository advogadoJpaRepository;
     private final BuscarAdvogadoPorEmailUseCase buscarAdvogadoPorEmailUseCase;
 
-    public AdvogadoV2Controller(GerenciadorTokenJwt gerenciadorTokenJwt, CriarAdvogadoUseCase criarAdvogadoUseCase, AuthenticationManager authenticationManager, AdvogadoJpaRepository advogadoJpaRepository, BuscarAdvogadoPorEmailUseCase buscarAdvogadoPorEmailUseCase) {
+    public AdvogadoController(GerenciadorTokenJwt gerenciadorTokenJwt, CriarAdvogadoUseCase criarAdvogadoUseCase, AuthenticationManager authenticationManager, AdvogadoJpaRepository advogadoJpaRepository, BuscarAdvogadoPorEmailUseCase buscarAdvogadoPorEmailUseCase) {
         this.gerenciadorTokenJwt = gerenciadorTokenJwt;
         this.criarAdvogadoUseCase = criarAdvogadoUseCase;
         this.authenticationManager = authenticationManager;

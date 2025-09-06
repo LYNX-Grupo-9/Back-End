@@ -1,4 +1,4 @@
-package br.com.exemplo.crudadvogado.infraestructure.config;
+package br.com.exemplo.crudadvogado.infrastructure.config;
 
 import br.com.exemplo.crudadvogado.core.application.usecase.advogado.AutenticacaoUseCase;
 import io.jsonwebtoken.ExpiredJwtException;

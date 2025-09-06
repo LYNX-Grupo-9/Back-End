@@ -1,4 +1,4 @@
-package br.com.exemplo.crudadvogado.infraestructure.config;
+package br.com.exemplo.crudadvogado.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

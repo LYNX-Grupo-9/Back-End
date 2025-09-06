@@ -1,8 +1,8 @@
 package br.com.exemplo.crudadvogado.core.application.usecase.advogado;
 
 import br.com.exemplo.crudadvogado.core.application.dto.response.advogado.AdvogadoDetalhes;
-import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.entity.AdvogadoEntity;
-import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.repository.AdvogadoJpaRepository;
+import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.AdvogadoEntity;
+import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.repository.AdvogadoJpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

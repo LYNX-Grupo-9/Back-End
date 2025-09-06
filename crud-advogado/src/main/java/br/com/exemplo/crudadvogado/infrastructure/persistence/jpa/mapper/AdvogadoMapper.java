@@ -1,12 +1,10 @@
-package br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.mapper;
-
-
+package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.mapper;
 
 import br.com.exemplo.crudadvogado.core.application.dto.command.advogado.AdvogadoCommand;
 import br.com.exemplo.crudadvogado.core.application.dto.response.advogado.AdvogadoResponse;
 import br.com.exemplo.crudadvogado.core.application.dto.response.advogado.AdvogadoToken;
 import br.com.exemplo.crudadvogado.core.domain.Advogado;
-import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.entity.AdvogadoEntity;
+import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.AdvogadoEntity;
 
 import java.util.Objects;
 

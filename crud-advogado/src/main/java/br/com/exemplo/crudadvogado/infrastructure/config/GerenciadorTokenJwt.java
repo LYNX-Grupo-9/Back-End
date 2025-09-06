@@ -1,4 +1,4 @@
-package br.com.exemplo.crudadvogado.infraestructure.config;
+package br.com.exemplo.crudadvogado.infrastructure.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

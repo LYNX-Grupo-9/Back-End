@@ -1,11 +1,11 @@
-package br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.adapter;
+package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.adapter;
 
 
 import br.com.exemplo.crudadvogado.core.adapter.gateway.AdvogadoGateway;
 import br.com.exemplo.crudadvogado.core.domain.Advogado;
-import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.entity.AdvogadoEntity;
-import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.mapper.AdvogadoMapper;
-import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.repository.AdvogadoJpaRepository;
+import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.AdvogadoEntity;
+import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.mapper.AdvogadoMapper;
+import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.repository.AdvogadoJpaRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 public class AdvogadoJpaAdapter implements AdvogadoGateway {

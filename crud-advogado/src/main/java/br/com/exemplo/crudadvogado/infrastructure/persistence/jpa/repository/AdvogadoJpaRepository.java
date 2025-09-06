@@ -1,7 +1,7 @@
-package br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.repository;
+package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.repository;
 
 
-import br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.entity.AdvogadoEntity;
+import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.AdvogadoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

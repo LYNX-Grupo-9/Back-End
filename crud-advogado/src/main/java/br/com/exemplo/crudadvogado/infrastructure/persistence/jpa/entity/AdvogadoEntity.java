@@ -1,4 +1,4 @@
-package br.com.exemplo.crudadvogado.infraestructure.persistence.jpa.entity;
+package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 import java.util.UUID;
 
 @Entity
-@Table (name = "advogadoEntity")
+@Table (name = "advogado")
 public class AdvogadoEntity {
 
     @Id

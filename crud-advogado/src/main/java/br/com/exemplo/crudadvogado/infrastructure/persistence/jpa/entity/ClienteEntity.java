@@ -1,52 +1,48 @@
-package br.com.exemplo.crudadvogado.core.domain;
+package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity;
 
-
-
-import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Email;
-import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.EstadoCivil;
-import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Genero;
+import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.UUID;
 
-public class Cliente {
+@Entity
+@Table(name = "cliente")
+public class ClienteEntity {
 
+
+    @Id
     private UUID idCliente;
+
     private String nome;
     private String documento;
     private String tipoDocumento;
-    private Email email;
+    private String email;
     private String telefone;
     private String endereco;
-    private Genero genero;
+    private String genero;
     private Date dataNascimento;
-    private EstadoCivil estadoCivil;
+    private String estadoCivil;
     private String profissao;
     private String passaporte;
     private String cnh;
     private String naturalidade;
     private Long qtdProcessos;
 
-    private UUID idAdvogado;
+    // RELACIONAMENTOS
+    @ManyToOne
+    @JoinColumn(name = "id_advogado")
+    private AdvogadoEntity advogado;
 
-    public Cliente(UUID idCliente, String nome, String documento, String tipoDocumento, Email email, String telefone, String endereco, Genero genero, Date dataNascimento, EstadoCivil estadoCivil, String profissao, String passaporte, String cnh, String naturalidade, Long qtdProcessos, UUID idAdvogado) {
-        this.idCliente = idCliente;
-        this.nome = nome;
-        this.documento = documento;
-        this.tipoDocumento = tipoDocumento;
-        this.email = email;
-        this.telefone = telefone;
-        this.endereco = endereco;
-        this.genero = genero;
-        this.dataNascimento = dataNascimento;
-        this.estadoCivil = estadoCivil;
-        this.profissao = profissao;
-        this.passaporte = passaporte;
-        this.cnh = cnh;
-        this.naturalidade = naturalidade;
-        this.qtdProcessos = qtdProcessos;
-        this.idAdvogado = idAdvogado;
-    }
+//    @OneToMany(mappedBy = "cliente")
+//    private List<Processo> processos;
+//
+//
+//    @OneToMany(mappedBy = "cliente")
+//    private List<Anexo> anexos;
+//
+//    @OneToMany(mappedBy = "cliente")
+//    private List<Evento> eventos;
+
 
     public UUID getIdCliente() {
         return idCliente;
@@ -80,11 +76,11 @@ public class Cliente {
         this.tipoDocumento = tipoDocumento;
     }
 
-    public Email getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(Email email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -104,11 +100,11 @@ public class Cliente {
         this.endereco = endereco;
     }
 
-    public Genero getGenero() {
+    public String getGenero() {
         return genero;
     }
 
-    public void setGenero(Genero genero) {
+    public void setGenero(String genero) {
         this.genero = genero;
     }
 
@@ -120,11 +116,11 @@ public class Cliente {
         this.dataNascimento = dataNascimento;
     }
 
-    public EstadoCivil getEstadoCivil() {
+    public String getEstadoCivil() {
         return estadoCivil;
     }
 
-    public void setEstadoCivil(EstadoCivil estadoCivil) {
+    public void setEstadoCivil(String estadoCivil) {
         this.estadoCivil = estadoCivil;
     }
 
@@ -160,6 +156,38 @@ public class Cliente {
         this.naturalidade = naturalidade;
     }
 
+    public AdvogadoEntity getAdvogado() {
+        return advogado;
+    }
+
+    public void setAdvogado(AdvogadoEntity advogado) {
+        this.advogado = advogado;
+    }
+
+    //    public List<Processo> getProcessos() {
+//        return processos;
+//    }
+//
+//    public void setProcessos(List<Processo> processos) {
+//        this.processos = processos;
+//    }
+//
+//    public List<Anexo> getAnexos() {
+//        return anexos;
+//    }
+//
+//    public void setAnexos(List<Anexo> anexos) {
+//        this.anexos = anexos;
+//    }
+//
+//    public List<Evento> getEventos() {
+//        return eventos;
+//    }
+//
+//    public void setEventos(List<Evento> eventos) {
+//        this.eventos = eventos;
+//    }
+
     public Long getQtdProcessos() {
         return qtdProcessos;
     }
@@ -168,17 +196,4 @@ public class Cliente {
         this.qtdProcessos = qtdProcessos;
     }
 
-    public UUID getIdAdvogado() {
-        return idAdvogado;
-    }
-
-    public void setIdAdvogado(UUID idAdvogado) {
-        this.idAdvogado = idAdvogado;
-    }
-
-    public static Cliente criarNovo(String nome, String documento, String tipoDocumento, String email, String telefone, String endereco, String genero, Date dataNascimento, String estadoCivil, String profissao, String passaporte, String cnh, String naturalidade, UUID idAdvogado) {
-        String uniqueKey = documento + email + telefone;
-        UUID id = UUID.nameUUIDFromBytes(uniqueKey.getBytes());
-        return new Cliente(id, nome, documento, tipoDocumento, Email.criar(email), telefone, endereco, Genero.criar(genero), dataNascimento, EstadoCivil.criar(estadoCivil), profissao, passaporte, cnh, naturalidade, 0L, idAdvogado);
-    }
 }
