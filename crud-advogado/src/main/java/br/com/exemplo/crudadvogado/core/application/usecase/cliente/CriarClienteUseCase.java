@@ -1,6 +1,5 @@
 package br.com.exemplo.crudadvogado.core.application.usecase.cliente;
 
-import br.com.exemplo.crudadvogado.core.adapter.gateway.AdvogadoGateway;
 import br.com.exemplo.crudadvogado.core.adapter.gateway.ClienteGateway;
 import br.com.exemplo.crudadvogado.core.application.dto.command.cliente.CriarClienteCommand;
 import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.CriarClienteResponse;
