@@ -1,38 +1,47 @@
-package br.com.exemplo.crudadvogado.core.domain;
+package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
+
 import java.time.LocalTime;
-import java.util.UUID;
+import java.util.Date;
 
-public class Evento {
+@Entity
+@Table(name = "evento")
+public class EventoEntity {
 
+    @Id
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long idEvento;
+
     private String nome;
     private String descricao;
     private String local;
     private String linkReuniao;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataReuniao;
+    @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime horaInicio;
+    @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime horaFim;
 
-    private UUID advogado;
-    private UUID cliente;
-    private Long categoria;
-//    private Long processo;
 
-    public Evento(Long idEvento, String nome, String descricao, String local, String linkReuniao, Date dataReuniao, LocalTime horaInicio, LocalTime horaFim, UUID advogado, UUID cliente, Long categoria) {
-        this.idEvento = idEvento;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.local = local;
-        this.linkReuniao = linkReuniao;
-        this.dataReuniao = dataReuniao;
-        this.horaInicio = horaInicio;
-        this.horaFim = horaFim;
-        this.advogado = advogado;
-        this.cliente = cliente;
-        this.categoria = categoria;
-    }
+    @ManyToOne
+    @JoinColumn(name = "id_advogado")
+    private AdvogadoEntity advogado;
+
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private ClienteEntity cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
+    private CategoriaEventoEntity categoria;
+
+//    @ManyToOne
+//    @JoinColumn(name = "id_processo")
+//    private Processo processo;
+
 
     public Long getIdEvento() {
         return idEvento;
@@ -98,31 +107,27 @@ public class Evento {
         this.horaFim = horaFim;
     }
 
-    public UUID getAdvogado() {
+    public AdvogadoEntity getAdvogado() {
         return advogado;
     }
 
-    public void setAdvogado(UUID advogado) {
+    public void setAdvogado(AdvogadoEntity advogado) {
         this.advogado = advogado;
     }
 
-    public UUID getCliente() {
+    public ClienteEntity getCliente() {
         return cliente;
     }
 
-    public void setCliente(UUID cliente) {
+    public void setCliente(ClienteEntity cliente) {
         this.cliente = cliente;
     }
 
-    public Long getCategoria() {
+    public CategoriaEventoEntity getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Long categoria) {
+    public void setCategoria(CategoriaEventoEntity categoria) {
         this.categoria = categoria;
-    }
-
-    public static Evento criarNovo(String nome, String descricao, String local, String linkReuniao, Date dataReuniao, LocalTime horaInicio, LocalTime horaFim, UUID advogado, UUID cliente, Long categoria) {
-        return new Evento(null, nome, descricao, local, linkReuniao, dataReuniao, horaInicio, horaFim, advogado, cliente, categoria);
     }
 }
