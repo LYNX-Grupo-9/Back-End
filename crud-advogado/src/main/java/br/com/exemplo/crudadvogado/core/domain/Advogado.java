@@ -5,7 +5,6 @@ import br.com.exemplo.crudadvogado.core.domain.valueObjects.advogado.Senha;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Cpf;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Email;
 
-import java.util.List;
 import java.util.UUID;
 
 public class Advogado {
@@ -16,13 +15,6 @@ public class Advogado {
     private Cpf cpf;
     private Email email;
     private Senha senha;
-
-    private List<Cliente> clientes;
-    private List<Processo> processos;
-    private List<Evento> eventos;
-    private List<Lead> leads;
-    private List<SolicitacaoAgendamento> solicitacoesAgendamento;
-    private List<CategoriaEvento> categoriasEvento;
 
     private Advogado(UUID idAdvogado, String nome, Oab oab, Cpf cpf, Email email, Senha senha) {
         this.idAdvogado = idAdvogado;
@@ -79,54 +71,6 @@ public class Advogado {
 
     public void setSenha(Senha senha) {
         this.senha = senha;
-    }
-
-    public List<Cliente> getClientes() {
-        return clientes;
-    }
-
-    public void setClientes(List<Cliente> clientes) {
-        this.clientes = clientes;
-    }
-
-    public List<Processo> getProcessos() {
-        return processos;
-    }
-
-    public void setProcessos(List<Processo> processos) {
-        this.processos = processos;
-    }
-
-    public List<Evento> getEventos() {
-        return eventos;
-    }
-
-    public void setEventos(List<Evento> eventos) {
-        this.eventos = eventos;
-    }
-
-    public List<Lead> getLeads() {
-        return leads;
-    }
-
-    public void setLeads(List<Lead> leads) {
-        this.leads = leads;
-    }
-
-    public List<SolicitacaoAgendamento> getSolicitacoesAgendamento() {
-        return solicitacoesAgendamento;
-    }
-
-    public void setSolicitacoesAgendamento(List<SolicitacaoAgendamento> solicitacoesAgendamento) {
-        this.solicitacoesAgendamento = solicitacoesAgendamento;
-    }
-
-    public List<CategoriaEvento> getCategoriasEvento() {
-        return categoriasEvento;
-    }
-
-    public void setCategoriasEvento(List<CategoriaEvento> categoriasEvento) {
-        this.categoriasEvento = categoriasEvento;
     }
 
     public static Advogado criarNovo(String nome, String oab, String cpf, String email, String senha) {

@@ -2,15 +2,18 @@ package br.com.exemplo.crudadvogado.core.domain;
 
 
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Email;
-import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Telefone;
+
+import java.util.UUID;
 
 public class Lead {
+
+    private Long idLead;
     private String nome;
-    private Telefone telefone;
+    private String telefone;
     private Email email;
     private String assunto;
     private String mensagem;
 
     // RELACIONAMENTOS
-    private Advogado advogado;
+    private UUID advogado;
 }

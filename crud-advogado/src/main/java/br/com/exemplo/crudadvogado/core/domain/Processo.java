@@ -2,9 +2,11 @@ package br.com.exemplo.crudadvogado.core.domain;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 public class Processo {
 
+    private UUID idProcesso;
     private String titulo;
     private String numeroProcesso;
     private String descricao;
@@ -18,13 +20,14 @@ public class Processo {
     private String reu;
     private String advReu;
 
-    private Advogado advogado;
-    private Cliente cliente;
-    private List<Evento> eventos;
-    private Anexo anexo;
+    private UUID idAdvogado;
+    private UUID idCliente;
+    private List<UUID> eventos;
+//    private Long anexo;
 
 
-    public Processo(String titulo, String numeroProcesso, String descricao, String status, String classeProcessual, String assunto, String tribunal, BigDecimal valor, String autor, String advRequerente, String reu, String advReu) {
+    public Processo(UUID idProcesso, String titulo, String numeroProcesso, String descricao, String status, String classeProcessual, String assunto, String tribunal, BigDecimal valor, String autor, String advRequerente, String reu, String advReu, UUID idAdvogado, UUID idCliente, List<UUID> eventos) {
+        this.idProcesso = idProcesso;
         this.titulo = titulo;
         this.numeroProcesso = numeroProcesso;
         this.descricao = descricao;
@@ -37,6 +40,17 @@ public class Processo {
         this.advRequerente = advRequerente;
         this.reu = reu;
         this.advReu = advReu;
+        this.idAdvogado = idAdvogado;
+        this.idCliente = idCliente;
+        this.eventos = eventos;
+    }
+
+    public UUID getIdProcesso() {
+        return idProcesso;
+    }
+
+    public void setIdProcesso(UUID idProcesso) {
+        this.idProcesso = idProcesso;
     }
 
     public String getTitulo() {
@@ -135,35 +149,48 @@ public class Processo {
         this.advReu = advReu;
     }
 
-    public Advogado getAdvogado() {
-        return advogado;
+    public UUID getIdAdvogado() {
+        return idAdvogado;
     }
 
-    public void setAdvogado(Advogado advogado) {
-        this.advogado = advogado;
+    public void setIdAdvogado(UUID idAdvogado) {
+        this.idAdvogado = idAdvogado;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public UUID getIdCliente() {
+        return idCliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setIdCliente(UUID idCliente) {
+        this.idCliente = idCliente;
     }
 
-    public List<Evento> getEventos() {
+    public List<UUID> getEventos() {
         return eventos;
     }
 
-    public void setEventos(List<Evento> eventos) {
+    public void setEventos(List<UUID> eventos) {
         this.eventos = eventos;
     }
 
-    public Anexo getAnexo() {
-        return anexo;
-    }
-
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
+    public static Processo criarNovo(String titulo, String numeroProcesso, String descricao, String status, String classeProcessual, String assunto, String tribunal, BigDecimal valor, String autor, String advRequerente, String reu, String advReu, UUID advogado, UUID cliente) {
+        return new Processo(
+                UUID.randomUUID(),
+                titulo,
+                numeroProcesso,
+                descricao,
+                status,
+                classeProcessual,
+                assunto,
+                tribunal,
+                valor,
+                autor,
+                advRequerente,
+                reu,
+                advReu,
+                advogado,
+                cliente,
+                List.of()
+        );
     }
 }

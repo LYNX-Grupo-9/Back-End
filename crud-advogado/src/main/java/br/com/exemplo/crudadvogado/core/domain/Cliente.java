@@ -5,10 +5,8 @@ package br.com.exemplo.crudadvogado.core.domain;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Email;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.EstadoCivil;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Genero;
-import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Telefone;
 
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 public class Cliente {
@@ -18,7 +16,7 @@ public class Cliente {
     private String documento;
     private String tipoDocumento;
     private Email email;
-    private Telefone telefone;
+    private String telefone;
     private String endereco;
     private Genero genero;
     private Date dataNascimento;
@@ -29,11 +27,26 @@ public class Cliente {
     private String naturalidade;
     private Long qtdProcessos;
 
-    // RELACIONAMENTOS
-   private Advogado advogado;
-   private List<Processo> processos;
-   private List<Anexo> anexos;
-   private List<Evento> eventos;
+    private UUID idAdvogado;
+
+    public Cliente(UUID idCliente, String nome, String documento, String tipoDocumento, Email email, String telefone, String endereco, Genero genero, Date dataNascimento, EstadoCivil estadoCivil, String profissao, String passaporte, String cnh, String naturalidade, Long qtdProcessos, UUID idAdvogado) {
+        this.idCliente = idCliente;
+        this.nome = nome;
+        this.documento = documento;
+        this.tipoDocumento = tipoDocumento;
+        this.email = email;
+        this.telefone = telefone;
+        this.endereco = endereco;
+        this.genero = genero;
+        this.dataNascimento = dataNascimento;
+        this.estadoCivil = estadoCivil;
+        this.profissao = profissao;
+        this.passaporte = passaporte;
+        this.cnh = cnh;
+        this.naturalidade = naturalidade;
+        this.qtdProcessos = qtdProcessos;
+        this.idAdvogado = idAdvogado;
+    }
 
     public UUID getIdCliente() {
         return idCliente;
@@ -75,11 +88,11 @@ public class Cliente {
         this.email = email;
     }
 
-    public Telefone getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(Telefone telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
@@ -155,75 +168,17 @@ public class Cliente {
         this.qtdProcessos = qtdProcessos;
     }
 
-    public Advogado getAdvogado() {
-        return advogado;
+    public UUID getIdAdvogado() {
+        return idAdvogado;
     }
 
-    public void setAdvogado(Advogado advogado) {
-        this.advogado = advogado;
+    public void setIdAdvogado(UUID idAdvogado) {
+        this.idAdvogado = idAdvogado;
     }
 
-    public List<Processo> getProcessos() {
-        return processos;
-    }
-
-    public void setProcessos(List<Processo> processos) {
-        this.processos = processos;
-    }
-
-    public List<Anexo> getAnexos() {
-        return anexos;
-    }
-
-    public void setAnexos(List<Anexo> anexos) {
-        this.anexos = anexos;
-    }
-
-    public List<Evento> getEventos() {
-        return eventos;
-    }
-
-    public void setEventos(List<Evento> eventos) {
-        this.eventos = eventos;
-    }
-
-    private Cliente(UUID idCliente, String nome, String documento, String tipoDocumento, Email email, Telefone telefone, String endereco, Genero genero, Date dataNascimento, EstadoCivil estadoCivil, String profissao, String passaporte, String cnh, String naturalidade, Long qtdProcessos) {
-        this.idCliente = idCliente;
-        this.nome = nome;
-        this.documento = documento;
-        this.tipoDocumento = tipoDocumento;
-        this.email = email;
-        this.telefone = telefone;
-        this.endereco = endereco;
-        this.genero = genero;
-        this.dataNascimento = dataNascimento;
-        this.estadoCivil = estadoCivil;
-        this.profissao = profissao;
-        this.passaporte = passaporte;
-        this.cnh = cnh;
-        this.naturalidade = naturalidade;
-        this.qtdProcessos = qtdProcessos;
-    }
-
-    public static Cliente criar( String nome, String documento, String tipoDocumento, String email, String telefone, String codigoDoPais, String endereco, String genero, Date dataNascimento, String estadoCivil, String profissao, String passaporte, String cnh, String naturalidade, Long qtdProcessos) {
-        String uniqueKey = documento + email;
+    public static Cliente criarNovo(String nome, String documento, String tipoDocumento, String email, String telefone, String endereco, String genero, Date dataNascimento, String estadoCivil, String profissao, String passaporte, String cnh, String naturalidade, UUID idAdvogado) {
+        String uniqueKey = documento + email + telefone;
         UUID id = UUID.nameUUIDFromBytes(uniqueKey.getBytes());
-        return new Cliente(
-                id,
-                nome,
-                documento,
-                tipoDocumento,
-                Email.criar(email),
-                Telefone.criar(telefone, codigoDoPais),
-                endereco,
-                Genero.criar(genero),
-                dataNascimento,
-                EstadoCivil.criar(estadoCivil),
-                profissao,
-                passaporte,
-                cnh,
-                naturalidade,
-                qtdProcessos
-        );
+        return new Cliente(id, nome, documento, tipoDocumento, Email.criar(email), telefone, endereco, Genero.criar(genero), dataNascimento, EstadoCivil.criar(estadoCivil), profissao, passaporte, cnh, naturalidade, 0L, idAdvogado);
     }
 }

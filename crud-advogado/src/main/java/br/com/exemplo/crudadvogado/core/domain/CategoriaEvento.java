@@ -1,18 +1,29 @@
 package br.com.exemplo.crudadvogado.core.domain;
 
 import java.util.List;
+import java.util.UUID;
 
 public class CategoriaEvento {
 
+    private Long idCategoria;
     private String nome;
     private String cor;
 
-    private Advogado advogado;
-    private List<Evento> eventos;
+    private UUID idAdvogado;
+    private List<UUID> eventos;
 
-    public CategoriaEvento(String nome, String cor) {
+    public CategoriaEvento(String nome, String cor, UUID idAdvogado) {
         this.nome = nome;
         this.cor = cor;
+        this.idAdvogado = idAdvogado;
+    }
+
+    public Long getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(Long idCategoria) {
+        this.idCategoria = idCategoria;
     }
 
     public String getNome() {
@@ -31,19 +42,23 @@ public class CategoriaEvento {
         this.cor = cor;
     }
 
-    public Advogado getAdvogado() {
-        return advogado;
+    public UUID getIdAdvogado() {
+        return idAdvogado;
     }
 
-    public void setAdvogado(Advogado advogado) {
-        this.advogado = advogado;
+    public void setIdAdvogado(UUID idAdvogado) {
+        this.idAdvogado = idAdvogado;
     }
 
-    public List<Evento> getEventos() {
+    public List<UUID> getEventos() {
         return eventos;
     }
 
-    public void setEventos(List<Evento> eventos) {
+    public void setEventos(List<UUID> eventos) {
         this.eventos = eventos;
+    }
+
+    public static CategoriaEvento criarNovo(String nome, String cor, UUID idAdvogado) {
+        return new CategoriaEvento(nome, cor, idAdvogado);
     }
 }
