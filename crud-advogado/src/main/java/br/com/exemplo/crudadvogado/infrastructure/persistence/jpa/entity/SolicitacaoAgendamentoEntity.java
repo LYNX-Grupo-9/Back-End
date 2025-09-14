@@ -1,34 +1,31 @@
-package br.com.exemplo.crudadvogado.core.domain;
+package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity;
+
+import jakarta.persistence.*;
 
 import java.util.Date;
 import java.time.LocalTime;
-import java.util.UUID;
 
-public class SolicitacaoAgendamento {
+@Entity
+@Table(name = "solicitacao_agendamento")
+public class SolicitacaoAgendamentoEntity {
 
+    @Id
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long idSolicitacaoAgendamento;
+
     private String nome;
     private String telefone;
     private String email;
     private String assunto;
     private Date dataSolicitacao;
     private LocalTime horaSolicitacao;
-    private Boolean visualizado;
+    @Column(columnDefinition = "BOOLEAN DEFAULT false")
+    private Boolean visualizado = false;
 
     // RELACIONAMENTOS
-    private UUID idAdvogado;
-
-    public SolicitacaoAgendamento(Long idSolicitacaoAgendamento, String nome, String telefone, String email, String assunto, Date dataSolicitacao, LocalTime horaSolicitacao, Boolean visualizado, UUID idAdvogado) {
-        this.idSolicitacaoAgendamento = idSolicitacaoAgendamento;
-        this.nome = nome;
-        this.telefone = telefone;
-        this.email = email;
-        this.assunto = assunto;
-        this.dataSolicitacao = dataSolicitacao;
-        this.horaSolicitacao = horaSolicitacao;
-        this.visualizado = visualizado;
-        this.idAdvogado = idAdvogado;
-    }
+    @ManyToOne
+    @JoinColumn(name = "idAdvogado")
+    private AdvogadoEntity advogado;
 
     public Long getIdSolicitacaoAgendamento() {
         return idSolicitacaoAgendamento;
@@ -94,15 +91,11 @@ public class SolicitacaoAgendamento {
         this.visualizado = visualizado;
     }
 
-    public UUID getIdAdvogado() {
-        return idAdvogado;
+    public AdvogadoEntity getAdvogado() {
+        return advogado;
     }
 
-    public void setIdAdvogado(UUID idAdvogado) {
-        this.idAdvogado = idAdvogado;
-    }
-
-    public static SolicitacaoAgendamento criarNovo(String nome, String telefone, String email, String assunto, Date dataSolicitacao, LocalTime horaSolicitacao, UUID advogado) {
-        return new SolicitacaoAgendamento(null, nome, telefone, email, assunto, dataSolicitacao, horaSolicitacao, false, advogado);
+    public void setAdvogado(AdvogadoEntity advogado) {
+        this.advogado = advogado;
     }
 }

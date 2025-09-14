@@ -5,7 +5,6 @@ import br.com.exemplo.crudadvogado.core.domain.valueObjects.advogado.Senha;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Cpf;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Email;
 
-import java.util.List;
 import java.util.UUID;
 
 public class Advogado {
