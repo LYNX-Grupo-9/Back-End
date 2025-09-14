@@ -1,7 +1,6 @@
 package br.com.exemplo.crudadvogado.core.application.usecase.evento;
 
 import br.com.exemplo.crudadvogado.core.adapter.gateway.EventoGateway;
-import br.com.exemplo.crudadvogado.core.application.dto.command.categoriaEvento.CriarCategoriaEventoCommand;
 import br.com.exemplo.crudadvogado.core.application.dto.command.evento.CriarEventoCommand;
 import br.com.exemplo.crudadvogado.core.application.dto.response.evento.CriarEventoResponse;
 import br.com.exemplo.crudadvogado.core.domain.Evento;

@@ -1,11 +1,16 @@
-package br.com.exemplo.crudadvogado.core.domain;
+package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity;
+
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-public class Processo {
+@Entity
+@Table(name = "processo")
+public class ProcessoEntity {
 
+    @Id
     private UUID idProcesso;
     private String titulo;
     private String numeroProcesso;
@@ -14,36 +19,29 @@ public class Processo {
     private String classeProcessual;
     private String assunto;
     private String tribunal;
+
     private BigDecimal valor;
     private String autor;
     private String advRequerente;
     private String reu;
     private String advReu;
 
-    private UUID idAdvogado;
-    private UUID idCliente;
-    private List<UUID> eventos;
-//    private Long anexo;
+    // RELACIONAMENTOS
+    @ManyToOne
+    @JoinColumn(name = "id_advogado")
+    private AdvogadoEntity advogado;
 
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private ClienteEntity cliente;
+//
+//    @OneToMany(mappedBy = "processo")
+//    private List<EventoEntity> eventos;
 
-    public Processo(UUID idProcesso, String titulo, String numeroProcesso, String descricao, String status, String classeProcessual, String assunto, String tribunal, BigDecimal valor, String autor, String advRequerente, String reu, String advReu, UUID idAdvogado, UUID idCliente, List<UUID> eventos) {
-        this.idProcesso = idProcesso;
-        this.titulo = titulo;
-        this.numeroProcesso = numeroProcesso;
-        this.descricao = descricao;
-        this.status = status;
-        this.classeProcessual = classeProcessual;
-        this.assunto = assunto;
-        this.tribunal = tribunal;
-        this.valor = valor;
-        this.autor = autor;
-        this.advRequerente = advRequerente;
-        this.reu = reu;
-        this.advReu = advReu;
-        this.idAdvogado = idAdvogado;
-        this.idCliente = idCliente;
-        this.eventos = eventos;
-    }
+//    @ManyToOne
+//    @JoinColumn(name = "id_anexo")
+//    private Anexo anexo;
+
 
     public UUID getIdProcesso() {
         return idProcesso;
@@ -149,48 +147,19 @@ public class Processo {
         this.advReu = advReu;
     }
 
-    public UUID getIdAdvogado() {
-        return idAdvogado;
+    public AdvogadoEntity getAdvogado() {
+        return advogado;
     }
 
-    public void setIdAdvogado(UUID idAdvogado) {
-        this.idAdvogado = idAdvogado;
+    public void setAdvogado(AdvogadoEntity advogado) {
+        this.advogado = advogado;
     }
 
-    public UUID getIdCliente() {
-        return idCliente;
+    public ClienteEntity getCliente() {
+        return cliente;
     }
 
-    public void setIdCliente(UUID idCliente) {
-        this.idCliente = idCliente;
-    }
-
-    public List<UUID> getEventos() {
-        return eventos;
-    }
-
-    public void setEventos(List<UUID> eventos) {
-        this.eventos = eventos;
-    }
-
-    public static Processo criarNovo(String titulo, String numeroProcesso, String descricao, String status, String classeProcessual, String assunto, String tribunal, BigDecimal valor, String autor, String advRequerente, String reu, String advReu, UUID advogado, UUID cliente) {
-        return new Processo(
-                UUID.randomUUID(),
-                titulo,
-                numeroProcesso,
-                descricao,
-                status,
-                classeProcessual,
-                assunto,
-                tribunal,
-                valor,
-                autor,
-                advRequerente,
-                reu,
-                advReu,
-                advogado,
-                cliente,
-                List.of()
-        );
+    public void setCliente(ClienteEntity cliente) {
+        this.cliente = cliente;
     }
 }
