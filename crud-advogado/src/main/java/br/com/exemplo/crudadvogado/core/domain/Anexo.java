@@ -18,6 +18,13 @@ public class Anexo {
         this.idProcesso = idProcesso;
     }
 
+    public Anexo(Long idAnexo, String nomeAnexo, String idItem, UUID idCliente) {
+        this.idAnexo = idAnexo;
+        this.nomeAnexo = nomeAnexo;
+        this.idItem = idItem;
+        this.idCliente = idCliente;
+    }
+
     public Long getIdAnexo() {
         return idAnexo;
     }

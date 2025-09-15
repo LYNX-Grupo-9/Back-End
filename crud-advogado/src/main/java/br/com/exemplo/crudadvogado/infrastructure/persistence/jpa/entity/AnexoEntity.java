@@ -26,6 +26,10 @@ public class AnexoEntity {
     public AnexoEntity(Long idAnexo, String nomeAnexo, UUID idCliente, UUID idProcesso) {
     }
 
+    public AnexoEntity() {
+
+    }
+
     public Long getIdAnexo() {
         return idAnexo;
     }
