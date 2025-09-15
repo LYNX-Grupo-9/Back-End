@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class AdvogadoJpaAdapter implements AdvogadoGateway {
@@ -48,6 +49,11 @@ public class AdvogadoJpaAdapter implements AdvogadoGateway {
     @Override
     public boolean existePorOab(String oab) {
         return repository.existsByRegistroOab(oab);
+    }
+
+    @Override
+    public boolean existePorId(UUID id) {
+        return repository.existsById(id);
     }
 
     @Override

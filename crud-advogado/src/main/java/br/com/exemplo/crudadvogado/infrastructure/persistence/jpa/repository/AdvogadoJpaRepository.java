@@ -11,6 +11,7 @@ public interface AdvogadoJpaRepository extends JpaRepository<AdvogadoEntity, UUI
     boolean existsByEmail(String email);
     boolean existsByCpf(String cpf);
     boolean existsByRegistroOab(String registroOab);
+    boolean existsByIdAdvogado(UUID idAdvogado);
     Optional<AdvogadoEntity> findByEmail(String email);
     Optional<AdvogadoEntity> findByNome(String nome);
 }

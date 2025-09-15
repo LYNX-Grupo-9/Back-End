@@ -15,6 +15,7 @@ public record CriarEventoResponse(
         LocalTime horaFim,
         UUID advogado,
         UUID cliente,
-        Long categoria
+        Long categoria,
+        UUID processo
 ) {
 }

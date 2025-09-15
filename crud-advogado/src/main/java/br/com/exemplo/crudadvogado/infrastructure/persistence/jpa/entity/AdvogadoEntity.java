@@ -3,8 +3,10 @@ package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -19,6 +21,24 @@ public class AdvogadoEntity {
     private String cpf;
     private String email;
     private String senha;
+
+    @OneToMany(mappedBy = "advogado")
+    private List<ClienteEntity> clientes;
+
+    @OneToMany(mappedBy = "advogado")
+    private List<ProcessoEntity> processos;
+
+    @OneToMany(mappedBy = "advogado")
+    private List<EventoEntity> eventos;
+
+//    @OneToMany(mappedBy = "advogado")
+//    private List<Lead> leads;
+
+    @OneToMany(mappedBy = "advogado")
+    private List<SolicitacaoAgendamentoEntity> solicitacoesAgendamento;
+
+    @OneToMany(mappedBy = "advogado")
+    private List<CategoriaEventoEntity> categoriasEvento;
 
     public AdvogadoEntity() {
     }
@@ -78,5 +98,45 @@ public class AdvogadoEntity {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public List<ClienteEntity> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<ClienteEntity> clientes) {
+        this.clientes = clientes;
+    }
+
+    public List<ProcessoEntity> getProcessos() {
+        return processos;
+    }
+
+    public void setProcessos(List<ProcessoEntity> processos) {
+        this.processos = processos;
+    }
+
+    public List<EventoEntity> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(List<EventoEntity> eventos) {
+        this.eventos = eventos;
+    }
+
+    public List<SolicitacaoAgendamentoEntity> getSolicitacoesAgendamento() {
+        return solicitacoesAgendamento;
+    }
+
+    public void setSolicitacoesAgendamento(List<SolicitacaoAgendamentoEntity> solicitacoesAgendamento) {
+        this.solicitacoesAgendamento = solicitacoesAgendamento;
+    }
+
+    public List<CategoriaEventoEntity> getCategoriasEvento() {
+        return categoriasEvento;
+    }
+
+    public void setCategoriasEvento(List<CategoriaEventoEntity> categoriasEvento) {
+        this.categoriasEvento = categoriasEvento;
     }
 }

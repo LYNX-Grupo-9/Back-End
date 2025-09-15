@@ -2,6 +2,8 @@ package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "categoria_evento")
 public class CategoriaEventoEntity {
@@ -17,9 +19,9 @@ public class CategoriaEventoEntity {
     @ManyToOne
     @JoinColumn(name = "id_advogado")
     private AdvogadoEntity advogado;
-//
-//    @OneToMany(mappedBy = "categoria")
-//    private List<Evento> eventos;
+
+    @OneToMany(mappedBy = "categoria")
+    private List<EventoEntity> eventos;
 
 
     public Long getId() {
@@ -52,5 +54,13 @@ public class CategoriaEventoEntity {
 
     public void setAdvogado(AdvogadoEntity advogado) {
         this.advogado = advogado;
+    }
+
+    public List<EventoEntity> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(List<EventoEntity> eventos) {
+        this.eventos = eventos;
     }
 }

@@ -7,6 +7,5 @@ public record AdvogadoToken(
         String nome,
         String email,
         String token
-
 ) {
 }
