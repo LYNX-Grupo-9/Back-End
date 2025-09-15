@@ -34,9 +34,9 @@ public class ProcessoEntity {
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private ClienteEntity cliente;
-//
-//    @OneToMany(mappedBy = "processo")
-//    private List<EventoEntity> eventos;
+
+    @OneToMany(mappedBy = "processo")
+    private List<EventoEntity> eventos;
 
 //    @ManyToOne
 //    @JoinColumn(name = "id_anexo")
@@ -161,5 +161,13 @@ public class ProcessoEntity {
 
     public void setCliente(ClienteEntity cliente) {
         this.cliente = cliente;
+    }
+
+    public List<EventoEntity> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(List<EventoEntity> eventos) {
+        this.eventos = eventos;
     }
 }

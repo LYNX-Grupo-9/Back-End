@@ -1,31 +1,25 @@
-package br.com.exemplo.crudadvogado.core.domain;
+package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity;
 
+import jakarta.persistence.*;
 
-import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Email;
+@Entity
+@Table(name = "lead")
+public class LeadEntity {
 
-import java.util.UUID;
-
-public class Lead {
-
+    @Id
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long idLead;
+
     private String nome;
     private String telefone;
-    private Email email;
+    private String email;
     private String assunto;
     private String mensagem;
 
     // RELACIONAMENTOS
-    private UUID advogado;
-
-    public Lead(Long idLead, String nome, String telefone, Email email, String assunto, String mensagem, UUID advogado) {
-        this.idLead = idLead;
-        this.nome = nome;
-        this.telefone = telefone;
-        this.email = email;
-        this.assunto = assunto;
-        this.mensagem = mensagem;
-        this.advogado = advogado;
-    }
+    @ManyToOne
+    @JoinColumn(name = "id_advogado")
+    private AdvogadoEntity advogado;
 
     public Long getIdLead() {
         return idLead;
@@ -51,11 +45,11 @@ public class Lead {
         this.telefone = telefone;
     }
 
-    public Email getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(Email email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -75,15 +69,11 @@ public class Lead {
         this.mensagem = mensagem;
     }
 
-    public UUID getAdvogado() {
+    public AdvogadoEntity getAdvogado() {
         return advogado;
     }
 
-    public void setAdvogado(UUID advogado) {
+    public void setAdvogado(AdvogadoEntity advogado) {
         this.advogado = advogado;
-    }
-
-    public static Lead criarNovoLead(String nome, String telefone, String email, String assunto, String mensagem, UUID advogadoId) {
-        return new Lead(null, nome, telefone, Email.criar(email), assunto, mensagem, advogadoId);
     }
 }

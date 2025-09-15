@@ -1,8 +1,10 @@
 package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity;
 
+import br.com.exemplo.crudadvogado.core.domain.Evento;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -33,15 +35,14 @@ public class ClienteEntity {
     @JoinColumn(name = "id_advogado")
     private AdvogadoEntity advogado;
 
-//    @OneToMany(mappedBy = "cliente")
-//    private List<Processo> processos;
-//
+    @OneToMany(mappedBy = "cliente")
+    private List<ProcessoEntity> processos;
 //
 //    @OneToMany(mappedBy = "cliente")
 //    private List<Anexo> anexos;
-//
-//    @OneToMany(mappedBy = "cliente")
-//    private List<Evento> eventos;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<EventoEntity> eventos;
 
 
     public UUID getIdCliente() {
@@ -164,29 +165,21 @@ public class ClienteEntity {
         this.advogado = advogado;
     }
 
-    //    public List<Processo> getProcessos() {
-//        return processos;
-//    }
-//
-//    public void setProcessos(List<Processo> processos) {
-//        this.processos = processos;
-//    }
-//
-//    public List<Anexo> getAnexos() {
-//        return anexos;
-//    }
-//
-//    public void setAnexos(List<Anexo> anexos) {
-//        this.anexos = anexos;
-//    }
-//
-//    public List<Evento> getEventos() {
-//        return eventos;
-//    }
-//
-//    public void setEventos(List<Evento> eventos) {
-//        this.eventos = eventos;
-//    }
+    public List<ProcessoEntity> getProcessos() {
+        return processos;
+    }
+
+    public void setProcessos(List<ProcessoEntity> processos) {
+        this.processos = processos;
+    }
+
+    public List<EventoEntity> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(List<EventoEntity> eventos) {
+        this.eventos = eventos;
+    }
 
     public Long getQtdProcessos() {
         return qtdProcessos;
