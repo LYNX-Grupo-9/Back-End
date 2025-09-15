@@ -1,6 +1,7 @@
 package br.com.exemplo.crudadvogado.core.domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class Processo {
     private UUID idAdvogado;
     private UUID idCliente;
     private List<UUID> eventos;
-//    private Long anexo;
+    private List<Long> anexos;
 
 
     public Processo(UUID idProcesso, String titulo, String numeroProcesso, String descricao, String status, String classeProcessual, String assunto, String tribunal, BigDecimal valor, String autor, String advRequerente, String reu, String advReu, UUID idAdvogado, UUID idCliente, List<UUID> eventos) {
@@ -43,6 +44,7 @@ public class Processo {
         this.idAdvogado = idAdvogado;
         this.idCliente = idCliente;
         this.eventos = eventos;
+        this.anexos = new ArrayList<>();
     }
 
     public UUID getIdProcesso() {
@@ -171,6 +173,14 @@ public class Processo {
 
     public void setEventos(List<UUID> eventos) {
         this.eventos = eventos;
+    }
+
+    public List<Long> getAnexos() {
+        return anexos;
+    }
+
+    public void setAnexos(List<Long> anexos) {
+        this.anexos = anexos;
     }
 
     public static Processo criarNovo(String titulo, String numeroProcesso, String descricao, String status, String classeProcessual, String assunto, String tribunal, BigDecimal valor, String autor, String advRequerente, String reu, String advReu, UUID advogado, UUID cliente) {

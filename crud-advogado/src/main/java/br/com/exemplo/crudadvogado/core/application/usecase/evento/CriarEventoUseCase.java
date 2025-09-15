@@ -24,7 +24,8 @@ public class CriarEventoUseCase {
                 command.horaFim(),
                 command.idAdvogado(),
                 command.idCliente(),
-                command.idCategoria()
+                command.idCategoria(),
+                command.idProcesso()
         );
         Evento eventoCriado = eventoGateway.criar(eventoParaRegistrar);
 
@@ -39,7 +40,8 @@ public class CriarEventoUseCase {
                 eventoCriado.getHoraFim(),
                 eventoCriado.getAdvogado(),
                 eventoCriado.getCliente(),
-                eventoCriado.getCategoria()
+                eventoCriado.getCategoria(),
+                eventoCriado.getProcesso()
         );
     }
 

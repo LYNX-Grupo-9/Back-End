@@ -1,13 +1,11 @@
 package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.mapper;
 
 import br.com.exemplo.crudadvogado.core.domain.Evento;
-import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.AdvogadoEntity;
-import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.CategoriaEventoEntity;
-import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.ClienteEntity;
-import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.EventoEntity;
+import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.*;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.repository.AdvogadoJpaRepository;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.repository.CategoriaEventoJpaRepository;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.repository.ClienteJpaRepository;
+import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.repository.ProcessoJpaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,12 +16,14 @@ public class EventoMapper {
     private final AdvogadoJpaRepository advogadoJpaRepository;
     private final ClienteJpaRepository clienteJpaRepository;
     private final CategoriaEventoJpaRepository categoriaEventoJpaRepository;
+    private final ProcessoJpaRepository processoJpaRepository;
 
     @Autowired
-    public EventoMapper(AdvogadoJpaRepository advogadoJpaRepository, ClienteJpaRepository clienteJpaRepository, CategoriaEventoJpaRepository categoriaEventoJpaRepository) {
+    public EventoMapper(AdvogadoJpaRepository advogadoJpaRepository, ClienteJpaRepository clienteJpaRepository, CategoriaEventoJpaRepository categoriaEventoJpaRepository, ProcessoJpaRepository processoJpaRepository) {
         this.advogadoJpaRepository = advogadoJpaRepository;
         this.clienteJpaRepository = clienteJpaRepository;
         this.categoriaEventoJpaRepository = categoriaEventoJpaRepository;
+        this.processoJpaRepository = processoJpaRepository;
     }
 
     public EventoEntity toEntity(Evento domain) {
@@ -53,6 +53,10 @@ public class EventoMapper {
                 .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
         entity.setCategoria(categoriaEvento);
 
+        ProcessoEntity processo = processoJpaRepository.findById(domain.getProcesso())
+                .orElseThrow(() -> new EntityNotFoundException("Processo não encontrado"));
+        entity.setProcesso(processo);
+
         return entity;
     }
 
@@ -71,7 +75,8 @@ public class EventoMapper {
                 entity.getHoraFim(),
                 entity.getAdvogado().getIdAdvogado(),
                 entity.getCliente().getIdCliente(),
-                entity.getCategoria().getId()
+                entity.getCategoria().getId(),
+                entity.getProcesso().getIdProcesso()
         );
 
         return domain;

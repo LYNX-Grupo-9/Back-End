@@ -38,9 +38,9 @@ public class EventoEntity {
     @JoinColumn(name = "id_categoria")
     private CategoriaEventoEntity categoria;
 
-//    @ManyToOne
-//    @JoinColumn(name = "id_processo")
-//    private Processo processo;
+    @ManyToOne
+    @JoinColumn(name = "id_processo")
+    private ProcessoEntity processo;
 
 
     public Long getIdEvento() {
@@ -129,5 +129,13 @@ public class EventoEntity {
 
     public void setCategoria(CategoriaEventoEntity categoria) {
         this.categoria = categoria;
+    }
+
+    public ProcessoEntity getProcesso() {
+        return processo;
+    }
+
+    public void setProcesso(ProcessoEntity processo) {
+        this.processo = processo;
     }
 }

@@ -18,9 +18,9 @@ public class Evento {
     private UUID advogado;
     private UUID cliente;
     private Long categoria;
-//    private Long processo;
+    private UUID processo;
 
-    public Evento(Long idEvento, String nome, String descricao, String local, String linkReuniao, Date dataReuniao, LocalTime horaInicio, LocalTime horaFim, UUID advogado, UUID cliente, Long categoria) {
+    public Evento(Long idEvento, String nome, String descricao, String local, String linkReuniao, Date dataReuniao, LocalTime horaInicio, LocalTime horaFim, UUID advogado, UUID cliente, Long categoria, UUID processo) {
         this.idEvento = idEvento;
         this.nome = nome;
         this.descricao = descricao;
@@ -32,6 +32,7 @@ public class Evento {
         this.advogado = advogado;
         this.cliente = cliente;
         this.categoria = categoria;
+        this.processo = processo;
     }
 
     public Long getIdEvento() {
@@ -122,7 +123,15 @@ public class Evento {
         this.categoria = categoria;
     }
 
-    public static Evento criarNovo(String nome, String descricao, String local, String linkReuniao, Date dataReuniao, LocalTime horaInicio, LocalTime horaFim, UUID advogado, UUID cliente, Long categoria) {
-        return new Evento(null, nome, descricao, local, linkReuniao, dataReuniao, horaInicio, horaFim, advogado, cliente, categoria);
+    public UUID getProcesso() {
+        return processo;
+    }
+
+    public void setProcesso(UUID processo) {
+        this.processo = processo;
+    }
+
+    public static Evento criarNovo(String nome, String descricao, String local, String linkReuniao, Date dataReuniao, LocalTime horaInicio, LocalTime horaFim, UUID advogado, UUID cliente, Long categoria, UUID processo) {
+        return new Evento(null, nome, descricao, local, linkReuniao, dataReuniao, horaInicio, horaFim, advogado, cliente, categoria, processo);
     }
 }

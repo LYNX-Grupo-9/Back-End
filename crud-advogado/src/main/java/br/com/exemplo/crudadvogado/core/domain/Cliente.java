@@ -6,7 +6,9 @@ import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Email;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.EstadoCivil;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Genero;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class Cliente {
@@ -28,6 +30,9 @@ public class Cliente {
     private Long qtdProcessos;
 
     private UUID idAdvogado;
+    private List<UUID> processos;
+    private List<UUID> anexos;
+    private List<UUID> eventos;
 
     public Cliente(UUID idCliente, String nome, String documento, String tipoDocumento, Email email, String telefone, String endereco, Genero genero, Date dataNascimento, EstadoCivil estadoCivil, String profissao, String passaporte, String cnh, String naturalidade, Long qtdProcessos, UUID idAdvogado) {
         this.idCliente = idCliente;
@@ -46,6 +51,9 @@ public class Cliente {
         this.naturalidade = naturalidade;
         this.qtdProcessos = qtdProcessos;
         this.idAdvogado = idAdvogado;
+        this.processos = new ArrayList<>();
+        this.anexos = new ArrayList<>();
+        this.eventos = new ArrayList<>();
     }
 
     public UUID getIdCliente() {
@@ -174,6 +182,30 @@ public class Cliente {
 
     public void setIdAdvogado(UUID idAdvogado) {
         this.idAdvogado = idAdvogado;
+    }
+
+    public List<UUID> getProcessos() {
+        return processos;
+    }
+
+    public void setProcessos(List<UUID> processos) {
+        this.processos = processos;
+    }
+
+    public List<UUID> getAnexos() {
+        return anexos;
+    }
+
+    public void setAnexos(List<UUID> anexos) {
+        this.anexos = anexos;
+    }
+
+    public List<UUID> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(List<UUID> eventos) {
+        this.eventos = eventos;
     }
 
     public static Cliente criarNovo(String nome, String documento, String tipoDocumento, String email, String telefone, String endereco, String genero, Date dataNascimento, String estadoCivil, String profissao, String passaporte, String cnh, String naturalidade, UUID idAdvogado) {

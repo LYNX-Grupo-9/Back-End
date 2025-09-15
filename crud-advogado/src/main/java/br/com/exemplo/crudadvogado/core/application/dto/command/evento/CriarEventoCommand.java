@@ -14,6 +14,7 @@ public record CriarEventoCommand(
         LocalTime horaFim,
         UUID idAdvogado,
         UUID idCliente,
-        Long idCategoria
+        Long idCategoria,
+        UUID idProcesso
 ) {
 }

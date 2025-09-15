@@ -5,6 +5,8 @@ import br.com.exemplo.crudadvogado.core.domain.valueObjects.advogado.Senha;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Cpf;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Email;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Advogado {
@@ -16,6 +18,13 @@ public class Advogado {
     private Email email;
     private Senha senha;
 
+    private List<UUID> clientes;
+    private List<UUID> processos;
+    private List<UUID> eventos;
+    private List<UUID> leads;
+    private List<UUID> solicitacoesAgendamento;
+    private List<UUID> categoriasEvento;
+
     private Advogado(UUID idAdvogado, String nome, Oab oab, Cpf cpf, Email email, Senha senha) {
         this.idAdvogado = idAdvogado;
         this.nome = nome;
@@ -23,6 +32,12 @@ public class Advogado {
         this.cpf = cpf;
         this.email = email;
         this.senha = senha;
+        this.clientes = new ArrayList<>();
+        this.processos = new ArrayList<>();
+        this.eventos = new ArrayList<>();
+        this.leads = new ArrayList<>();
+        this.solicitacoesAgendamento = new ArrayList<>();
+        this.categoriasEvento = new ArrayList<>();
     }
 
     public UUID getIdAdvogado() {
@@ -71,6 +86,54 @@ public class Advogado {
 
     public void setSenha(Senha senha) {
         this.senha = senha;
+    }
+
+    public List<UUID> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<UUID> clientes) {
+        this.clientes = clientes;
+    }
+
+    public List<UUID> getProcessos() {
+        return processos;
+    }
+
+    public void setProcessos(List<UUID> processos) {
+        this.processos = processos;
+    }
+
+    public List<UUID> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(List<UUID> eventos) {
+        this.eventos = eventos;
+    }
+
+    public List<UUID> getLeads() {
+        return leads;
+    }
+
+    public void setLeads(List<UUID> leads) {
+        this.leads = leads;
+    }
+
+    public List<UUID> getSolicitacoesAgendamento() {
+        return solicitacoesAgendamento;
+    }
+
+    public void setSolicitacoesAgendamento(List<UUID> solicitacoesAgendamento) {
+        this.solicitacoesAgendamento = solicitacoesAgendamento;
+    }
+
+    public List<UUID> getCategoriasEvento() {
+        return categoriasEvento;
+    }
+
+    public void setCategoriasEvento(List<UUID> categoriasEvento) {
+        this.categoriasEvento = categoriasEvento;
     }
 
     public static Advogado criarNovo(String nome, String oab, String cpf, String email, String senha) {
