@@ -9,18 +9,16 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ClienteJpaRepository extends JpaRepository<ClienteEntity, UUID> {
-    List<ClienteEntity> findByAdvogadoIdAdvogado(UUID advogadoId);
+    List<ClienteEntity> findByAdvogadoIdAdvogado(UUID idAdvogado);
     boolean existsByEmail(String email);
-    Long countByAdvogadoIdAdvogado(UUID advogadoId);
-    List<ClienteEntity> findByAdvogadoIdAdvogadoOrderByNaturalidadeAsc(UUID advogadoId);
-    List<ClienteEntity> findByAdvogadoIdAdvogadoOrderByNomeAsc(UUID advogadoId);
-    List<ClienteEntity> findByAdvogadoIdAdvogadoOrderByDataNascimentoAsc(UUID advogadoId);
-    @Query("SELECT c FROM ClienteEntity c WHERE c.advogado.id = :idAdvogado AND " +
+    Long countByAdvogadoIdAdvogado(UUID idAdvogado);
+    List<ClienteEntity> findByAdvogadoIdAdvogadoOrderByNomeAsc(UUID idAdvogado);
+    List<ClienteEntity> findByAdvogadoIdAdvogadoOrderByNaturalidadeAsc(UUID idAdvogado);
+    List<ClienteEntity> findByAdvogadoIdAdvogadoOrderByDataNascimentoAsc(UUID idAdvogado);
+    @Query("SELECT c FROM ClienteEntity c WHERE c.advogado.idAdvogado = :idAdvogado AND " +
             "(LOWER(c.nome) LIKE LOWER(CONCAT('%', :termo, '%')) OR " +
             "LOWER(c.email) LIKE LOWER(CONCAT('%', :termo, '%')) OR " +
-            "LOWER(c.telefone) LIKE LOWER(CONCAT('%', :termo, '%')))")
-    List<ClienteEntity> buscarPorNomeEmailTelefonePorAdvogado(
-            @Param("termo") String termo,
-            @Param("advogadoId") UUID advogadoId
-    );
+            "c.telefone LIKE CONCAT('%', :termo, '%'))")
+    List<ClienteEntity> buscarPorNomeEmailTelefonePorAdvogado(@Param("termo") String termo,
+                                                              @Param("idAdvogado") UUID idAdvogado);
 }

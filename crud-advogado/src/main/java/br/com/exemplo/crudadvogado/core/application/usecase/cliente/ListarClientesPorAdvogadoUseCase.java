@@ -14,12 +14,10 @@ public class ListarClientesPorAdvogadoUseCase {
 
     private final ClienteGateway clienteGateway;
     private final AdvogadoGateway advogadoGateway;
-    private final ProcessoGateway processoGateway;
 
-    public ListarClientesPorAdvogadoUseCase(ClienteGateway clienteGateway, AdvogadoGateway advogadoGateway, ProcessoGateway processoGateway) {
+    public ListarClientesPorAdvogadoUseCase(ClienteGateway clienteGateway, AdvogadoGateway advogadoGateway) {
         this.clienteGateway = clienteGateway;
         this.advogadoGateway = advogadoGateway;
-        this.processoGateway = processoGateway;
     }
 
     public List<ClienteResponse> executar(UUID advogadoId) {
