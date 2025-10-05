@@ -19,4 +19,5 @@ public interface ClienteGateway {
     List<Cliente> buscarPorAdvogadoOrdenadoPorNaturalidade(UUID advogadoId);
     List<Cliente> buscarPorAdvogadoOrdenadoPorDataNascimento(UUID advogadoId);
     List<Cliente> buscarPorTermo(String termo, UUID advogadoId);
+    List<Cliente> buscarClientesComQuantidadeProcessos(UUID idAdvogado);
 }

@@ -1,11 +1,9 @@
 package br.com.exemplo.crudadvogado.infrastructure.di;
 
-import br.com.exemplo.crudadvogado.core.application.usecase.cliente.AtualizarClienteUseCase;
-import br.com.exemplo.crudadvogado.core.application.usecase.cliente.ContarClientesPorAdvogadoUseCase;
-import br.com.exemplo.crudadvogado.core.application.usecase.cliente.CriarClienteUseCase;
-import br.com.exemplo.crudadvogado.core.application.usecase.cliente.ListarClientesPorAdvogadoUseCase;
+import br.com.exemplo.crudadvogado.core.application.usecase.cliente.*;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.adapter.AdvogadoJpaAdapter;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.adapter.ClienteJpaAdapter;
+import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.adapter.ProcessoJpaAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,5 +32,20 @@ public class ClienteBeanConfig {
             ClienteJpaAdapter clienteAdapter,
             AdvogadoJpaAdapter advogadoAdapter) {
         return new ContarClientesPorAdvogadoUseCase(clienteAdapter, advogadoAdapter);
+    }
+
+    @Bean
+    public BuscarClientesPorTextoUseCase buscarClientesPorTextoUseCase(
+            ClienteJpaAdapter clienteAdapter,
+            AdvogadoJpaAdapter advogadoAdapter) {
+        return new BuscarClientesPorTextoUseCase(clienteAdapter, advogadoAdapter);
+    }
+
+    @Bean
+    public ListarClientesOrdenadosPorProcessosUseCase listarClientesOrdenadosPorProcessosUseCase(
+            ClienteJpaAdapter clienteAdapter,
+            AdvogadoJpaAdapter advogadoAdapter,
+            ProcessoJpaAdapter processoAdapter) {
+        return new ListarClientesOrdenadosPorProcessosUseCase(clienteAdapter, advogadoAdapter, processoAdapter);
     }
 }

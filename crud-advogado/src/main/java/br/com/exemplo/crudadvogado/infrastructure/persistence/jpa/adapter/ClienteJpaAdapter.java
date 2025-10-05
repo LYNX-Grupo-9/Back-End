@@ -1,6 +1,7 @@
 package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.adapter;
 
 import br.com.exemplo.crudadvogado.core.adapter.gateway.ClienteGateway;
+import br.com.exemplo.crudadvogado.core.application.usecase.cliente.ListarClientesOrdenadosPorProcessosUseCase;
 import br.com.exemplo.crudadvogado.core.domain.Cliente;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.AdvogadoEntity;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.ClienteEntity;
@@ -8,6 +9,7 @@ import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.mapper.Cliente
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.repository.ClienteJpaRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -133,6 +135,23 @@ public class ClienteJpaAdapter implements ClienteGateway {
         return repository.buscarPorNomeEmailTelefonePorAdvogado(termo, idAdvogado)
                 .stream()
                 .map(ClienteMapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<Cliente> buscarClientesComQuantidadeProcessos(UUID idAdvogado) {
+        List<Object[]> resultados = repository.findClientesComQuantidadeProcessos(idAdvogado);
+
+        return resultados.stream()
+                .map(resultado -> {
+                    ClienteEntity clienteEntity = (ClienteEntity) resultado[0];
+                    Long qtdProcessos = (Long) resultado[1];
+
+                    Cliente cliente = ClienteMapper.toDomain(clienteEntity);
+                    // Se você quiser armazenar a quantidade no domain, pode adicionar um campo temporário
+                    // ou usar um DTO específico
+                    return cliente;
+                })
                 .toList();
     }
 

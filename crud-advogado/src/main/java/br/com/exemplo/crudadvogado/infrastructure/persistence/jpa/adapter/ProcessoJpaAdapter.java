@@ -57,4 +57,9 @@ public class ProcessoJpaAdapter implements ProcessoGateway {
         return ProcessoMapper.toDomain(salvo);
     }
 
+    @Override
+    public Long contarProcessosPorCliente(UUID clienteId) {
+        return repository.countByClienteIdCliente(clienteId);
+    }
+
 }

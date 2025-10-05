@@ -21,4 +21,12 @@ public interface ClienteJpaRepository extends JpaRepository<ClienteEntity, UUID>
             "c.telefone LIKE CONCAT('%', :termo, '%'))")
     List<ClienteEntity> buscarPorNomeEmailTelefonePorAdvogado(@Param("termo") String termo,
                                                               @Param("idAdvogado") UUID idAdvogado);
+    @Query("SELECT c, COUNT(p) as qtdProcessos FROM ClienteEntity c " +
+            "LEFT JOIN ProcessoEntity p ON c.idCliente = p.cliente.idCliente " +
+            "WHERE c.advogado.idAdvogado = :idAdvogado " +
+            "GROUP BY c.idCliente, c.nome, c.email, c.telefone, c.endereco, c.documento, " +
+            "c.tipoDocumento, c.genero, c.estadoCivil, c.profissao, c.passaporte, c.cnh, " +
+            "c.naturalidade, c.dataNascimento, c.advogado.idAdvogado " +
+            "ORDER BY qtdProcessos DESC")
+    List<Object[]> findClientesComQuantidadeProcessos(@Param("idAdvogado") UUID idAdvogado);
 }

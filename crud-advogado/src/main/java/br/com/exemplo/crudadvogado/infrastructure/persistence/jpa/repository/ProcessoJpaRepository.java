@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ProcessoJpaRepository extends JpaRepository<ProcessoEntity, UUID> {
+    Long countByClienteIdCliente(UUID clienteId);
     List<ProcessoEntity> findByAdvogadoIdAdvogado(UUID idAdvogado);
     Long countByCliente_IdCliente(UUID idCliente);
     Optional<ProcessoEntity> findByNumeroProcesso(String numeroProcesso);
