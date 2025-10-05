@@ -10,6 +10,11 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 @Repository
 @Transactional
 public class SolicitacaoAgendamentoJpaAdapter implements SolicitacaoAgendamentoGateway {
@@ -30,6 +35,27 @@ public class SolicitacaoAgendamentoJpaAdapter implements SolicitacaoAgendamentoG
         SolicitacaoAgendamentoEntity entity = mapper.toEntity(domain);
         SolicitacaoAgendamentoEntity salvo = solicitacaoAgendamentoJpaRepository.save(entity);
         return mapper.toDomain(salvo);
+    }
+
+    @Override
+    public Optional<SolicitacaoAgendamento> buscarPorId(UUID idAdvogado) {
+        return solicitacaoAgendamentoJpaRepository.findById(idAdvogado)
+                .map(mapper::toDomain);
+    }
+
+    @Override
+    public SolicitacaoAgendamento atualizar(SolicitacaoAgendamento solicitacao) {
+        var entity = mapper.toEntity(solicitacao);
+        var savedEntity = solicitacaoAgendamentoJpaRepository.save(entity);
+        return mapper.toDomain(savedEntity);
+    }
+
+    @Override
+    public List<SolicitacaoAgendamento> buscarPorAdvogado(UUID idAdvogado) {
+        return solicitacaoAgendamentoJpaRepository.findByAdvogadoIdAdvogado(idAdvogado)
+                .stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
     }
 
 }
