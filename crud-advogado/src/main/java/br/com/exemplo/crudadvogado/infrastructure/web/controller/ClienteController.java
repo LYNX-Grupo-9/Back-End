@@ -22,14 +22,24 @@ public class ClienteController {
     private final ContarClientesPorAdvogadoUseCase contarClientesPorAdvogadoUseCase;
     private final BuscarClientesPorTextoUseCase buscarClientesPorTextoUseCase;
     private final ListarClientesOrdenadosPorProcessosUseCase listarClientesOrdenadosPorProcessosUseCase;
+    private final ListarClientesOrdenadosPorDataNascimentoUseCase listarClientesOrdenadosPorDataNascimentoUseCase;
+    private final ListarClientesOrdenadosPorNaturalidadeUseCase listarClientesOrdenadosPorNaturalidadeUseCase;
+    private final ListarClientesOrdenadosPorNomeUseCase listarClientesOrdenadosPorNomeUseCase;
+    private final ListarTodosClientesUseCase listarTodosClientesUseCase;
+    private final BuscarClienteComQuantidadeProcessosUseCase buscarClienteComQuantidadeProcessosUseCase;
 
-    public ClienteController(CriarClienteUseCase criarClienteUseCase, ListarClientesPorAdvogadoUseCase listarClientesPorAdvogadoUseCase, AtualizarClienteUseCase atualizarClienteUseCase, ContarClientesPorAdvogadoUseCase contarClientesPorAdvogadoUseCase, BuscarClientesPorTextoUseCase buscarClientesPorTextoUseCase, ListarClientesOrdenadosPorProcessosUseCase listarClientesOrdenadosPorProcessosUseCase) {
+    public ClienteController(CriarClienteUseCase criarClienteUseCase, ListarClientesPorAdvogadoUseCase listarClientesPorAdvogadoUseCase, AtualizarClienteUseCase atualizarClienteUseCase, ContarClientesPorAdvogadoUseCase contarClientesPorAdvogadoUseCase, BuscarClientesPorTextoUseCase buscarClientesPorTextoUseCase, ListarClientesOrdenadosPorProcessosUseCase listarClientesOrdenadosPorProcessosUseCase, ListarClientesOrdenadosPorDataNascimentoUseCase listarClientesOrdenadosPorDataNascimentoUseCase, ListarClientesOrdenadosPorNaturalidadeUseCase listarClientesOrdenadosPorNaturalidadeUseCase, ListarClientesOrdenadosPorNomeUseCase listarClientesOrdenadosPorNomeUseCase, ListarTodosClientesUseCase listarTodosClientesUseCase, BuscarClienteComQuantidadeProcessosUseCase buscarClienteComQuantidadeProcessosUseCase) {
         this.criarClienteUseCase = criarClienteUseCase;
         this.listarClientesPorAdvogadoUseCase = listarClientesPorAdvogadoUseCase;
         this.atualizarClienteUseCase = atualizarClienteUseCase;
         this.contarClientesPorAdvogadoUseCase = contarClientesPorAdvogadoUseCase;
         this.buscarClientesPorTextoUseCase = buscarClientesPorTextoUseCase;
         this.listarClientesOrdenadosPorProcessosUseCase = listarClientesOrdenadosPorProcessosUseCase;
+        this.listarClientesOrdenadosPorDataNascimentoUseCase = listarClientesOrdenadosPorDataNascimentoUseCase;
+        this.listarClientesOrdenadosPorNaturalidadeUseCase = listarClientesOrdenadosPorNaturalidadeUseCase;
+        this.listarClientesOrdenadosPorNomeUseCase = listarClientesOrdenadosPorNomeUseCase;
+        this.listarTodosClientesUseCase = listarTodosClientesUseCase;
+        this.buscarClienteComQuantidadeProcessosUseCase = buscarClienteComQuantidadeProcessosUseCase;
     }
 
     @PostMapping("/cadastrar")
@@ -73,5 +83,43 @@ public class ClienteController {
 
         List<ClienteResponse> clientes = listarClientesOrdenadosPorProcessosUseCase.executar(idAdvogado);
         return ResponseEntity.ok(clientes);
+    }
+
+    @GetMapping("/advogado/{idAdvogado}/ordenados-por-data-nascimento")
+    public ResponseEntity<List<ClienteResponse>> listarOrdenadosPorDataNascimento(
+            @PathVariable UUID idAdvogado) {
+
+        List<ClienteResponse> clientes = listarClientesOrdenadosPorDataNascimentoUseCase.executar(idAdvogado);
+        return ResponseEntity.ok(clientes);
+    }
+
+    @GetMapping("/advogado/{idAdvogado}/ordenados-por-naturalidade")
+    public ResponseEntity<List<ClienteResponse>> listarOrdenadosPorNaturalidade(
+            @PathVariable UUID idAdvogado) {
+
+        List<ClienteResponse> clientes = listarClientesOrdenadosPorNaturalidadeUseCase.executar(idAdvogado);
+        return ResponseEntity.ok(clientes);
+    }
+
+    @GetMapping("/advogado/{idAdvogado}/ordenados-por-nome")
+    public ResponseEntity<List<ClienteResponse>> listarOrdenadosPorNome(
+            @PathVariable UUID idAdvogado) {
+
+        List<ClienteResponse> clientes = listarClientesOrdenadosPorNomeUseCase.executar(idAdvogado);
+        return ResponseEntity.ok(clientes);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ClienteResponse>> listarTodos() {
+        List<ClienteResponse> clientes = listarTodosClientesUseCase.executar();
+        return ResponseEntity.ok(clientes);
+    }
+
+    @GetMapping("/{idCliente}/detalhes")
+    public ResponseEntity<ClienteResponse> buscarClienteComQuantidadeProcessos(
+            @PathVariable UUID idCliente) {
+
+        ClienteResponse cliente = buscarClienteComQuantidadeProcessosUseCase.executar(idCliente);
+        return ResponseEntity.ok(cliente);
     }
 }

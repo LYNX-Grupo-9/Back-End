@@ -148,8 +148,6 @@ public class ClienteJpaAdapter implements ClienteGateway {
                     Long qtdProcessos = (Long) resultado[1];
 
                     Cliente cliente = ClienteMapper.toDomain(clienteEntity);
-                    // Se você quiser armazenar a quantidade no domain, pode adicionar um campo temporário
-                    // ou usar um DTO específico
                     return cliente;
                 })
                 .toList();

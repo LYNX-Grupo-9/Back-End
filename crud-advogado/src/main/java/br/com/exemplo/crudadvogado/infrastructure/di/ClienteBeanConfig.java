@@ -48,4 +48,41 @@ public class ClienteBeanConfig {
             ProcessoJpaAdapter processoAdapter) {
         return new ListarClientesOrdenadosPorProcessosUseCase(clienteAdapter, advogadoAdapter, processoAdapter);
     }
+
+    @Bean
+    public ListarClientesOrdenadosPorDataNascimentoUseCase listarClientesOrdenadosPorDataNascimentoUseCase(
+            ClienteJpaAdapter clienteAdapter,
+            AdvogadoJpaAdapter advogadoAdapter,
+            ProcessoJpaAdapter processoAdapter) {
+        return new ListarClientesOrdenadosPorDataNascimentoUseCase(clienteAdapter, advogadoAdapter, processoAdapter);
+    }
+
+    @Bean
+    public ListarClientesOrdenadosPorNaturalidadeUseCase listarClientesOrdenadosPorNaturalidadeUseCase(
+            ClienteJpaAdapter clienteAdapter,
+            AdvogadoJpaAdapter advogadoAdapter,
+            ProcessoJpaAdapter processoAdapter) {
+        return new ListarClientesOrdenadosPorNaturalidadeUseCase(clienteAdapter, advogadoAdapter, processoAdapter);
+    }
+
+    @Bean
+    public ListarClientesOrdenadosPorNomeUseCase listarClientesOrdenadosPorNomeUseCase(
+            ClienteJpaAdapter clienteAdapter,
+            AdvogadoJpaAdapter advogadoAdapter,
+            ProcessoJpaAdapter processoAdapter) {
+        return new ListarClientesOrdenadosPorNomeUseCase(clienteAdapter, advogadoAdapter, processoAdapter);
+    }
+
+    @Bean
+    public ListarTodosClientesUseCase listarTodosClientesUseCase(
+            ClienteJpaAdapter clienteAdapter,
+            ProcessoJpaAdapter processoAdapter) {
+        return new ListarTodosClientesUseCase(clienteAdapter, processoAdapter);
+    }
+
+    @Bean
+    public BuscarClienteComQuantidadeProcessosUseCase buscarClienteComQuantidadeProcessosUseCase(
+            ClienteJpaAdapter clienteAdapter) {
+        return new BuscarClienteComQuantidadeProcessosUseCase(clienteAdapter);
+    }
 }
