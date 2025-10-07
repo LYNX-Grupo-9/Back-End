@@ -14,4 +14,5 @@ public interface EventoGateway {
     List<Evento> buscarPorAdvogadoEPeriodo(UUID idAdvogado, LocalDate dataInicio, LocalDate dataFim);
     void deletarPorId(Long id);
     List<Evento> buscarPorAdvogadoEDataAtualOuFutura(UUID idAdvogado);
+    void desvincularCategoriaDosEventos(Long idCategoria);
 }

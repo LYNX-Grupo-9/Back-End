@@ -88,4 +88,9 @@ public class EventoJpaAdapter implements EventoGateway {
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void desvincularCategoriaDosEventos(Long idCategoria) {
+        repository.desvincularCategoriaPorId(idCategoria);
+    }
 }

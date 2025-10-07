@@ -2,6 +2,9 @@ package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.repository;
 
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.EventoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -13,4 +16,8 @@ public interface EventoJpaRepository extends JpaRepository<EventoEntity, Long> {
     List<EventoEntity> findByAdvogado_IdAdvogadoAndDataReuniaoBetween(UUID idAdvogado, Date startDate, Date endDate);
     List<EventoEntity> findByAdvogado_IdAdvogadoAndDataReuniaoAfterOrDataReuniaoEquals(
             UUID idAdvogado, Date afterDate, Date sameDate);
+
+    @Modifying
+    @Query("UPDATE EventoEntity e SET e.categoriaEvento = null WHERE e.categoriaEvento.idCategoria = :idCategoria")
+    void desvincularCategoriaPorId(@Param("idCategoria") Long idCategoria);
 }
