@@ -12,7 +12,11 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Repository
 @Transactional
@@ -62,4 +66,86 @@ public class ProcessoJpaAdapter implements ProcessoGateway {
         return repository.countByClienteIdCliente(clienteId);
     }
 
+    @Override
+    public List<Processo> listarPorIdAdvogado(UUID idAdvogado) {
+        return repository.findByAdvogadoIdAdvogado(idAdvogado)
+                .stream()
+                .map(ProcessoMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Processo> buscarPorId(UUID idProcesso) {
+        return repository.findById(idProcesso)
+                .map(ProcessoMapper::toDomain);
+    }
+
+    @Override
+    public List<Processo> listarPorIdCliente(UUID idCliente) {
+        return repository.findByClienteIdCliente(idCliente)
+                .stream()
+                .map(ProcessoMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void excluirPorId(UUID idProcesso) {
+        repository.deleteById(idProcesso);
+    }
+
+    @Override
+    public boolean existePorId(UUID idProcesso) {
+        return repository.existsById(idProcesso);
+    }
+
+    @Override
+    public List<Processo> listarProcessosAtivosPorAdvogado(UUID idAdvogado) {
+        return repository.findByStatusNotIgnoreCaseAndAdvogadoIdAdvogado("Arquivado", idAdvogado)
+                .stream()
+                .map(ProcessoMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Map<String, Long> contarProcessosPorStatusPorAdvogado(UUID idAdvogado) {
+        List<Processo> processos = repository.findByAdvogadoIdAdvogado(idAdvogado)
+                .stream()
+                .map(ProcessoMapper::toDomain)
+                .collect(Collectors.toList());
+
+        return processos.stream()
+                .collect(Collectors.groupingBy(
+                        Processo::getStatus,
+                        Collectors.counting()
+                ));
+    }
+
+    @Override
+    public List<Processo> buscarPorNumeroTituloOuCliente(String termo, UUID idAdvogado) {
+        return repository.buscarPorNumeroTituloOuCliente(termo, idAdvogado)
+                .stream()
+                .map(ProcessoMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Processo> listarProcessosOrdenadosPorStatus(UUID idAdvogado) {
+        return repository.findByAdvogadoIdAdvogadoOrderByStatusAsc(idAdvogado)
+                .stream()
+                .map(ProcessoMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Double calcularValorMedioPorAdvogado(UUID idAdvogado) {
+        return repository.calcularValorMedioPorAdvogado(idAdvogado);
+    }
+
+    @Override
+    public List<Processo> listarProcessosOrdenadosPorValor(UUID idAdvogado) {
+        return repository.findByAdvogadoIdAdvogadoOrderByValorDesc(idAdvogado)
+                .stream()
+                .map(ProcessoMapper::toDomain)
+                .collect(Collectors.toList());
+    }
 }
