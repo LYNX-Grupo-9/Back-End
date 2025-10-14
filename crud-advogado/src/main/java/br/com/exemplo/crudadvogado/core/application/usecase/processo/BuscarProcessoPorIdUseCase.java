@@ -5,6 +5,8 @@ import br.com.exemplo.crudadvogado.core.application.dto.response.processo.Proces
 import br.com.exemplo.crudadvogado.core.application.exception.ProcessoNaoEncontradoException;
 import br.com.exemplo.crudadvogado.core.domain.Processo;
 
+import java.util.UUID;
+
 public class BuscarProcessoPorIdUseCase {
     private final ProcessoGateway processoGateway;
 
@@ -12,7 +14,7 @@ public class BuscarProcessoPorIdUseCase {
         this.processoGateway = processoGateway;
     }
 
-    public ProcessoResponse executar(Long idProcesso) {
+    public ProcessoResponse executar(UUID idProcesso) {
         Processo processo = processoGateway.buscarPorId(idProcesso)
                 .orElseThrow(() -> new ProcessoNaoEncontradoException("Processo não encontrado com ID: " + idProcesso));
 

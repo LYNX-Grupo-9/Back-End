@@ -18,5 +18,5 @@ public interface CategoriaEventoJpaRepository extends JpaRepository<CategoriaEve
             "FROM CategoriaEventoEntity c " +
             "WHERE c.advogado.idAdvogado = :idAdvogado " +
             "GROUP BY c.nome, c.cor")
-    List<Object[]> countCategoriasAgrupadasPorNome(@Param("idAdvogado") Long idAdvogado);
+    List<Object[]> countCategoriasAgrupadasPorNome(@Param("idAdvogado") UUID idAdvogado);
 }

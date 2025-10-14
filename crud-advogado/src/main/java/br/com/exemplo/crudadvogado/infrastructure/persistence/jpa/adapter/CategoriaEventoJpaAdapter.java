@@ -73,11 +73,6 @@ public class CategoriaEventoJpaAdapter implements CategoriaEventoGateway {
     }
 
     @Override
-    public List<Object[]> contarCategoriasAgrupadasPorNome(Long idAdvogado) {
-        return List.of();
-    }
-
-    @Override
     public void deletar(Long idCategoria) {
         repository.deleteById(idCategoria);
     }
@@ -100,7 +95,7 @@ public class CategoriaEventoJpaAdapter implements CategoriaEventoGateway {
     }
 
     @Override
-    public List<Object[]> contarCategoriasAgrupadasPorNome(Long idAdvogado) {
+    public List<Object[]> contarCategoriasAgrupadasPorNome(UUID idAdvogado) {
         return repository.countCategoriasAgrupadasPorNome(idAdvogado);
     }
 }

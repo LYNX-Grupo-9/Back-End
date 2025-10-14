@@ -18,6 +18,6 @@ public interface EventoJpaRepository extends JpaRepository<EventoEntity, Long> {
             UUID idAdvogado, Date afterDate, Date sameDate);
 
     @Modifying
-    @Query("UPDATE EventoEntity e SET e.categoriaEvento = null WHERE e.categoriaEvento.idCategoria = :idCategoria")
+    @Query("UPDATE EventoEntity e SET e.categoria = null WHERE e.categoria.id = :idCategoria")
     void desvincularCategoriaPorId(@Param("idCategoria") Long idCategoria);
 }

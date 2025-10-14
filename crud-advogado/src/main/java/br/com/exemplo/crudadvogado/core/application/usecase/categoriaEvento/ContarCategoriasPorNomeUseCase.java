@@ -7,6 +7,7 @@ import br.com.exemplo.crudadvogado.core.application.dto.response.categoriaEvento
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class ContarCategoriasPorNomeUseCase {
     private final CategoriaEventoGateway categoriaEventoGateway;
@@ -15,7 +16,7 @@ public class ContarCategoriasPorNomeUseCase {
         this.categoriaEventoGateway = categoriaEventoGateway;
     }
 
-    public ContarCategoriasResponse executar(Long idAdvogado) {
+    public ContarCategoriasResponse executar(UUID idAdvogado) {
         List<Object[]> resultados = categoriaEventoGateway.contarCategoriasAgrupadasPorNome(idAdvogado);
 
         Map<String, CategoriaDetalhesResponse> mapa = new HashMap<>();

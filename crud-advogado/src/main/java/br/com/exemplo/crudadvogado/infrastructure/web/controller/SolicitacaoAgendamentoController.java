@@ -31,7 +31,7 @@ public class SolicitacaoAgendamentoController {
     }
 
 
-    @PostMapping
+    @PostMapping("/solicitar")
     public CriarSolicitacaoAgendamentoResponse solicitarAgendamento(@RequestBody CriarSolicitacaoAgendamentoCommand command){
         return criarSolicitacaoAgendamentoUseCase.executar(command);
     }

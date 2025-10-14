@@ -12,7 +12,7 @@ public interface CategoriaEventoGateway {
     Optional<CategoriaEvento> buscarPorNome(String nomeEvento);
     List<CategoriaEvento> buscarPorAdvogadoId(UUID idAdvogado);
     Optional<CategoriaEvento> buscarPorId(Long idCategoria);
-    List<Object[]> contarCategoriasAgrupadasPorNome(Long idAdvogado);
+    List<Object[]> contarCategoriasAgrupadasPorNome(UUID idAdvogado);
     void deletar(Long idCategoria);
     CategoriaEvento atualizar(CategoriaEvento categoriaEvento);
 }

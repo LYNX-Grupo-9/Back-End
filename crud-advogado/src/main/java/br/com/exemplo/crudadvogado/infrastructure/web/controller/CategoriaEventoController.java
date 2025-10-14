@@ -80,7 +80,7 @@ public class CategoriaEventoController {
 
     @GetMapping("/advogado/{idAdvogado}/contagem")
     public ResponseEntity<ContarCategoriasResponse> contarCategoriasPorNome(
-            @PathVariable Long idAdvogado) {
+            @PathVariable UUID idAdvogado) {
         ContarCategoriasResponse response = contarCategoriasPorNomeUseCase.executar(idAdvogado);
         return ResponseEntity.ok(response);
     }
