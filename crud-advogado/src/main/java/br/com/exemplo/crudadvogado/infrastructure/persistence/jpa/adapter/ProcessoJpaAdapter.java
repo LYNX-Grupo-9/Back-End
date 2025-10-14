@@ -148,4 +148,37 @@ public class ProcessoJpaAdapter implements ProcessoGateway {
                 .map(ProcessoMapper::toDomain)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Optional<Processo> buscarPorNumeroProcesso(String numeroProcesso) {
+        return repository.findByNumeroProcesso(numeroProcesso)
+                .map(ProcessoMapper::toDomain);
+    }
+
+    @Override
+    public Map<String, Long> contarProcessosPorClasseProcessualPorAdvogado(UUID idAdvogado) {
+        List<Object[]> resultados = repository.contarProcessosPorClasseProcessualPorAdvogado(idAdvogado);
+
+        return resultados.stream()
+                .collect(Collectors.toMap(
+                        r -> (String) r[0],
+                        r -> (Long) r[1]
+                ));
+    }
+
+    @Override
+    public List<Processo> listarProcessosOrdenadosPorNomeCliente(UUID idAdvogado) {
+        return repository.findByAdvogadoIdAdvogadoOrderByClienteNomeAsc(idAdvogado)
+                .stream()
+                .map(ProcessoMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Processo> listarProcessosOrdenadosPorNumeroProcesso(UUID idAdvogado) {
+        return repository.findByAdvogadoIdAdvogadoOrderByNumeroProcessoAsc(idAdvogado)
+                .stream()
+                .map(ProcessoMapper::toDomain)
+                .collect(Collectors.toList());
+    }
 }

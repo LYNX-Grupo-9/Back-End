@@ -20,6 +20,8 @@ public interface ProcessoJpaRepository extends JpaRepository<ProcessoEntity, UUI
     List<ProcessoEntity> findByAdvogadoIdAdvogadoOrderByValorDesc(UUID idAdvogado);
     List<ProcessoEntity> findByAdvogadoIdAdvogadoOrderByStatusAsc(UUID idAdvogado);
     List<ProcessoEntity> findByStatusNotIgnoreCaseAndAdvogadoIdAdvogado(String status, UUID idAdvogado);
+    List<ProcessoEntity> findByAdvogadoIdAdvogadoOrderByClienteNomeAsc(UUID idAdvogado);
+
     @Query("SELECT p FROM ProcessoEntity p WHERE " +
             "p.advogado.idAdvogado = :idAdvogado AND " +
             "(LOWER(p.numeroProcesso) LIKE LOWER(CONCAT('%', :termo, '%')) OR " +
@@ -29,4 +31,7 @@ public interface ProcessoJpaRepository extends JpaRepository<ProcessoEntity, UUI
                                                         @Param("idAdvogado") UUID idAdvogado);
     @Query("SELECT AVG(p.valor) FROM ProcessoEntity p WHERE p.advogado.idAdvogado = :idAdvogado")
     Double calcularValorMedioPorAdvogado(@Param("idAdvogado") UUID idAdvogado);
+
+    @Query("SELECT p.classeProcessual, COUNT(p) FROM ProcessoEntity p WHERE p.advogado.idAdvogado = :idAdvogado GROUP BY p.classeProcessual")
+    List<Object[]> contarProcessosPorClasseProcessualPorAdvogado(@Param("idAdvogado") UUID idAdvogado);
 }

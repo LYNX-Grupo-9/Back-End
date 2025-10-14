@@ -62,4 +62,24 @@ public class ProcessoBeanConfig {
     public ListarProcessosOrdenadosPorValorUseCase listarProcessosOrdenadosPorValorUseCase(ProcessoJpaAdapter adapter) {
         return new ListarProcessosOrdenadosPorValorUseCase(adapter);
     }
+
+    @Bean
+    public ContarProcessosPorClasseProcessualUseCase contarProcessosPorClasseProcessualUseCase(ProcessoJpaAdapter adapter) {
+        return new ContarProcessosPorClasseProcessualUseCase(adapter);
+    }
+
+    @Bean
+    public ListarProcessosOrdenadosPorNomeClienteUseCase listarProcessosOrdenadosPorNomeClienteUseCase(ProcessoJpaAdapter adapter) {
+        return new ListarProcessosOrdenadosPorNomeClienteUseCase(adapter);
+    }
+
+    @Bean
+    public ListarProcessosOrdenadosPorNumeroProcessoUseCase listarProcessosOrdenadosPorNumeroProcessoUseCase(ProcessoJpaAdapter adapter) {
+        return new ListarProcessosOrdenadosPorNumeroProcessoUseCase(adapter);
+    }
+
+    @Bean
+    public AtualizarProcessoParcialmenteUseCase atualizarProcessoParcialmenteUseCase(ProcessoJpaAdapter adapter) {
+        return new AtualizarProcessoParcialmenteUseCase(adapter);
+    }
 }

@@ -16,6 +16,7 @@ public interface EventoJpaRepository extends JpaRepository<EventoEntity, Long> {
     List<EventoEntity> findByAdvogado_IdAdvogadoAndDataReuniaoBetween(UUID idAdvogado, Date startDate, Date endDate);
     List<EventoEntity> findByAdvogado_IdAdvogadoAndDataReuniaoAfterOrDataReuniaoEquals(
             UUID idAdvogado, Date afterDate, Date sameDate);
+    List<EventoEntity> findByAdvogadoIdAdvogadoAndDataReuniaoBetween(UUID idAdvogado, Date startDate, Date endDate);
 
     @Modifying
     @Query("UPDATE EventoEntity e SET e.categoria = null WHERE e.categoria.id = :idCategoria")

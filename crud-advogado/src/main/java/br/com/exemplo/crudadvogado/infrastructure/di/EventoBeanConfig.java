@@ -1,6 +1,6 @@
 package br.com.exemplo.crudadvogado.infrastructure.di;
 
-import br.com.exemplo.crudadvogado.core.adapter.gateway.EventoGateway;
+import br.com.exemplo.crudadvogado.core.adapter.gateway.*;
 import br.com.exemplo.crudadvogado.core.application.usecase.evento.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,5 +36,20 @@ public class EventoBeanConfig {
     @Bean
     public DeletarEventoUseCase deletarEventoUseCase(EventoGateway eventoGateway) {
         return new DeletarEventoUseCase(eventoGateway);
+    }
+
+    @Bean
+    public ContarEventosDoDiaUseCase contarEventosDoDiaUseCase(EventoGateway eventoGateway) {
+        return new ContarEventosDoDiaUseCase(eventoGateway);
+    }
+
+    @Bean
+    public BuscarEventosDoMesUseCase buscarEventosDoMesUseCase(EventoGateway eventoGateway) {
+        return new BuscarEventosDoMesUseCase(eventoGateway);
+    }
+
+    @Bean
+    public AtualizarEventoParcialUseCase atualizarEventoParcialUseCase(EventoGateway eventoGateway) {
+        return new AtualizarEventoParcialUseCase(eventoGateway);
     }
 }

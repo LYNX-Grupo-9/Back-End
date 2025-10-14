@@ -90,6 +90,14 @@ public class EventoJpaAdapter implements EventoGateway {
     }
 
     @Override
+    public List<Evento> findByAdvogadoIdAdvogadoAndDataReuniaoBetween(UUID idAdvogado, Date startDate, Date endDate) {
+        return repository.findByAdvogadoIdAdvogadoAndDataReuniaoBetween(idAdvogado, startDate, endDate)
+                .stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void desvincularCategoriaDosEventos(Long idCategoria) {
         repository.desvincularCategoriaPorId(idCategoria);
     }

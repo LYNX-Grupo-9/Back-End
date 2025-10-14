@@ -21,4 +21,8 @@ public interface ProcessoGateway {
     List<Processo> listarProcessosOrdenadosPorStatus(UUID idAdvogado);
     Double calcularValorMedioPorAdvogado(UUID idAdvogado);
     List<Processo> listarProcessosOrdenadosPorValor(UUID idAdvogado);
+    Map<String, Long> contarProcessosPorClasseProcessualPorAdvogado(UUID idAdvogado);
+    Optional<Processo> buscarPorNumeroProcesso(String numeroProcesso);
+    List<Processo> listarProcessosOrdenadosPorNomeCliente(UUID idAdvogado);
+    List<Processo> listarProcessosOrdenadosPorNumeroProcesso(UUID idAdvogado);
 }
