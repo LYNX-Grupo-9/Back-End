@@ -45,7 +45,7 @@ public class EventoController {
     }
 
 
-    @PostMapping("/criar")
+    @PostMapping("")
     @SecurityRequirement(name = "Bearer")
     public CriarEventoResponse criar(@RequestBody CriarEventoCommand command) {
         return criarEventoUseCase.executar(command);
@@ -71,7 +71,8 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/advogado/{idAdvogado}/proximos-7-dias")
+    @GetMapping("/advogado/{idAdvogado}/7dias")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<EventoResponse>> buscarProximosSeteDias(@PathVariable UUID idAdvogado) {
         try {
             List<EventoResponse> response = buscarEventosProximosSeteDiasUseCase.executar(idAdvogado);
@@ -93,7 +94,8 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/advogado/{idAdvogado}/proximo")
+    @GetMapping("/proximo/{idAdvogado}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<EventoResponse> buscarProximoEvento(@PathVariable UUID idAdvogado) {
         try {
             Optional<EventoResponse> response = buscarProximoEventoUseCase.executar(idAdvogado);
@@ -104,13 +106,15 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/advogado/{idAdvogado}/contagem-dia")
+    @GetMapping("/contar-eventos-dia/{idAdvogado}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Map<String, Long>> contarEventosDoDia(@PathVariable UUID idAdvogado) {
         Map<String, Long> resultado = contarEventosDoDiaUseCase.executar(idAdvogado);
         return ResponseEntity.ok(resultado);
     }
 
-    @GetMapping("/advogado/{idAdvogado}/mes-atual")
+    @GetMapping("/advogado/{idAdvogado}/eventosMes")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<EventoResponse>> buscarEventosDoMes(@PathVariable UUID idAdvogado) {
         List<EventoResponse> eventos = buscarEventosDoMesUseCase.executar(idAdvogado);
         return ResponseEntity.ok(eventos);

@@ -48,13 +48,14 @@ public class ClienteController {
         return criarClienteUseCase.executar(command);
     }
 
-    @GetMapping("/advogado/{advogadoId}")
+    @GetMapping("/listarPorAdvogado/{idAdvogado}")
     @SecurityRequirement(name = "Bearer")
     public List<ClienteResponse> listarPorAdvogado(@PathVariable UUID idAdvogado) {
         return listarClientesPorAdvogadoUseCase.executar(idAdvogado);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{idCliente}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<ClienteResponse> atualizarCliente(
             @PathVariable UUID id,
             @RequestBody AtualizarClienteCommand command) {
@@ -62,13 +63,15 @@ public class ClienteController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/advogado/{idAdvogado}/count")
+    @GetMapping("/advogado/{idAdvogado}/total-clientes")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Long> contarClientesPorAdvogado(@PathVariable UUID idAdvogado) {
         Long count = contarClientesPorAdvogadoUseCase.executar(idAdvogado);
         return ResponseEntity.ok(count);
     }
 
     @GetMapping("/buscar")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<ClienteResponse>> buscarClientesPorTexto(
             @RequestParam String termo,
             @RequestParam UUID idAdvogado) {
@@ -109,13 +112,15 @@ public class ClienteController {
         return ResponseEntity.ok(clientes);
     }
 
-    @GetMapping
+    @GetMapping("/listar")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<ClienteResponse>> listarTodos() {
         List<ClienteResponse> clientes = listarTodosClientesUseCase.executar();
         return ResponseEntity.ok(clientes);
     }
 
-    @GetMapping("/{idCliente}/detalhes")
+    @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<ClienteResponse> buscarClienteComQuantidadeProcessos(
             @PathVariable UUID idCliente) {
 

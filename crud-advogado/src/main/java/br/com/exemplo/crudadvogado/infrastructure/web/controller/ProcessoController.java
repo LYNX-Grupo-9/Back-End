@@ -48,7 +48,7 @@ public class ProcessoController {
         this.atualizarProcessoParcialmenteUseCase = atualizarProcessoParcialmenteUseCase;
     }
 
-    @PostMapping("/cadastrar")
+    @PostMapping("")
     @SecurityRequirement(name = "Bearer")
     public CriarProcessoResponse cadastrar(@RequestBody CriarProcessoCommand command) {
         return criarProcessoUseCase.executar(command);
@@ -67,18 +67,21 @@ public class ProcessoController {
     }
 
     @DeleteMapping("/{idProcesso}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Void> excluirPorId(@PathVariable UUID idProcesso) {
         excluirProcessoPorIdUseCase.executar(idProcesso);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/advogado/{idAdvogado}/ativos")
+    @GetMapping("/processosAtivos/{idAdvogado}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<ProcessoResponse>> listarProcessosAtivosPorAdvogado(@PathVariable UUID idAdvogado) {
         List<ProcessoResponse> processos = listarProcessosAtivosPorAdvogadoUseCase.executar(idAdvogado);
         return ResponseEntity.ok(processos);
     }
 
-    @GetMapping("/advogado/{idAdvogado}/contagem-status")
+    @GetMapping("/contagem-por-status/{idAdvogado}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<ContadorProcessosPorStatusResponse> contarProcessosPorStatus(@PathVariable UUID idAdvogado) {
         ContadorProcessosPorStatusResponse contagem = contarProcessosPorStatusPorAdvogadoUseCase.executar(idAdvogado);
         return ResponseEntity.ok(contagem);
@@ -99,7 +102,8 @@ public class ProcessoController {
         return ResponseEntity.ok(processos);
     }
 
-    @GetMapping("/advogado/{idAdvogado}/valor-medio")
+    @GetMapping("/media-valor/{idAdvogado}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<ValorMedioProcessosResponse> calcularValorMedio(@PathVariable UUID idAdvogado) {
         ValorMedioProcessosResponse valorMedio = calcularValorMedioProcessosUseCase.executar(idAdvogado);
         return ResponseEntity.ok(valorMedio);
@@ -122,6 +126,7 @@ public class ProcessoController {
     }
 
     @PatchMapping("/{idProcesso}")
+    @SecurityRequirement(name = "Bearer")
     public ProcessoResponse atualizarProcessoParcialmente(
             @PathVariable UUID idProcesso,
             @RequestBody AtualizarProcessoCommand command) {

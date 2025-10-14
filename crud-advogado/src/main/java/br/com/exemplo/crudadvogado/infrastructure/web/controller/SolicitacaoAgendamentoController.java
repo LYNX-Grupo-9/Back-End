@@ -8,6 +8,7 @@ import br.com.exemplo.crudadvogado.core.application.usecase.solicitacaoAgendamen
 import br.com.exemplo.crudadvogado.core.application.usecase.solicitacaoAgendamento.BuscarSolicitacoesPorAdvogadoUseCase;
 import br.com.exemplo.crudadvogado.core.application.usecase.solicitacaoAgendamento.CriarSolicitacaoAgendamentoUseCase;
 import br.com.exemplo.crudadvogado.core.application.usecase.solicitacaoAgendamento.MarcarComoVisualizadoUseCase;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/solicitacoes-agendamento")
+@RequestMapping("/api/solicitacao-agendamento")
 public class SolicitacaoAgendamentoController {
 
     private final CriarSolicitacaoAgendamentoUseCase criarSolicitacaoAgendamentoUseCase;
@@ -37,6 +38,7 @@ public class SolicitacaoAgendamentoController {
     }
 
     @PutMapping("/visualizar/{idSolicitacao}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<MarcarComoVisualizadoResponse> marcarVisualizado(@PathVariable UUID idSolicitacao) {
         MarcarComoVisualizadoCommand command = new MarcarComoVisualizadoCommand(idSolicitacao);
         MarcarComoVisualizadoResponse response = marcarComoVisualizadoUseCase.executar(command);
@@ -44,12 +46,14 @@ public class SolicitacaoAgendamentoController {
     }
 
     @GetMapping("/advogado/{idAdvogado}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<MarcarComoVisualizadoResponse>> buscarPorAdvogado(@PathVariable UUID idAdvogado) {
         List<MarcarComoVisualizadoResponse> lista = buscarSolicitacoesPorAdvogadoUseCase.executar(idAdvogado);
         return ResponseEntity.ok(lista);
     }
 
     @GetMapping("/solicitacao/{idSolicitacao}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<MarcarComoVisualizadoResponse> buscarPorId(@PathVariable UUID idSolicitacao) {
         MarcarComoVisualizadoResponse response = buscarSolicitacaoPorIdUseCase.executar(idSolicitacao);
         return ResponseEntity.ok(response);

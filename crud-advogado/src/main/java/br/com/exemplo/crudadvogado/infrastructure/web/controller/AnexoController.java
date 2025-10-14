@@ -28,25 +28,28 @@ public class AnexoController {
     }
 
 
-    @PostMapping("/criar")
+    @PostMapping("")
     @SecurityRequirement(name = "Bearer")
     public CriarAnexoResponse criarAnexo(@RequestBody CriarAnexoCommand command){
         return criarAnexoUseCase.executar(command);
     }
 
     @GetMapping("/cliente/{idCliente}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<AnexoResponse>> buscarPorCliente(@PathVariable UUID idCliente) {
         List<AnexoResponse> response = buscarAnexoUseCase.buscarPorIdCliente(idCliente);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/processo/{idProcesso}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<AnexoResponse>> buscarPorProcesso(@PathVariable UUID idProcesso) {
         List<AnexoResponse> response = buscarAnexoUseCase.buscarPorIdProcesso(idProcesso);
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{idItem}")
+    @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Void> deletarAnexo(@PathVariable String idItem) {
         deletarAnexoUseCase.executar(idItem);
         return ResponseEntity.noContent().build();

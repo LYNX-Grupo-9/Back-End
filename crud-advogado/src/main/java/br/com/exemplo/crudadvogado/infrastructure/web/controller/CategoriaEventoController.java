@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/categorias-evento")
+@RequestMapping("/api/categorias")
 public class CategoriaEventoController {
 
     private final CriarCategoriaEventoUseCase criarCategoriaEventoUseCase;
@@ -38,39 +38,44 @@ public class CategoriaEventoController {
     }
 
 
-    @PostMapping("/criar")
+    @PostMapping("")
     @SecurityRequirement(name = "Bearer")
     public CriarCategoriaEventoResponse cadastrar(@RequestBody CriarCategoriaEventoCommand command) {
         return criarCategoriaEventoUseCase.executar(command);
     }
 
     @GetMapping
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<CategoriaEventoResponse>> buscarTodasCategorias() {
         List<CategoriaEventoResponse> categorias = buscarTodasCategoriasUseCase.executar();
         return ResponseEntity.ok(categorias);
     }
 
     @GetMapping("/advogado/{idAdvogado}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<CategoriaEventoResponse>> buscarCategoriasPorAdvogado(
             @PathVariable UUID idAdvogado) {
         List<CategoriaEventoResponse> categorias = buscarCategoriasPorAdvogadoUseCase.executar(idAdvogado);
         return ResponseEntity.ok(categorias);
     }
 
-    @GetMapping("/{idCategoria}")
+    @GetMapping("/{idCategoriaEvento}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<CategoriaEventoResponse> buscarCategoriaPorId(
             @PathVariable Long idCategoria) {
         CategoriaEventoResponse categoria = buscarCategoriaPorIdUseCase.executar(idCategoria);
         return ResponseEntity.ok(categoria);
     }
 
-    @DeleteMapping("/{idCategoria}")
+    @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Void> deletarCategoria(@PathVariable Long idCategoria) {
         deletarCategoriaUseCase.executar(idCategoria);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{idCategoria}")
+    @PatchMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<CategoriaEventoResponse> atualizarCategoriaParcialmente(
             @PathVariable Long idCategoria,
             @Valid @RequestBody AtualizarCategoriaCommand command) {
@@ -78,7 +83,8 @@ public class CategoriaEventoController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/advogado/{idAdvogado}/contagem")
+    @GetMapping("/contagem-por-nome/{idAdvogado}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<ContarCategoriasResponse> contarCategoriasPorNome(
             @PathVariable UUID idAdvogado) {
         ContarCategoriasResponse response = contarCategoriasPorNomeUseCase.executar(idAdvogado);
