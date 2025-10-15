@@ -2,15 +2,23 @@ package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.repository;
 
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.EventoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public interface EventoJpaRepository extends JpaRepository<EventoEntity, UUID> {
+public interface EventoJpaRepository extends JpaRepository<EventoEntity, Long> {
     List<EventoEntity> findByCliente_IdCliente(UUID idCliente);
-    List<EventoEntity> findByAdvogadoIdAdvogado(UUID idAdvogado);
-    List<EventoEntity> findByAdvogadoIdAdvogadoAndDataReuniaoBetween(UUID idAdvogado, Date startDate, Date endDate);
-    List<EventoEntity> findByAdvogadoIdAdvogadoAndDataReuniaoAfterOrDataReuniaoEquals(
+    List<EventoEntity> findByAdvogado_IdAdvogado(UUID idAdvogado);
+    List<EventoEntity> findByAdvogado_IdAdvogadoAndDataReuniaoBetween(UUID idAdvogado, Date startDate, Date endDate);
+    List<EventoEntity> findByAdvogado_IdAdvogadoAndDataReuniaoAfterOrDataReuniaoEquals(
             UUID idAdvogado, Date afterDate, Date sameDate);
+    List<EventoEntity> findByAdvogadoIdAdvogadoAndDataReuniaoBetween(UUID idAdvogado, Date startDate, Date endDate);
+
+    @Modifying
+    @Query("UPDATE EventoEntity e SET e.categoria = null WHERE e.categoria.id = :idCategoria")
+    void desvincularCategoriaPorId(@Param("idCategoria") Long idCategoria);
 }

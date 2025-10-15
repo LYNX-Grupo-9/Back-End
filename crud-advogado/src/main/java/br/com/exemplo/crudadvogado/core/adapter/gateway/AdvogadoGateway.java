@@ -13,6 +13,6 @@ public interface AdvogadoGateway {
     boolean existePorOab(String oab);
     boolean existePorId(UUID id);
     Optional<Advogado> buscarPorEmail(String email);
-    Optional<Advogado> buscarPorId(Long id);
+    Optional<Advogado> buscarPorId(UUID id);
     List<Advogado> listarTodos();
 }

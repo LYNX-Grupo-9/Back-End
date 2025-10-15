@@ -63,8 +63,9 @@ public class AdvogadoJpaAdapter implements AdvogadoGateway {
     }
 
     @Override
-    public Optional<Advogado> buscarPorId(Long id) {
-        return Optional.empty();
+    public Optional<Advogado> buscarPorId(UUID id) {
+        return repository.findById(id)
+                .map(AdvogadoMapper::toDomain);
     }
 
     @Override

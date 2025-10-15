@@ -102,6 +102,10 @@ public class SolicitacaoAgendamento {
         this.idAdvogado = idAdvogado;
     }
 
+    public void marcarComoVisualizado() {
+        this.visualizado = true;
+    }
+
     public static SolicitacaoAgendamento criarNovo(String nome, String telefone, String email, String assunto, Date dataSolicitacao, LocalTime horaSolicitacao, UUID advogado) {
         return new SolicitacaoAgendamento(null, nome, telefone, email, assunto, dataSolicitacao, horaSolicitacao, false, advogado);
     }

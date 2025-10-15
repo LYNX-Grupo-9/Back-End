@@ -1,7 +1,6 @@
 package br.com.exemplo.crudadvogado.infrastructure.di;
 
-import br.com.exemplo.crudadvogado.core.application.usecase.cliente.CriarClienteUseCase;
-import br.com.exemplo.crudadvogado.core.application.usecase.cliente.ListarClientesPorAdvogadoUseCase;
+import br.com.exemplo.crudadvogado.core.application.usecase.cliente.*;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.adapter.AdvogadoJpaAdapter;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.adapter.ClienteJpaAdapter;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.adapter.ProcessoJpaAdapter;
@@ -19,9 +18,71 @@ public class ClienteBeanConfig {
     @Bean
     public ListarClientesPorAdvogadoUseCase listarClientesPorAdvogadoUseCase(
             ClienteJpaAdapter clienteAdapter,
-            AdvogadoJpaAdapter advogadoAdapter,
-            ProcessoJpaAdapter processoAdapter) {
-        return new ListarClientesPorAdvogadoUseCase(clienteAdapter, advogadoAdapter, processoAdapter);
+            AdvogadoJpaAdapter advogadoAdapter) {
+        return new ListarClientesPorAdvogadoUseCase(clienteAdapter, advogadoAdapter);
     }
 
+    @Bean
+    public AtualizarClienteUseCase atualizarClienteUseCase(
+            ClienteJpaAdapter clienteAdapter) {
+        return new AtualizarClienteUseCase(clienteAdapter);
+    }
+    @Bean
+    public ContarClientesPorAdvogadoUseCase contarClientesPorAdvogadoUseCase(
+            ClienteJpaAdapter clienteAdapter,
+            AdvogadoJpaAdapter advogadoAdapter) {
+        return new ContarClientesPorAdvogadoUseCase(clienteAdapter, advogadoAdapter);
+    }
+
+    @Bean
+    public BuscarClientesPorTextoUseCase buscarClientesPorTextoUseCase(
+            ClienteJpaAdapter clienteAdapter,
+            AdvogadoJpaAdapter advogadoAdapter) {
+        return new BuscarClientesPorTextoUseCase(clienteAdapter, advogadoAdapter);
+    }
+
+    @Bean
+    public ListarClientesOrdenadosPorProcessosUseCase listarClientesOrdenadosPorProcessosUseCase(
+            ClienteJpaAdapter clienteAdapter,
+            AdvogadoJpaAdapter advogadoAdapter,
+            ProcessoJpaAdapter processoAdapter) {
+        return new ListarClientesOrdenadosPorProcessosUseCase(clienteAdapter, advogadoAdapter, processoAdapter);
+    }
+
+    @Bean
+    public ListarClientesOrdenadosPorDataNascimentoUseCase listarClientesOrdenadosPorDataNascimentoUseCase(
+            ClienteJpaAdapter clienteAdapter,
+            AdvogadoJpaAdapter advogadoAdapter,
+            ProcessoJpaAdapter processoAdapter) {
+        return new ListarClientesOrdenadosPorDataNascimentoUseCase(clienteAdapter, advogadoAdapter, processoAdapter);
+    }
+
+    @Bean
+    public ListarClientesOrdenadosPorNaturalidadeUseCase listarClientesOrdenadosPorNaturalidadeUseCase(
+            ClienteJpaAdapter clienteAdapter,
+            AdvogadoJpaAdapter advogadoAdapter,
+            ProcessoJpaAdapter processoAdapter) {
+        return new ListarClientesOrdenadosPorNaturalidadeUseCase(clienteAdapter, advogadoAdapter, processoAdapter);
+    }
+
+    @Bean
+    public ListarClientesOrdenadosPorNomeUseCase listarClientesOrdenadosPorNomeUseCase(
+            ClienteJpaAdapter clienteAdapter,
+            AdvogadoJpaAdapter advogadoAdapter,
+            ProcessoJpaAdapter processoAdapter) {
+        return new ListarClientesOrdenadosPorNomeUseCase(clienteAdapter, advogadoAdapter, processoAdapter);
+    }
+
+    @Bean
+    public ListarTodosClientesUseCase listarTodosClientesUseCase(
+            ClienteJpaAdapter clienteAdapter,
+            ProcessoJpaAdapter processoAdapter) {
+        return new ListarTodosClientesUseCase(clienteAdapter, processoAdapter);
+    }
+
+    @Bean
+    public BuscarClienteComQuantidadeProcessosUseCase buscarClienteComQuantidadeProcessosUseCase(
+            ClienteJpaAdapter clienteAdapter) {
+        return new BuscarClienteComQuantidadeProcessosUseCase(clienteAdapter);
+    }
 }

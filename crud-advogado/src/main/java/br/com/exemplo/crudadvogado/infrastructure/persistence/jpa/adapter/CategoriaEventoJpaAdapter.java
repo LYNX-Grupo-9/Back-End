@@ -46,22 +46,56 @@ public class CategoriaEventoJpaAdapter implements CategoriaEventoGateway {
     }
 
     @Override
+    public List<CategoriaEvento> buscarTodas() {
+        List<CategoriaEventoEntity> entities = repository.findAll();
+        return entities.stream()
+                .map(CategoriaEventoMapper::toDomain)
+                .toList();
+    }
+
+    @Override
     public Optional<CategoriaEvento> buscarPorNome(String nomeEvento) {
         return Optional.empty();
     }
 
     @Override
-    public List<CategoriaEvento> buscarPorAdvogadoId(Integer idAdvogado) {
-        return List.of();
+    public List<CategoriaEvento> buscarPorAdvogadoId(UUID idAdvogado) {
+        List<CategoriaEventoEntity> entities = repository.findByAdvogadoIdAdvogado(idAdvogado);
+        return entities.stream()
+                .map(CategoriaEventoMapper::toDomain)
+                .toList();
     }
 
     @Override
     public Optional<CategoriaEvento> buscarPorId(Long idCategoria) {
-        return Optional.empty();
+        return repository.findById(idCategoria)
+                .map(CategoriaEventoMapper::toDomain);
     }
 
     @Override
-    public List<Object[]> contarCategoriasAgrupadasPorNome(Long idAdvogado) {
-        return List.of();
+    public void deletar(Long idCategoria) {
+        repository.deleteById(idCategoria);
+    }
+
+    @Override
+    public CategoriaEvento atualizar(CategoriaEvento categoriaEvento) {
+        CategoriaEventoEntity entity = CategoriaEventoMapper.toEntity(categoriaEvento);
+
+        if (categoriaEvento.getIdAdvogado() != null) {
+            UUID idAdvogado = categoriaEvento.getIdAdvogado();
+            AdvogadoEntity advogado = entityManager.find(AdvogadoEntity.class, idAdvogado);
+            if (advogado == null) {
+                throw new RuntimeException("Advogado não encontrado com ID: " + idAdvogado);
+            }
+            entity.setAdvogado(advogado);
+        }
+
+        CategoriaEventoEntity entityAtualizada = repository.save(entity);
+        return CategoriaEventoMapper.toDomain(entityAtualizada);
+    }
+
+    @Override
+    public List<Object[]> contarCategoriasAgrupadasPorNome(UUID idAdvogado) {
+        return repository.countCategoriasAgrupadasPorNome(idAdvogado);
     }
 }

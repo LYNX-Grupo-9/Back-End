@@ -10,6 +10,10 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 @Repository
 @Transactional
 public class AnexoJpaAdapter implements AnexoGateway {
@@ -33,6 +37,42 @@ public class AnexoJpaAdapter implements AnexoGateway {
         AnexoEntity anexoSalvo = repository.save(entity);
         return mapper.toDomain(anexoSalvo);
     }
+
+    @Override
+    public List<Anexo> buscarPorIdCliente(UUID idCliente) {
+        List<AnexoEntity> entities = repository.findByCliente_IdCliente(idCliente);
+        return entities.stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<Anexo> buscarPorIdProcesso(UUID idProcesso) {
+        List<AnexoEntity> entities = repository.findByProcesso_IdProcesso(idProcesso);
+        return entities.stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public boolean existePorIdItem(String idItem) {
+        return repository.existsByIdItem(idItem);
+    }
+
+    @Override
+    public void deletarPorIdItem(String idItem) {
+        repository.deleteByIdItem(idItem);
+    }
+
+    @Override
+    public List<Anexo> buscarPorId(Long idAnexo) {
+        List<AnexoEntity> entities = repository.findByIdAnexo(idAnexo);
+        return entities.stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
+
+
 }
 
 

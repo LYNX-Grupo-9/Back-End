@@ -8,6 +8,8 @@ import java.util.UUID;
 
 public interface ClienteGateway {
     Cliente criar(Cliente domain);
+    Cliente salvar(Cliente domain);
+    Long contarPorAdvogadoId(UUID idAdvogado);
     Optional<Cliente> buscarPorId(UUID id);
     List<Cliente> listarTodos();
     List<Cliente> buscarPorAdvogado(UUID advogadoId);
@@ -17,4 +19,5 @@ public interface ClienteGateway {
     List<Cliente> buscarPorAdvogadoOrdenadoPorNaturalidade(UUID advogadoId);
     List<Cliente> buscarPorAdvogadoOrdenadoPorDataNascimento(UUID advogadoId);
     List<Cliente> buscarPorTermo(String termo, UUID advogadoId);
+    List<Cliente> buscarClientesComQuantidadeProcessos(UUID idAdvogado);
 }
