@@ -52,4 +52,9 @@ public class EventoBeanConfig {
     public AtualizarEventoParcialUseCase atualizarEventoParcialUseCase(EventoGateway eventoGateway) {
         return new AtualizarEventoParcialUseCase(eventoGateway);
     }
+
+    @Bean
+    public ListarEventosPorClienteUseCase listarEventosPorClienteUseCase(EventoGateway eventoGateway) {
+        return new ListarEventosPorClienteUseCase(eventoGateway);
+    }
 }

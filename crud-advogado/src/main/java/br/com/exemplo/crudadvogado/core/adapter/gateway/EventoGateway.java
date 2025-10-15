@@ -17,4 +17,5 @@ public interface EventoGateway {
     List<Evento> buscarPorAdvogadoEDataAtualOuFutura(UUID idAdvogado);
     void desvincularCategoriaDosEventos(Long idCategoria);
     List<Evento> findByAdvogadoIdAdvogadoAndDataReuniaoBetween(UUID idAdvogado, Date startDate, Date endDate);
+    List<Evento> listarPorCliente(UUID idCliente);
 }

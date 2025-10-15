@@ -30,8 +30,9 @@ public class EventoController {
     private final BuscarEventosDoMesUseCase buscarEventosDoMesUseCase;
     private final AtualizarEventoParcialUseCase atualizarEventoParcialUseCase;
     private final ContarProcessosPorClasseProcessualUseCase contarProcessosPorClasseProcessualUseCase;
+    private final ListarEventosPorClienteUseCase listarEventosPorClienteUseCase;
 
-    public EventoController(CriarEventoUseCase criarEventoUseCase, BuscarEventoPorIdUseCase buscarEventoPorIdUseCase, BuscarEventosPorAdvogadoUseCase buscarEventosPorAdvogadoUseCase, BuscarEventosProximosSeteDiasUseCase buscarEventosProximosSeteDiasUseCase, DeletarEventoUseCase deletarEventoUseCase, BuscarProximoEventoUseCase buscarProximoEventoUseCase, ContarEventosDoDiaUseCase contarEventosDoDiaUseCase, BuscarEventosDoMesUseCase buscarEventosDoMesUseCase, AtualizarEventoParcialUseCase atualizarEventoParcialUseCase, ContarProcessosPorClasseProcessualUseCase contarProcessosPorClasseProcessualUseCase) {
+    public EventoController(CriarEventoUseCase criarEventoUseCase, BuscarEventoPorIdUseCase buscarEventoPorIdUseCase, BuscarEventosPorAdvogadoUseCase buscarEventosPorAdvogadoUseCase, BuscarEventosProximosSeteDiasUseCase buscarEventosProximosSeteDiasUseCase, DeletarEventoUseCase deletarEventoUseCase, BuscarProximoEventoUseCase buscarProximoEventoUseCase, ContarEventosDoDiaUseCase contarEventosDoDiaUseCase, BuscarEventosDoMesUseCase buscarEventosDoMesUseCase, AtualizarEventoParcialUseCase atualizarEventoParcialUseCase, ContarProcessosPorClasseProcessualUseCase contarProcessosPorClasseProcessualUseCase, ListarEventosPorClienteUseCase listarEventosPorClienteUseCase) {
         this.criarEventoUseCase = criarEventoUseCase;
         this.buscarEventoPorIdUseCase = buscarEventoPorIdUseCase;
         this.buscarEventosPorAdvogadoUseCase = buscarEventosPorAdvogadoUseCase;
@@ -42,8 +43,8 @@ public class EventoController {
         this.buscarEventosDoMesUseCase = buscarEventosDoMesUseCase;
         this.atualizarEventoParcialUseCase = atualizarEventoParcialUseCase;
         this.contarProcessosPorClasseProcessualUseCase = contarProcessosPorClasseProcessualUseCase;
+        this.listarEventosPorClienteUseCase = listarEventosPorClienteUseCase;
     }
-
 
     @PostMapping("")
     @SecurityRequirement(name = "Bearer")
@@ -128,8 +129,15 @@ public class EventoController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/advogados/{idAdvogado}/processos/contagem-por-classe")
-    public Map<String, Long> contarProcessosPorClasseProcessual(@PathVariable UUID idAdvogado) {
-        return contarProcessosPorClasseProcessualUseCase.executar(idAdvogado);
+    @GetMapping("/cliente/{idCliente}")
+    @SecurityRequirement(name = "Bearer")
+    public ResponseEntity<List<EventoResponse>> listarEventosPorCliente(@PathVariable UUID idCliente) {
+        List<EventoResponse> resposta = listarEventosPorClienteUseCase.executar(idCliente);
+
+        if (resposta.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(resposta);
     }
 }

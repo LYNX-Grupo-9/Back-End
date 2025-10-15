@@ -101,4 +101,12 @@ public class EventoJpaAdapter implements EventoGateway {
     public void desvincularCategoriaDosEventos(Long idCategoria) {
         repository.desvincularCategoriaPorId(idCategoria);
     }
+
+    @Override
+    public List<Evento> listarPorCliente(UUID idCliente) {
+        List<EventoEntity> eventosEntity = repository.findByCliente_IdCliente(idCliente);
+        return eventosEntity.stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
 }

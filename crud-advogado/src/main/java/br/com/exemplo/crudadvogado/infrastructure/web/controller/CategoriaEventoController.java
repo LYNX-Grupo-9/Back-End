@@ -62,8 +62,8 @@ public class CategoriaEventoController {
     @GetMapping("/{idCategoriaEvento}")
     @SecurityRequirement(name = "Bearer")
     public ResponseEntity<CategoriaEventoResponse> buscarCategoriaPorId(
-            @PathVariable Long idCategoria) {
-        CategoriaEventoResponse categoria = buscarCategoriaPorIdUseCase.executar(idCategoria);
+            @PathVariable Long idCategoriaEvento) {
+        CategoriaEventoResponse categoria = buscarCategoriaPorIdUseCase.executar(idCategoriaEvento);
         return ResponseEntity.ok(categoria);
     }
 
