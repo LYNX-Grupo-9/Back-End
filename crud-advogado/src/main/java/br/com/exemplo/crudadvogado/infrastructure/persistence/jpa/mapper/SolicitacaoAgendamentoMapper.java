@@ -40,14 +40,16 @@ public class SolicitacaoAgendamentoMapper {
             return null;
         }
 
-        var domain = SolicitacaoAgendamento.criarNovo(
+        var domain = SolicitacaoAgendamento.criarExistente(
+                entity.getIdSolicitacaoAgendamento(),
                 entity.getNome(),
                 entity.getTelefone(),
                 entity.getEmail(),
                 entity.getAssunto(),
                 entity.getDataSolicitacao(),
                 entity.getHoraSolicitacao(),
-                entity.getAdvogado().getIdAdvogado()
+                entity.getAdvogado().getIdAdvogado(),
+                entity.getVisualizado()
         );
 
         return domain;

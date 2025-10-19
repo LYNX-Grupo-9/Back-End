@@ -109,4 +109,29 @@ public class SolicitacaoAgendamento {
     public static SolicitacaoAgendamento criarNovo(String nome, String telefone, String email, String assunto, Date dataSolicitacao, LocalTime horaSolicitacao, UUID advogado) {
         return new SolicitacaoAgendamento(null, nome, telefone, email, assunto, dataSolicitacao, horaSolicitacao, false, advogado);
     }
+
+    public static SolicitacaoAgendamento criarExistente(
+            Long idSolicitacaoAgendamento,
+            String nome,
+            String telefone,
+            String email,
+            String assunto,
+            Date dataSolicitacao,
+            LocalTime horaSolicitacao,
+            UUID idAdvogado,
+            Boolean visualizado) {
+
+        return new SolicitacaoAgendamento(
+                idSolicitacaoAgendamento,
+                nome,
+                telefone,
+                email,
+                assunto,
+                dataSolicitacao,
+                horaSolicitacao,
+                visualizado != null ? visualizado : false,
+                idAdvogado
+        );
+    }
+
 }
