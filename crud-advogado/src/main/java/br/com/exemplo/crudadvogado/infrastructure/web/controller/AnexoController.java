@@ -50,8 +50,8 @@ public class AnexoController {
 
     @DeleteMapping("/{id}")
     @SecurityRequirement(name = "Bearer")
-    public ResponseEntity<Void> deletarAnexo(@PathVariable String idItem) {
-        deletarAnexoUseCase.executar(idItem);
+    public ResponseEntity<Void> deletarAnexo(@PathVariable String id) {
+        deletarAnexoUseCase.executar(id);
         return ResponseEntity.noContent().build();
     }
 

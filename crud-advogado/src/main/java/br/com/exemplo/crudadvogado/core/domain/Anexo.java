@@ -25,6 +25,14 @@ public class Anexo {
         this.idCliente = idCliente;
     }
 
+    public Anexo(Long idAnexo, String nomeAnexo, String idItem, UUID idCliente, UUID idProcesso) {
+        this.idAnexo = idAnexo;
+        this.nomeAnexo = nomeAnexo;
+        this.idItem = idItem;
+        this.idCliente = idCliente;
+        this.idProcesso = idProcesso;
+    }
+
     public Long getIdAnexo() {
         return idAnexo;
     }
@@ -66,6 +74,32 @@ public class Anexo {
     }
 
     public static Anexo criarNovo(String nomeAnexo, String idItem, UUID idCliente, UUID idProcesso) {
+        boolean temIdCliente = idCliente != null;
+        boolean temIdProcesso = idProcesso != null;
+
+        if (!temIdCliente && !temIdProcesso) {
+            throw new IllegalArgumentException("Deve informar idCliente ou idProcesso");
+        }
+
+        if (temIdCliente && temIdProcesso) {
+            throw new IllegalArgumentException("Informe apenas idCliente ou idProcesso, não ambos");
+        }
+
         return new Anexo(nomeAnexo, idItem, idCliente, idProcesso);
+    }
+
+    public static Anexo criarExistente(Long idAnexo, String nomeAnexo, String idItem, UUID idCliente, UUID idProcesso) {
+        boolean temIdCliente = idCliente != null;
+        boolean temIdProcesso = idProcesso != null;
+
+        if (!temIdCliente && !temIdProcesso) {
+            throw new IllegalArgumentException("Deve informar idCliente ou idProcesso");
+        }
+
+        if (temIdCliente && temIdProcesso) {
+            throw new IllegalArgumentException("Informe apenas idCliente ou idProcesso, não ambos");
+        }
+
+        return new Anexo(idAnexo, nomeAnexo, idItem, idCliente, idProcesso);
     }
 }

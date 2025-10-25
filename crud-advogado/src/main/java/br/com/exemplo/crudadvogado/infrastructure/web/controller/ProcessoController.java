@@ -54,12 +54,14 @@ public class ProcessoController {
     }
 
     @GetMapping("/advogado/{idAdvogado}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<ProcessoResponse>> listarPorAdvogado(@PathVariable UUID idAdvogado) {
         List<ProcessoResponse> processos = listarProcessosPorAdvogadoUseCase.executar(idAdvogado);
         return ResponseEntity.ok(processos);
     }
 
     @GetMapping("/cliente/{idCliente}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<ProcessoResponse>> listarPorCliente(@PathVariable UUID idCliente) {
         List<ProcessoResponse> processos = listarProcessosPorClienteUseCase.executar(idCliente);
         return ResponseEntity.ok(processos);
@@ -87,6 +89,7 @@ public class ProcessoController {
     }
 
     @GetMapping("/buscar")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<ProcessoResponse>> buscarPorTexto(
             @RequestParam String termo,
             @RequestParam UUID idAdvogado) {
@@ -96,6 +99,7 @@ public class ProcessoController {
     }
 
     @GetMapping("/advogado/{idAdvogado}/ordenados-status")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<ProcessoResponse>> listarOrdenadosPorStatus(@PathVariable UUID idAdvogado) {
         List<ProcessoResponse> processos = listarProcessosOrdenadosPorStatusUseCase.executar(idAdvogado);
         return ResponseEntity.ok(processos);
@@ -109,17 +113,20 @@ public class ProcessoController {
     }
 
     @GetMapping("/advogado/{idAdvogado}/ordenados-valor")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<ProcessoResponse>> listarOrdenadosPorValor(@PathVariable UUID idAdvogado) {
         List<ProcessoResponse> processos = listarProcessosOrdenadosPorValorUseCase.executar(idAdvogado);
         return ResponseEntity.ok(processos);
     }
 
     @GetMapping("/advogados/{idAdvogado}/processos/ordenados-por-cliente")
+    @SecurityRequirement(name = "Bearer")
     public List<ProcessoResponse> listarProcessosOrdenadosPorNomeCliente(@PathVariable UUID idAdvogado) {
         return listarProcessosOrdenadosPorNomeClienteUseCase.executar(idAdvogado);
     }
 
     @GetMapping("/advogados/{idAdvogado}/processos/ordenados-por-numero")
+    @SecurityRequirement(name = "Bearer")
     public List<ProcessoResponse> listarProcessosOrdenadosPorNumeroProcesso(@PathVariable UUID idAdvogado) {
         return listarProcessosOrdenadosPorNumeroProcessoUseCase.executar(idAdvogado);
     }
@@ -133,6 +140,7 @@ public class ProcessoController {
     }
 
     @GetMapping("/quantidade-por-classe/{idAdvogado}")
+    @SecurityRequirement(name = "Bearer")
     public ContadorProcessosPorClasseProcessualResponse contarProcessosPorClasseProcessual(
             @PathVariable UUID idAdvogado) {
         return contarProcessosPorClasseProcessualPorAdvogadoUseCase.executar(idAdvogado);

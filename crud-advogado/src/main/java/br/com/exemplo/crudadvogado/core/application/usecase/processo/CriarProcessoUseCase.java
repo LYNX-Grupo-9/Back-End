@@ -35,6 +35,7 @@ public class CriarProcessoUseCase {
         Processo processoCriado = processoGateway.criar(processoParaRegistrar);
 
         return new CriarProcessoResponse(
+                processoCriado.getIdProcesso(),
                 processoCriado.getTitulo(),
                 processoCriado.getNumeroProcesso(),
                 processoCriado.getDescricao(),

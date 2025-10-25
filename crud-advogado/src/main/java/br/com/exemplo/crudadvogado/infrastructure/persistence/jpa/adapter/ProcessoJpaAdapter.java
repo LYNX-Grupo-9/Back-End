@@ -181,4 +181,74 @@ public class ProcessoJpaAdapter implements ProcessoGateway {
                 .map(ProcessoMapper::toDomain)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Processo atualizar(Processo domain) {
+        if (domain.getIdProcesso() == null) {
+            throw new RuntimeException("Processo deve ter ID para atualização");
+        }
+
+        ProcessoEntity entity = repository.findById(domain.getIdProcesso())
+                .orElseThrow(() -> new RuntimeException("Processo não encontrado com ID: " + domain.getIdProcesso()));
+
+        atualizarEntity(entity, domain);
+
+        if (domain.getIdAdvogado() != null) {
+            AdvogadoEntity advogado = entityManager.find(AdvogadoEntity.class, domain.getIdAdvogado());
+            if (advogado == null) {
+                throw new RuntimeException("Advogado não encontrado");
+            }
+            entity.setAdvogado(advogado);
+        }
+
+        if (domain.getIdCliente() != null) {
+            ClienteEntity cliente = entityManager.find(ClienteEntity.class, domain.getIdCliente());
+            if (cliente == null) {
+                throw new RuntimeException("Cliente não encontrado");
+            }
+            entity.setCliente(cliente);
+        }
+
+        ProcessoEntity atualizado = repository.save(entity);
+        return ProcessoMapper.toDomain(atualizado);
+    }
+
+    private void atualizarEntity(ProcessoEntity entity, Processo domain) {
+        if (domain.getTitulo() != null) {
+            entity.setTitulo(domain.getTitulo());
+        }
+        if (domain.getNumeroProcesso() != null) {
+            entity.setNumeroProcesso(domain.getNumeroProcesso());
+        }
+        if (domain.getDescricao() != null) {
+            entity.setDescricao(domain.getDescricao());
+        }
+        if (domain.getStatus() != null) {
+            entity.setStatus(domain.getStatus());
+        }
+        if (domain.getClasseProcessual() != null) {
+            entity.setClasseProcessual(domain.getClasseProcessual());
+        }
+        if (domain.getAssunto() != null) {
+            entity.setAssunto(domain.getAssunto());
+        }
+        if (domain.getTribunal() != null) {
+            entity.setTribunal(domain.getTribunal());
+        }
+        if (domain.getValor() != null) {
+            entity.setValor(domain.getValor());
+        }
+        if (domain.getAutor() != null) {
+            entity.setAutor(domain.getAutor());
+        }
+        if (domain.getAdvRequerente() != null) {
+            entity.setAdvRequerente(domain.getAdvRequerente());
+        }
+        if (domain.getReu() != null) {
+            entity.setReu(domain.getReu());
+        }
+        if (domain.getAdvReu() != null) {
+            entity.setAdvReu(domain.getAdvReu());
+        }
+    }
 }

@@ -14,7 +14,7 @@ public class BuscarSolicitacaoPorIdUseCase {
         this.gateway = gateway;
     }
 
-    public MarcarComoVisualizadoResponse executar(UUID idSolicitacao) {
+    public MarcarComoVisualizadoResponse executar(Long idSolicitacao) {
         var solicitacao = gateway.buscarPorId(idSolicitacao)
                 .orElseThrow(() -> new SolicitacaoAgendamentoNaoEncontradaException(
                         "Solicitação não encontrada com ID: " + idSolicitacao));

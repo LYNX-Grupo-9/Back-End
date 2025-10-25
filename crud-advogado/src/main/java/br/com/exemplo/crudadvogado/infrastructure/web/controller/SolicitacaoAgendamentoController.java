@@ -39,7 +39,7 @@ public class SolicitacaoAgendamentoController {
 
     @PutMapping("/visualizar/{idSolicitacao}")
     @SecurityRequirement(name = "Bearer")
-    public ResponseEntity<MarcarComoVisualizadoResponse> marcarVisualizado(@PathVariable UUID idSolicitacao) {
+    public ResponseEntity<MarcarComoVisualizadoResponse> marcarVisualizado(@PathVariable Long idSolicitacao) {
         MarcarComoVisualizadoCommand command = new MarcarComoVisualizadoCommand(idSolicitacao);
         MarcarComoVisualizadoResponse response = marcarComoVisualizadoUseCase.executar(command);
         return ResponseEntity.ok(response);
@@ -54,7 +54,7 @@ public class SolicitacaoAgendamentoController {
 
     @GetMapping("/solicitacao/{idSolicitacao}")
     @SecurityRequirement(name = "Bearer")
-    public ResponseEntity<MarcarComoVisualizadoResponse> buscarPorId(@PathVariable UUID idSolicitacao) {
+    public ResponseEntity<MarcarComoVisualizadoResponse> buscarPorId(@PathVariable Long idSolicitacao) {
         MarcarComoVisualizadoResponse response = buscarSolicitacaoPorIdUseCase.executar(idSolicitacao);
         return ResponseEntity.ok(response);
     }

@@ -65,7 +65,8 @@ public class EventoMapper {
             return null;
         }
 
-        var domain = Evento.criarNovo(
+        var domain = Evento.criarExistente(
+                entity.getIdEvento(),
                 entity.getNome(),
                 entity.getDescricao(),
                 entity.getLocal(),

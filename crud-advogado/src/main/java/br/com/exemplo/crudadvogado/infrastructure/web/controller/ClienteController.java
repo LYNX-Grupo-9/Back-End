@@ -57,9 +57,9 @@ public class ClienteController {
     @PatchMapping("/{idCliente}")
     @SecurityRequirement(name = "Bearer")
     public ResponseEntity<ClienteResponse> atualizarCliente(
-            @PathVariable UUID id,
+            @PathVariable UUID idCliente,
             @RequestBody AtualizarClienteCommand command) {
-        ClienteResponse response = atualizarClienteUseCase.executar(id, command);
+        ClienteResponse response = atualizarClienteUseCase.executar(idCliente, command);
         return ResponseEntity.ok(response);
     }
 
@@ -81,6 +81,7 @@ public class ClienteController {
     }
 
     @GetMapping("/advogado/{idAdvogado}/ordenados-por-processos")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<ClienteResponse>> listarOrdenadosPorProcessos(
             @PathVariable UUID idAdvogado) {
 
@@ -89,6 +90,7 @@ public class ClienteController {
     }
 
     @GetMapping("/advogado/{idAdvogado}/ordenados-por-data-nascimento")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<ClienteResponse>> listarOrdenadosPorDataNascimento(
             @PathVariable UUID idAdvogado) {
 
@@ -97,6 +99,7 @@ public class ClienteController {
     }
 
     @GetMapping("/advogado/{idAdvogado}/ordenados-por-naturalidade")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<ClienteResponse>> listarOrdenadosPorNaturalidade(
             @PathVariable UUID idAdvogado) {
 
@@ -105,6 +108,7 @@ public class ClienteController {
     }
 
     @GetMapping("/advogado/{idAdvogado}/ordenados-por-nome")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<ClienteResponse>> listarOrdenadosPorNome(
             @PathVariable UUID idAdvogado) {
 
@@ -122,9 +126,9 @@ public class ClienteController {
     @GetMapping("/{id}")
     @SecurityRequirement(name = "Bearer")
     public ResponseEntity<ClienteResponse> buscarClienteComQuantidadeProcessos(
-            @PathVariable UUID idCliente) {
+            @PathVariable UUID id) {
 
-        ClienteResponse cliente = buscarClienteComQuantidadeProcessosUseCase.executar(idCliente);
+        ClienteResponse cliente = buscarClienteComQuantidadeProcessosUseCase.executar(id);
         return ResponseEntity.ok(cliente);
     }
 }

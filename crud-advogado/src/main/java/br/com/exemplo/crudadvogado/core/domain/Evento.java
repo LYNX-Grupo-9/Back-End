@@ -1,5 +1,6 @@
 package br.com.exemplo.crudadvogado.core.domain;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -133,5 +134,13 @@ public class Evento {
 
     public static Evento criarNovo(String nome, String descricao, String local, String linkReuniao, Date dataReuniao, LocalTime horaInicio, LocalTime horaFim, UUID advogado, UUID cliente, Long categoria, UUID processo) {
         return new Evento(null, nome, descricao, local, linkReuniao, dataReuniao, horaInicio, horaFim, advogado, cliente, categoria, processo);
+    }
+
+    public static Evento criarExistente(Long idEvento, String nome, String descricao, String local,
+                                        String linkReuniao, Date dataReuniao, LocalTime horaInicio,
+                                        LocalTime horaFim, UUID advogado, UUID cliente, Long categoria,
+                                        UUID processo) {
+        return new Evento(idEvento, nome, descricao, local, linkReuniao, dataReuniao,
+                horaInicio, horaFim, advogado, cliente, categoria, processo);
     }
 }

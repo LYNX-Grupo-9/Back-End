@@ -53,6 +53,7 @@ public class EventoController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<EventoResponse> buscarPorId(@PathVariable Long id) {
         try {
             EventoResponse response = buscarEventoPorIdUseCase.executar(id);
@@ -63,6 +64,7 @@ public class EventoController {
     }
 
     @GetMapping("/advogado/{idAdvogado}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<List<EventoResponse>> buscarPorAdvogado(@PathVariable UUID idAdvogado) {
         try {
             List<EventoResponse> response = buscarEventosPorAdvogadoUseCase.executar(idAdvogado);
@@ -84,6 +86,7 @@ public class EventoController {
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         try {
             deletarEventoUseCase.executar(id);
@@ -122,6 +125,7 @@ public class EventoController {
     }
 
     @PatchMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<EventoResponse> atualizarParcialmente(
             @PathVariable Long id,
             @RequestBody AtualizarEventoCommand command) {

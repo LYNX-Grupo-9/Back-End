@@ -18,6 +18,14 @@ public class CategoriaEvento {
         this.idAdvogado = idAdvogado;
     }
 
+    public CategoriaEvento(Long idCategoria, String nome, String cor, UUID idAdvogado) {
+        this.idCategoria = idCategoria;
+        this.nome = nome;
+        this.cor = cor;
+        this.idAdvogado = idAdvogado;
+    }
+
+
     public Long getIdCategoria() {
         return idCategoria;
     }
@@ -60,5 +68,9 @@ public class CategoriaEvento {
 
     public static CategoriaEvento criarNovo(String nome, String cor, UUID idAdvogado) {
         return new CategoriaEvento(nome, cor, idAdvogado);
+    }
+
+    public static CategoriaEvento criarExistente(Long idCategoria, String nome, String cor, UUID idAdvogado) {
+        return new CategoriaEvento(idCategoria, nome, cor, idAdvogado);
     }
 }

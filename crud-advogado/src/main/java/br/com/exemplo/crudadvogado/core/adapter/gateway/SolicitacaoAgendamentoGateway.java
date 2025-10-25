@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface SolicitacaoAgendamentoGateway {
     SolicitacaoAgendamento criar(SolicitacaoAgendamento domain);
-    Optional<SolicitacaoAgendamento> buscarPorId(UUID id);
+    Optional<SolicitacaoAgendamento> buscarPorId(Long id);
     SolicitacaoAgendamento atualizar(SolicitacaoAgendamento solicitacao);
     List<SolicitacaoAgendamento> buscarPorAdvogado(UUID idAdvogado);
 }

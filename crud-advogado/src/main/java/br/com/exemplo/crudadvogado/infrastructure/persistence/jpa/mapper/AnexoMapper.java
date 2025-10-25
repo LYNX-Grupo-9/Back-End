@@ -30,20 +30,25 @@ public class AnexoMapper {
         }
 
         var entity = new AnexoEntity();
-            entity.setIdAnexo(domain.getIdAnexo());
-            entity.setNomeAnexo(domain.getNomeAnexo());
+        entity.setIdAnexo(domain.getIdAnexo());
+        entity.setNomeAnexo(domain.getNomeAnexo());
+        entity.setIdItem(domain.getIdItem());
 
-        ClienteEntity cliente = clienteJpaRepository.findById(domain.getIdCliente())
-                .orElseThrow(
-                        () ->    new EntityNotFoundException("Cliente não encontrado")
-                );
-        entity.setCliente(cliente);
+        if(domain.getIdCliente() != null) {
+            ClienteEntity cliente = clienteJpaRepository.findById(domain.getIdCliente())
+                    .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
+            entity.setCliente(cliente);
+        } else {
+            entity.setCliente(null);
+        }
 
-        ProcessoEntity processo = processoJpaRepository.findById(domain.getIdProcesso())
-                .orElseThrow(
-                        () -> new EntityNotFoundException("Processo não encontrado")
-                );
-        entity.setProcesso(processo);
+        if(domain.getIdProcesso() != null) {
+            ProcessoEntity processo = processoJpaRepository.findById(domain.getIdProcesso())
+                    .orElseThrow(() -> new EntityNotFoundException("Processo não encontrado"));
+            entity.setProcesso(processo);
+        } else {
+            entity.setProcesso(null);
+        }
 
         return entity;
     }
@@ -53,11 +58,12 @@ public class AnexoMapper {
             return null;
         }
 
-        return Anexo.criarNovo(
-                entity.getIdItem(),
+        return Anexo.criarExistente(
+                entity.getIdAnexo(),
                 entity.getNomeAnexo(),
-                entity.getCliente().getIdCliente(),
-                entity.getProcesso().getIdProcesso()
+                entity.getIdItem(),
+                entity.getCliente() != null ? entity.getCliente().getIdCliente() : null,
+                entity.getProcesso() != null ? entity.getProcesso().getIdProcesso() : null
         );
     }
 }

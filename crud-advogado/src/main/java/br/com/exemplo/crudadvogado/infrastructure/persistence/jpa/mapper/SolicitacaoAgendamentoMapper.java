@@ -27,6 +27,8 @@ public class SolicitacaoAgendamentoMapper {
         entity.setTelefone(domain.getTelefone());
         entity.setAssunto(domain.getAssunto());
         entity.setDataSolicitacao(domain.getDataSolicitacao());
+        entity.setHoraSolicitacao(domain.getHoraSolicitacao());
+        entity.setVisualizado(domain.getVisualizado());
 
         AdvogadoEntity advogado = advogadoJpaRepository.findById(domain.getIdAdvogado())
                 .orElseThrow(() -> new EntityNotFoundException("Advogado não encontrado"));
