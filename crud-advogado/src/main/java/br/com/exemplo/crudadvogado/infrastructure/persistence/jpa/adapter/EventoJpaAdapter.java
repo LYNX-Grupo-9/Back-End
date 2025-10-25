@@ -85,7 +85,15 @@ public class EventoJpaAdapter implements EventoGateway {
                 .findByAdvogado_IdAdvogadoAndDataReuniaoAfterOrDataReuniaoEquals(
                         idAdvogado, dataAtual, dataAtual)
                 .stream()
-                .map(mapper::toDomain)
+                .map(entity -> {
+                    try {
+                        return mapper.toDomain(entity);
+                    } catch (NullPointerException e) {
+                        System.err.println("Evento com categoria nula ignorado: " + entity.getIdEvento());
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
