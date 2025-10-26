@@ -135,9 +135,9 @@ public class ClienteController {
         return ResponseEntity.ok(cliente);
     }
 
-    @GetMapping("/{idCliente}/dados-completos")
+    @GetMapping("/{id}/dados-completos")
     @SecurityRequirement(name = "Bearer")
-    public ClienteProcessoEventoResponse buscarDadosClienteCompleto(@PathVariable UUID idCliente) {
-        return buscarDadosClienteCompletoUseCase.executar(idCliente);
+    public ClienteProcessoEventoResponse buscarDadosClienteCompleto(@PathVariable UUID id) {
+        return buscarDadosClienteCompletoUseCase.executar(id);
     }
 }

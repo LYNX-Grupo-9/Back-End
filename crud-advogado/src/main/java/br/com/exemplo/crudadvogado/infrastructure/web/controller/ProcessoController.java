@@ -29,8 +29,9 @@ public class ProcessoController {
     private final ListarProcessosOrdenadosPorNumeroProcessoUseCase listarProcessosOrdenadosPorNumeroProcessoUseCase;
     private final AtualizarProcessoParcialmenteUseCase atualizarProcessoParcialmenteUseCase;
     private final ContarProcessosPorClasseProcessualUseCase contarProcessosPorClasseProcessualPorAdvogadoUseCase;
+    private final BuscarProcessoPorIdUseCase buscarProcessoPorIdUseCase;
 
-    public ProcessoController(CriarProcessoUseCase criarProcessoUseCase, ListarProcessosPorAdvogadoUseCase listarProcessosPorAdvogadoUseCase, ListarProcessosPorClienteUseCase listarProcessosPorClienteUseCase, ExcluirProcessoPorIdUseCase excluirProcessoPorIdUseCase, ListarProcessosAtivosPorAdvogadoUseCase listarProcessosAtivosPorAdvogadoUseCase, ContarProcessosPorStatusPorAdvogadoUseCase contarProcessosPorStatusPorAdvogadoUseCase, BuscarProcessosPorTextoUseCase buscarProcessosPorTextoUseCase, ListarProcessosOrdenadosPorStatusUseCase listarProcessosOrdenadosPorStatusUseCase, CalcularValorMedioProcessosUseCase calcularValorMedioProcessosUseCase, ListarProcessosOrdenadosPorValorUseCase listarProcessosOrdenadosPorValorUseCase, ListarProcessosOrdenadosPorNomeClienteUseCase listarProcessosOrdenadosPorNomeClienteUseCase, ListarProcessosOrdenadosPorNumeroProcessoUseCase listarProcessosOrdenadosPorNumeroProcessoUseCase, AtualizarProcessoParcialmenteUseCase atualizarProcessoParcialmenteUseCase, ContarProcessosPorClasseProcessualUseCase contarProcessosPorClasseProcessualPorAdvogadoUseCase) {
+    public ProcessoController(CriarProcessoUseCase criarProcessoUseCase, ListarProcessosPorAdvogadoUseCase listarProcessosPorAdvogadoUseCase, ListarProcessosPorClienteUseCase listarProcessosPorClienteUseCase, ExcluirProcessoPorIdUseCase excluirProcessoPorIdUseCase, ListarProcessosAtivosPorAdvogadoUseCase listarProcessosAtivosPorAdvogadoUseCase, ContarProcessosPorStatusPorAdvogadoUseCase contarProcessosPorStatusPorAdvogadoUseCase, BuscarProcessosPorTextoUseCase buscarProcessosPorTextoUseCase, ListarProcessosOrdenadosPorStatusUseCase listarProcessosOrdenadosPorStatusUseCase, CalcularValorMedioProcessosUseCase calcularValorMedioProcessosUseCase, ListarProcessosOrdenadosPorValorUseCase listarProcessosOrdenadosPorValorUseCase, ListarProcessosOrdenadosPorNomeClienteUseCase listarProcessosOrdenadosPorNomeClienteUseCase, ListarProcessosOrdenadosPorNumeroProcessoUseCase listarProcessosOrdenadosPorNumeroProcessoUseCase, AtualizarProcessoParcialmenteUseCase atualizarProcessoParcialmenteUseCase, ContarProcessosPorClasseProcessualUseCase contarProcessosPorClasseProcessualPorAdvogadoUseCase, BuscarProcessoPorIdUseCase buscarProcessoPorIdUseCase) {
         this.criarProcessoUseCase = criarProcessoUseCase;
         this.listarProcessosPorAdvogadoUseCase = listarProcessosPorAdvogadoUseCase;
         this.listarProcessosPorClienteUseCase = listarProcessosPorClienteUseCase;
@@ -45,6 +46,7 @@ public class ProcessoController {
         this.listarProcessosOrdenadosPorNumeroProcessoUseCase = listarProcessosOrdenadosPorNumeroProcessoUseCase;
         this.atualizarProcessoParcialmenteUseCase = atualizarProcessoParcialmenteUseCase;
         this.contarProcessosPorClasseProcessualPorAdvogadoUseCase = contarProcessosPorClasseProcessualPorAdvogadoUseCase;
+        this.buscarProcessoPorIdUseCase = buscarProcessoPorIdUseCase;
     }
 
     @PostMapping("")
@@ -146,4 +148,10 @@ public class ProcessoController {
         return contarProcessosPorClasseProcessualPorAdvogadoUseCase.executar(idAdvogado);
     }
 
+    @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
+    public ResponseEntity<ProcessoResponse> buscarPorId(@PathVariable UUID id) {
+        ProcessoResponse processo = buscarProcessoPorIdUseCase.executar(id);
+        return ResponseEntity.ok(processo);
+    }
 }

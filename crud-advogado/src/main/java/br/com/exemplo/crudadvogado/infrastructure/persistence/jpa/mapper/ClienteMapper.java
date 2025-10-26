@@ -6,6 +6,7 @@ import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.EstadoCivil;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Genero;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.ClienteEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -40,18 +41,19 @@ public class ClienteMapper {
         if(entity == null) {
             return null;
         }
+        
+        List<UUID> processosIds = entity.getProcessos() != null ?
+                entity.getProcessos().stream()
+                        .map(processo -> processo.getIdProcesso())
+                        .collect(Collectors.toList()) :
+                new ArrayList<>();
 
-        // Extrai IDs dos processos
-        List<UUID> processosIds = entity.getProcessos().stream()
-                .map(processo -> processo.getIdProcesso())
-                .collect(Collectors.toList());
+        List<Long> eventosIds = entity.getEventos() != null ?
+                entity.getEventos().stream()
+                        .map(evento -> evento.getIdEvento())
+                        .collect(Collectors.toList()) :
+                new ArrayList<>();
 
-        // Extrai IDs dos eventos
-        List<Long> eventosIds = entity.getEventos().stream()
-                .map(evento -> evento.getIdEvento())
-                .collect(Collectors.toList());
-
-        // Cria o cliente com todas as propriedades, incluindo as listas
         Cliente cliente = new Cliente(
                 entity.getIdCliente(),
                 entity.getNome(),
@@ -69,9 +71,9 @@ public class ClienteMapper {
                 entity.getNaturalidade(),
                 entity.getQtdProcessos(),
                 entity.getAdvogado().getIdAdvogado(),
-                processosIds, // Lista de IDs dos processos
-                List.of(),    // Anexos (ajuste se necessário)
-                eventosIds    // Lista de IDs dos eventos
+                processosIds,
+                List.of(),
+                eventosIds
         );
 
         return cliente;
