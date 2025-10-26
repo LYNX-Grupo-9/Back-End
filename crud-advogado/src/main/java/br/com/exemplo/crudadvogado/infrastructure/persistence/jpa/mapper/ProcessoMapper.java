@@ -36,7 +36,7 @@ public class ProcessoMapper {
         }
 
         var domain = Processo.criarExistente(
-                entity.getIdProcesso(), // ← ADICIONAR COMO PRIMEIRO PARÂMETRO
+                entity.getIdProcesso(),
                 entity.getTitulo(),
                 entity.getNumeroProcesso(),
                 entity.getDescricao(),

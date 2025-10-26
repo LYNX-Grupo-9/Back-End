@@ -150,8 +150,8 @@ public class ProcessoController {
 
     @GetMapping("/{id}")
     @SecurityRequirement(name = "Bearer")
-    public ResponseEntity<ProcessoResponse> buscarPorId(@PathVariable UUID id) {
-        ProcessoResponse processo = buscarProcessoPorIdUseCase.executar(id);
+    public ResponseEntity<ProcessoResponse> buscarPorId(@PathVariable UUID idProcesso) {
+        ProcessoResponse processo = buscarProcessoPorIdUseCase.executar(idProcesso);
         return ResponseEntity.ok(processo);
     }
 }

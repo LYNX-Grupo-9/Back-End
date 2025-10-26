@@ -66,17 +66,6 @@ public class AdvogadoMapper {
         );
     }
 
-//    public static Advogado of (AdvogadoLoginCommand advogadoLogin) {
-//        if (advogadoLogin == null) {
-//            return null;
-//        }
-//
-//        return new Advogado(
-//                advogadoLogin.email(),
-//                advogadoLogin.senha()
-//        );
-//    }
-
     public static AdvogadoToken of(AdvogadoEntity advogadoEntity, String token) {
         if(Objects.isNull(advogadoEntity)) {
             return null;
@@ -90,15 +79,5 @@ public class AdvogadoMapper {
         );
     }
 
-//    public static AdvogadoResponse of (Advogado advogado) {
-//        AdvogadoResponse advogadoResponse = new AdvogadoResponse();
-//
-//        advogadoResponse.setIdAdvogado(advogado.getIdAdvogado());
-//        advogadoResponse.setNome(advogado.getNome());
-//        advogadoResponse.setEmail(advogado.getEmail());
-//        advogadoResponse.setRegistroOab(advogado.getRegistroOab());
-//
-//        return advogadoResponse;
-//    }
 
 }
