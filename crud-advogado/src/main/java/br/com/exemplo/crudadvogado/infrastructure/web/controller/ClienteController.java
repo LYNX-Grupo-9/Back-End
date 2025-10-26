@@ -2,6 +2,7 @@ package br.com.exemplo.crudadvogado.infrastructure.web.controller;
 
 import br.com.exemplo.crudadvogado.core.application.dto.command.cliente.AtualizarClienteCommand;
 import br.com.exemplo.crudadvogado.core.application.dto.command.cliente.CriarClienteCommand;
+import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.ClienteProcessoEventoResponse;
 import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.ClienteResponse;
 import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.CriarClienteResponse;
 import br.com.exemplo.crudadvogado.core.application.usecase.cliente.*;
@@ -27,8 +28,9 @@ public class ClienteController {
     private final ListarClientesOrdenadosPorNomeUseCase listarClientesOrdenadosPorNomeUseCase;
     private final ListarTodosClientesUseCase listarTodosClientesUseCase;
     private final BuscarClienteComQuantidadeProcessosUseCase buscarClienteComQuantidadeProcessosUseCase;
+    private final BuscarDadosClienteCompletoUseCase buscarDadosClienteCompletoUseCase;
 
-    public ClienteController(CriarClienteUseCase criarClienteUseCase, ListarClientesPorAdvogadoUseCase listarClientesPorAdvogadoUseCase, AtualizarClienteUseCase atualizarClienteUseCase, ContarClientesPorAdvogadoUseCase contarClientesPorAdvogadoUseCase, BuscarClientesPorTextoUseCase buscarClientesPorTextoUseCase, ListarClientesOrdenadosPorProcessosUseCase listarClientesOrdenadosPorProcessosUseCase, ListarClientesOrdenadosPorDataNascimentoUseCase listarClientesOrdenadosPorDataNascimentoUseCase, ListarClientesOrdenadosPorNaturalidadeUseCase listarClientesOrdenadosPorNaturalidadeUseCase, ListarClientesOrdenadosPorNomeUseCase listarClientesOrdenadosPorNomeUseCase, ListarTodosClientesUseCase listarTodosClientesUseCase, BuscarClienteComQuantidadeProcessosUseCase buscarClienteComQuantidadeProcessosUseCase) {
+    public ClienteController(CriarClienteUseCase criarClienteUseCase, ListarClientesPorAdvogadoUseCase listarClientesPorAdvogadoUseCase, AtualizarClienteUseCase atualizarClienteUseCase, ContarClientesPorAdvogadoUseCase contarClientesPorAdvogadoUseCase, BuscarClientesPorTextoUseCase buscarClientesPorTextoUseCase, ListarClientesOrdenadosPorProcessosUseCase listarClientesOrdenadosPorProcessosUseCase, ListarClientesOrdenadosPorDataNascimentoUseCase listarClientesOrdenadosPorDataNascimentoUseCase, ListarClientesOrdenadosPorNaturalidadeUseCase listarClientesOrdenadosPorNaturalidadeUseCase, ListarClientesOrdenadosPorNomeUseCase listarClientesOrdenadosPorNomeUseCase, ListarTodosClientesUseCase listarTodosClientesUseCase, BuscarClienteComQuantidadeProcessosUseCase buscarClienteComQuantidadeProcessosUseCase, BuscarDadosClienteCompletoUseCase buscarDadosClienteCompletoUseCase) {
         this.criarClienteUseCase = criarClienteUseCase;
         this.listarClientesPorAdvogadoUseCase = listarClientesPorAdvogadoUseCase;
         this.atualizarClienteUseCase = atualizarClienteUseCase;
@@ -40,6 +42,7 @@ public class ClienteController {
         this.listarClientesOrdenadosPorNomeUseCase = listarClientesOrdenadosPorNomeUseCase;
         this.listarTodosClientesUseCase = listarTodosClientesUseCase;
         this.buscarClienteComQuantidadeProcessosUseCase = buscarClienteComQuantidadeProcessosUseCase;
+        this.buscarDadosClienteCompletoUseCase = buscarDadosClienteCompletoUseCase;
     }
 
     @PostMapping("/cadastrar")
@@ -130,5 +133,11 @@ public class ClienteController {
 
         ClienteResponse cliente = buscarClienteComQuantidadeProcessosUseCase.executar(id);
         return ResponseEntity.ok(cliente);
+    }
+
+    @GetMapping("/{idCliente}/dados-completos")
+    @SecurityRequirement(name = "Bearer")
+    public ClienteProcessoEventoResponse buscarDadosClienteCompleto(@PathVariable UUID idCliente) {
+        return buscarDadosClienteCompletoUseCase.executar(idCliente);
     }
 }

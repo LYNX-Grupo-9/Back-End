@@ -22,7 +22,6 @@ public class AnexoEntity {
     @JoinColumn(name = "idProcesso")
     private ProcessoEntity processo;
 
-
     public AnexoEntity(Long idAnexo, String nomeAnexo, UUID idCliente, UUID idProcesso) {
     }
 

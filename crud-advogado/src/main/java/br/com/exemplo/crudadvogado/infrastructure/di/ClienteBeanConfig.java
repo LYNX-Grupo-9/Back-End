@@ -1,5 +1,8 @@
 package br.com.exemplo.crudadvogado.infrastructure.di;
 
+import br.com.exemplo.crudadvogado.core.adapter.gateway.ClienteGateway;
+import br.com.exemplo.crudadvogado.core.adapter.gateway.EventoGateway;
+import br.com.exemplo.crudadvogado.core.adapter.gateway.ProcessoGateway;
 import br.com.exemplo.crudadvogado.core.application.usecase.cliente.*;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.adapter.AdvogadoJpaAdapter;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.adapter.ClienteJpaAdapter;
@@ -84,5 +87,13 @@ public class ClienteBeanConfig {
     public BuscarClienteComQuantidadeProcessosUseCase buscarClienteComQuantidadeProcessosUseCase(
             ClienteJpaAdapter clienteAdapter) {
         return new BuscarClienteComQuantidadeProcessosUseCase(clienteAdapter);
+    }
+
+    @Bean
+    public BuscarDadosClienteCompletoUseCase buscarDadosClienteCompletoUseCase(
+            ClienteGateway clienteGateway,
+            ProcessoGateway processoGateway,
+            EventoGateway eventoGateway) {
+        return new BuscarDadosClienteCompletoUseCase(clienteGateway, processoGateway, eventoGateway);
     }
 }

@@ -33,6 +33,7 @@ public class ProcessoEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
+    @com.fasterxml.jackson.annotation.JsonManagedReference
     private ClienteEntity cliente;
 
     @OneToMany(mappedBy = "processo")

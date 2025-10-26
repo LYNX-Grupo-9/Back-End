@@ -80,6 +80,17 @@ public class ClienteJpaAdapter implements ClienteGateway {
                 .map(ClienteMapper::toDomain);
     }
 
+    // Método específico para buscar com relações (opcional)
+    public Optional<Cliente> buscarPorIdComRelacoes(UUID id) {
+        return repository.findById(id)
+                .map(entity -> {
+                    // Força o carregamento das relações
+                    entity.getProcessos().size();
+                    entity.getEventos().size();
+                    return ClienteMapper.toDomain(entity);
+                });
+    }
+
     @Override
     public List<Cliente> listarTodos() {
         return repository.findAll()
