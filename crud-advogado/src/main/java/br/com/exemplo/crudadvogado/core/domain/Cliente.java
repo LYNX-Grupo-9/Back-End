@@ -32,7 +32,7 @@ public class Cliente {
     private UUID idAdvogado;
     private List<UUID> processos;
     private List<UUID> anexos;
-    private List<UUID> eventos;
+    private List<Long> eventos;
 
     public Cliente(UUID idCliente, String nome, String documento, String tipoDocumento, Email email, String telefone, String endereco, Genero genero, Date dataNascimento, EstadoCivil estadoCivil, String profissao, String passaporte, String cnh, String naturalidade, Long qtdProcessos, UUID idAdvogado) {
         this.idCliente = idCliente;
@@ -54,6 +54,34 @@ public class Cliente {
         this.processos = new ArrayList<>();
         this.anexos = new ArrayList<>();
         this.eventos = new ArrayList<>();
+    }
+
+    public Cliente(UUID idCliente, String nome, String documento, String tipoDocumento,
+                   Email email, String telefone, String endereco, Genero genero,
+                   Date dataNascimento, EstadoCivil estadoCivil, String profissao,
+                   String passaporte, String cnh, String naturalidade, Long qtdProcessos,
+                   UUID idAdvogado, List<UUID> processos, List<UUID> anexos, List<Long> eventos) {
+
+        this.idCliente = idCliente;
+        this.nome = nome;
+        this.documento = documento;
+        this.tipoDocumento = tipoDocumento;
+        this.email = email;
+        this.telefone = telefone;
+        this.endereco = endereco;
+        this.genero = genero;
+        this.dataNascimento = dataNascimento;
+        this.estadoCivil = estadoCivil;
+        this.profissao = profissao;
+        this.passaporte = passaporte;
+        this.cnh = cnh;
+        this.naturalidade = naturalidade;
+        this.qtdProcessos = qtdProcessos;
+        this.idAdvogado = idAdvogado;
+
+        this.processos = processos != null ? processos : new ArrayList<>();
+        this.anexos = anexos != null ? anexos : new ArrayList<>();
+        this.eventos = eventos != null ? eventos : new ArrayList<>();
     }
 
     public UUID getIdCliente() {
@@ -200,11 +228,11 @@ public class Cliente {
         this.anexos = anexos;
     }
 
-    public List<UUID> getEventos() {
+    public List<Long> getEventos() {
         return eventos;
     }
 
-    public void setEventos(List<UUID> eventos) {
+    public void setEventos(List<Long> eventos) {
         this.eventos = eventos;
     }
 

@@ -69,17 +69,17 @@ public class CategoriaEventoController {
 
     @DeleteMapping("/{id}")
     @SecurityRequirement(name = "Bearer")
-    public ResponseEntity<Void> deletarCategoria(@PathVariable Long idCategoria) {
-        deletarCategoriaUseCase.executar(idCategoria);
+    public ResponseEntity<Void> deletarCategoria(@PathVariable Long id) {
+        deletarCategoriaUseCase.executar(id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
     @SecurityRequirement(name = "Bearer")
     public ResponseEntity<CategoriaEventoResponse> atualizarCategoriaParcialmente(
-            @PathVariable Long idCategoria,
+            @PathVariable Long id,
             @Valid @RequestBody AtualizarCategoriaCommand command) {
-        CategoriaEventoResponse response = atualizarCategoriaParcialmenteUseCase.executar(idCategoria, command);
+        CategoriaEventoResponse response = atualizarCategoriaParcialmenteUseCase.executar(id, command);
         return ResponseEntity.ok(response);
     }
 

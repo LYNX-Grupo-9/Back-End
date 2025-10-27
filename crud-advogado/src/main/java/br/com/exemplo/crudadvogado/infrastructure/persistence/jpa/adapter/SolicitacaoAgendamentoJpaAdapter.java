@@ -38,8 +38,8 @@ public class SolicitacaoAgendamentoJpaAdapter implements SolicitacaoAgendamentoG
     }
 
     @Override
-    public Optional<SolicitacaoAgendamento> buscarPorId(UUID idAdvogado) {
-        return solicitacaoAgendamentoJpaRepository.findById(idAdvogado)
+    public Optional<SolicitacaoAgendamento> buscarPorId(Long id) {
+        return solicitacaoAgendamentoJpaRepository.findByIdSolicitacaoAgendamento(id)
                 .map(mapper::toDomain);
     }
 

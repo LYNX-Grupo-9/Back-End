@@ -23,7 +23,8 @@ public class CategoriaEventoMapper {
             return null;
         }
 
-        var domain = CategoriaEvento.criarNovo(
+        var domain = CategoriaEvento.criarExistente(
+                entity.getId(),
                 entity.getNome(),
                 entity.getCor(),
                 entity.getAdvogado().getIdAdvogado()

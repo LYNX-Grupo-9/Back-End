@@ -3,6 +3,8 @@ package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.mapper;
 import br.com.exemplo.crudadvogado.core.domain.Processo;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.ProcessoEntity;
 
+import java.util.List;
+
 public class ProcessoMapper {
 
     public static ProcessoEntity toEntity(Processo domain){
@@ -33,7 +35,8 @@ public class ProcessoMapper {
             return null;
         }
 
-        var domain = Processo.criarNovo(
+        var domain = Processo.criarExistente(
+                entity.getIdProcesso(),
                 entity.getTitulo(),
                 entity.getNumeroProcesso(),
                 entity.getDescricao(),
@@ -47,7 +50,8 @@ public class ProcessoMapper {
                 entity.getReu(),
                 entity.getAdvReu(),
                 entity.getAdvogado().getIdAdvogado(),
-                entity.getCliente().getIdCliente()
+                entity.getCliente().getIdCliente(),
+                List.of()
         );
 
         return domain;

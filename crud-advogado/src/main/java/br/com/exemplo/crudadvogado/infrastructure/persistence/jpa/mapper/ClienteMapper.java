@@ -1,7 +1,15 @@
 package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.mapper;
 
 import br.com.exemplo.crudadvogado.core.domain.Cliente;
+import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Email;
+import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.EstadoCivil;
+import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Genero;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.ClienteEntity;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ClienteMapper {
 
@@ -33,25 +41,42 @@ public class ClienteMapper {
         if(entity == null) {
             return null;
         }
+        
+        List<UUID> processosIds = entity.getProcessos() != null ?
+                entity.getProcessos().stream()
+                        .map(processo -> processo.getIdProcesso())
+                        .collect(Collectors.toList()) :
+                new ArrayList<>();
 
-        var domain = Cliente.criarNovo(
+        List<Long> eventosIds = entity.getEventos() != null ?
+                entity.getEventos().stream()
+                        .map(evento -> evento.getIdEvento())
+                        .collect(Collectors.toList()) :
+                new ArrayList<>();
+
+        Cliente cliente = new Cliente(
+                entity.getIdCliente(),
                 entity.getNome(),
                 entity.getDocumento(),
                 entity.getTipoDocumento(),
-                entity.getEmail(),
+                Email.criar(entity.getEmail()),
                 entity.getTelefone(),
                 entity.getEndereco(),
-                entity.getGenero(),
+                Genero.criar(entity.getGenero()),
                 entity.getDataNascimento(),
-                entity.getEstadoCivil(),
+                EstadoCivil.criar(entity.getEstadoCivil()),
                 entity.getProfissao(),
                 entity.getPassaporte(),
                 entity.getCnh(),
                 entity.getNaturalidade(),
-                entity.getAdvogado().getIdAdvogado()
+                entity.getQtdProcessos(),
+                entity.getAdvogado().getIdAdvogado(),
+                processosIds,
+                List.of(),
+                eventosIds
         );
 
-        return domain;
+        return cliente;
     }
 
 }

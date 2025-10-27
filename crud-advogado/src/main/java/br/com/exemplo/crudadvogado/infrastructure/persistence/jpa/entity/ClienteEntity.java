@@ -35,13 +35,13 @@ public class ClienteEntity {
     @JoinColumn(name = "id_advogado")
     private AdvogadoEntity advogado;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ProcessoEntity> processos;
 //
 //    @OneToMany(mappedBy = "cliente")
 //    private List<Anexo> anexos;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<EventoEntity> eventos;
 
 

@@ -203,4 +203,28 @@ public class Processo {
                 List.of()
         );
     }
+
+    public static Processo criarExistente(UUID idProcesso, String titulo, String numeroProcesso, String descricao,
+                                          String status, String classeProcessual, String assunto, String tribunal,
+                                          BigDecimal valor, String autor, String advRequerente, String reu,
+                                          String advReu, UUID advogado, UUID cliente, List<UUID> anexos) {
+        return new Processo(
+                idProcesso,
+                titulo,
+                numeroProcesso,
+                descricao,
+                status,
+                classeProcessual,
+                assunto,
+                tribunal,
+                valor,
+                autor,
+                advRequerente,
+                reu,
+                advReu,
+                advogado,
+                cliente,
+                anexos
+        );
+    }
 }

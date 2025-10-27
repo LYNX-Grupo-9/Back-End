@@ -25,4 +25,5 @@ public interface ProcessoGateway {
     Optional<Processo> buscarPorNumeroProcesso(String numeroProcesso);
     List<Processo> listarProcessosOrdenadosPorNomeCliente(UUID idAdvogado);
     List<Processo> listarProcessosOrdenadosPorNumeroProcesso(UUID idAdvogado);
+    Processo atualizar(Processo domain);
 }

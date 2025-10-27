@@ -21,7 +21,7 @@ public class AtualizarProcessoParcialmenteUseCase {
 
         atualizarCampos(processo, request);
 
-        Processo processoAtualizado = processoGateway.criar(processo);
+        Processo processoAtualizado = processoGateway.atualizar(processo);
         return new ProcessoResponse(processoAtualizado);
     }
 
@@ -69,4 +69,5 @@ public class AtualizarProcessoParcialmenteUseCase {
             processo.setIdCliente(request.idCliente());
         }
     }
+
 }
