@@ -10,6 +10,8 @@ import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.repository.Cli
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -152,6 +154,13 @@ public class ClienteJpaAdapter implements ClienteGateway {
                 })
                 .toList();
     }
+
+    @Override
+    public Page<Cliente> listarPaginado(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(ClienteMapper::toDomain);
+    }
+
 
     private void atualizarEntidadeComDomain(ClienteEntity entity, Cliente domain) {
         if (domain.getNome() != null) entity.setNome(domain.getNome());

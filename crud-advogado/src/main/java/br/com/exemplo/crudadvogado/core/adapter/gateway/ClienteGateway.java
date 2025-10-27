@@ -1,6 +1,8 @@
 package br.com.exemplo.crudadvogado.core.adapter.gateway;
 
 import br.com.exemplo.crudadvogado.core.domain.Cliente;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,4 +22,5 @@ public interface ClienteGateway {
     List<Cliente> buscarPorAdvogadoOrdenadoPorDataNascimento(UUID advogadoId);
     List<Cliente> buscarPorTermo(String termo, UUID advogadoId);
     List<Cliente> buscarClientesComQuantidadeProcessos(UUID idAdvogado);
+    Page<Cliente> listarPaginado(Pageable pageable);
 }

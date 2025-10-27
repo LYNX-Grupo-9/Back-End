@@ -7,6 +7,8 @@ import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.Cliente
 import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.CriarClienteResponse;
 import br.com.exemplo.crudadvogado.core.application.usecase.cliente.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +31,9 @@ public class ClienteController {
     private final ListarTodosClientesUseCase listarTodosClientesUseCase;
     private final BuscarClienteComQuantidadeProcessosUseCase buscarClienteComQuantidadeProcessosUseCase;
     private final BuscarDadosClienteCompletoUseCase buscarDadosClienteCompletoUseCase;
+    private final ListarClientesPaginadoUseCase listarClientesPaginadoUseCase;
 
-    public ClienteController(CriarClienteUseCase criarClienteUseCase, ListarClientesPorAdvogadoUseCase listarClientesPorAdvogadoUseCase, AtualizarClienteUseCase atualizarClienteUseCase, ContarClientesPorAdvogadoUseCase contarClientesPorAdvogadoUseCase, BuscarClientesPorTextoUseCase buscarClientesPorTextoUseCase, ListarClientesOrdenadosPorProcessosUseCase listarClientesOrdenadosPorProcessosUseCase, ListarClientesOrdenadosPorDataNascimentoUseCase listarClientesOrdenadosPorDataNascimentoUseCase, ListarClientesOrdenadosPorNaturalidadeUseCase listarClientesOrdenadosPorNaturalidadeUseCase, ListarClientesOrdenadosPorNomeUseCase listarClientesOrdenadosPorNomeUseCase, ListarTodosClientesUseCase listarTodosClientesUseCase, BuscarClienteComQuantidadeProcessosUseCase buscarClienteComQuantidadeProcessosUseCase, BuscarDadosClienteCompletoUseCase buscarDadosClienteCompletoUseCase) {
+    public ClienteController(CriarClienteUseCase criarClienteUseCase, ListarClientesPorAdvogadoUseCase listarClientesPorAdvogadoUseCase, AtualizarClienteUseCase atualizarClienteUseCase, ContarClientesPorAdvogadoUseCase contarClientesPorAdvogadoUseCase, BuscarClientesPorTextoUseCase buscarClientesPorTextoUseCase, ListarClientesOrdenadosPorProcessosUseCase listarClientesOrdenadosPorProcessosUseCase, ListarClientesOrdenadosPorDataNascimentoUseCase listarClientesOrdenadosPorDataNascimentoUseCase, ListarClientesOrdenadosPorNaturalidadeUseCase listarClientesOrdenadosPorNaturalidadeUseCase, ListarClientesOrdenadosPorNomeUseCase listarClientesOrdenadosPorNomeUseCase, ListarTodosClientesUseCase listarTodosClientesUseCase, BuscarClienteComQuantidadeProcessosUseCase buscarClienteComQuantidadeProcessosUseCase, BuscarDadosClienteCompletoUseCase buscarDadosClienteCompletoUseCase, ListarClientesPaginadoUseCase listarClientesPaginadoUseCase) {
         this.criarClienteUseCase = criarClienteUseCase;
         this.listarClientesPorAdvogadoUseCase = listarClientesPorAdvogadoUseCase;
         this.atualizarClienteUseCase = atualizarClienteUseCase;
@@ -43,7 +46,9 @@ public class ClienteController {
         this.listarTodosClientesUseCase = listarTodosClientesUseCase;
         this.buscarClienteComQuantidadeProcessosUseCase = buscarClienteComQuantidadeProcessosUseCase;
         this.buscarDadosClienteCompletoUseCase = buscarDadosClienteCompletoUseCase;
+        this.listarClientesPaginadoUseCase = listarClientesPaginadoUseCase;
     }
+
 
     @PostMapping("/cadastrar")
     @SecurityRequirement(name = "Bearer")
@@ -139,5 +144,11 @@ public class ClienteController {
     @SecurityRequirement(name = "Bearer")
     public ClienteProcessoEventoResponse buscarDadosClienteCompleto(@PathVariable UUID id) {
         return buscarDadosClienteCompletoUseCase.executar(id);
+    }
+
+    @GetMapping("/paginado")
+    @SecurityRequirement(name = "Bearer")
+    public Page<ClienteResponse> listarPaginado(Pageable pageable) {
+        return listarClientesPaginadoUseCase.executar(pageable);
     }
 }
