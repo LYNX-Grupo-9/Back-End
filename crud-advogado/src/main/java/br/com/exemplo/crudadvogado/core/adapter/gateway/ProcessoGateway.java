@@ -1,6 +1,8 @@
 package br.com.exemplo.crudadvogado.core.adapter.gateway;
 
 import br.com.exemplo.crudadvogado.core.domain.Processo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Map;
@@ -26,4 +28,5 @@ public interface ProcessoGateway {
     List<Processo> listarProcessosOrdenadosPorNomeCliente(UUID idAdvogado);
     List<Processo> listarProcessosOrdenadosPorNumeroProcesso(UUID idAdvogado);
     Processo atualizar(Processo domain);
+    Page<Processo> listarPaginado(Pageable pageable);
 }
