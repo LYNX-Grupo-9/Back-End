@@ -9,6 +9,8 @@ import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.mapper.Process
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.repository.ProcessoJpaRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -211,6 +213,12 @@ public class ProcessoJpaAdapter implements ProcessoGateway {
 
         ProcessoEntity atualizado = repository.save(entity);
         return ProcessoMapper.toDomain(atualizado);
+    }
+
+    @Override
+    public Page<Processo> listarPaginado(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(ProcessoMapper::toDomain);
     }
 
     private void atualizarEntity(ProcessoEntity entity, Processo domain) {

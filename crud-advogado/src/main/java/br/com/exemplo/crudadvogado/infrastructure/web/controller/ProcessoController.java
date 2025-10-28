@@ -5,6 +5,9 @@ import br.com.exemplo.crudadvogado.core.application.dto.command.processo.CriarPr
 import br.com.exemplo.crudadvogado.core.application.dto.response.processo.*;
 import br.com.exemplo.crudadvogado.core.application.usecase.processo.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +33,9 @@ public class ProcessoController {
     private final AtualizarProcessoParcialmenteUseCase atualizarProcessoParcialmenteUseCase;
     private final ContarProcessosPorClasseProcessualUseCase contarProcessosPorClasseProcessualPorAdvogadoUseCase;
     private final BuscarProcessoPorIdUseCase buscarProcessoPorIdUseCase;
+    private final ListarProcessosPaginadoUseCase listarProcessosPaginadoUseCase;
 
-    public ProcessoController(CriarProcessoUseCase criarProcessoUseCase, ListarProcessosPorAdvogadoUseCase listarProcessosPorAdvogadoUseCase, ListarProcessosPorClienteUseCase listarProcessosPorClienteUseCase, ExcluirProcessoPorIdUseCase excluirProcessoPorIdUseCase, ListarProcessosAtivosPorAdvogadoUseCase listarProcessosAtivosPorAdvogadoUseCase, ContarProcessosPorStatusPorAdvogadoUseCase contarProcessosPorStatusPorAdvogadoUseCase, BuscarProcessosPorTextoUseCase buscarProcessosPorTextoUseCase, ListarProcessosOrdenadosPorStatusUseCase listarProcessosOrdenadosPorStatusUseCase, CalcularValorMedioProcessosUseCase calcularValorMedioProcessosUseCase, ListarProcessosOrdenadosPorValorUseCase listarProcessosOrdenadosPorValorUseCase, ListarProcessosOrdenadosPorNomeClienteUseCase listarProcessosOrdenadosPorNomeClienteUseCase, ListarProcessosOrdenadosPorNumeroProcessoUseCase listarProcessosOrdenadosPorNumeroProcessoUseCase, AtualizarProcessoParcialmenteUseCase atualizarProcessoParcialmenteUseCase, ContarProcessosPorClasseProcessualUseCase contarProcessosPorClasseProcessualPorAdvogadoUseCase, BuscarProcessoPorIdUseCase buscarProcessoPorIdUseCase) {
+    public ProcessoController(CriarProcessoUseCase criarProcessoUseCase, ListarProcessosPorAdvogadoUseCase listarProcessosPorAdvogadoUseCase, ListarProcessosPorClienteUseCase listarProcessosPorClienteUseCase, ExcluirProcessoPorIdUseCase excluirProcessoPorIdUseCase, ListarProcessosAtivosPorAdvogadoUseCase listarProcessosAtivosPorAdvogadoUseCase, ContarProcessosPorStatusPorAdvogadoUseCase contarProcessosPorStatusPorAdvogadoUseCase, BuscarProcessosPorTextoUseCase buscarProcessosPorTextoUseCase, ListarProcessosOrdenadosPorStatusUseCase listarProcessosOrdenadosPorStatusUseCase, CalcularValorMedioProcessosUseCase calcularValorMedioProcessosUseCase, ListarProcessosOrdenadosPorValorUseCase listarProcessosOrdenadosPorValorUseCase, ListarProcessosOrdenadosPorNomeClienteUseCase listarProcessosOrdenadosPorNomeClienteUseCase, ListarProcessosOrdenadosPorNumeroProcessoUseCase listarProcessosOrdenadosPorNumeroProcessoUseCase, AtualizarProcessoParcialmenteUseCase atualizarProcessoParcialmenteUseCase, ContarProcessosPorClasseProcessualUseCase contarProcessosPorClasseProcessualPorAdvogadoUseCase, BuscarProcessoPorIdUseCase buscarProcessoPorIdUseCase, ListarProcessosPaginadoUseCase listarProcessosPaginadoUseCase) {
         this.criarProcessoUseCase = criarProcessoUseCase;
         this.listarProcessosPorAdvogadoUseCase = listarProcessosPorAdvogadoUseCase;
         this.listarProcessosPorClienteUseCase = listarProcessosPorClienteUseCase;
@@ -47,7 +51,9 @@ public class ProcessoController {
         this.atualizarProcessoParcialmenteUseCase = atualizarProcessoParcialmenteUseCase;
         this.contarProcessosPorClasseProcessualPorAdvogadoUseCase = contarProcessosPorClasseProcessualPorAdvogadoUseCase;
         this.buscarProcessoPorIdUseCase = buscarProcessoPorIdUseCase;
+        this.listarProcessosPaginadoUseCase = listarProcessosPaginadoUseCase;
     }
+
 
     @PostMapping("")
     @SecurityRequirement(name = "Bearer")
@@ -150,8 +156,14 @@ public class ProcessoController {
 
     @GetMapping("/{id}")
     @SecurityRequirement(name = "Bearer")
-    public ResponseEntity<ProcessoResponse> buscarPorId(@PathVariable UUID idProcesso) {
-        ProcessoResponse processo = buscarProcessoPorIdUseCase.executar(idProcesso);
+    public ResponseEntity<ProcessoResponse> buscarPorId(@PathVariable UUID id) {
+        ProcessoResponse processo = buscarProcessoPorIdUseCase.executar(id);
         return ResponseEntity.ok(processo);
+    }
+
+    @GetMapping("/paginado")
+    @SecurityRequirement(name = "Bearer")
+    public Page<ProcessoResponse> listarPaginado(Pageable pageable) {
+        return listarProcessosPaginadoUseCase.executar(pageable);
     }
 }

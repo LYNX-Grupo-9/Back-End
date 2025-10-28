@@ -82,4 +82,9 @@ public class ProcessoBeanConfig {
     public AtualizarProcessoParcialmenteUseCase atualizarProcessoParcialmenteUseCase(ProcessoJpaAdapter adapter) {
         return new AtualizarProcessoParcialmenteUseCase(adapter);
     }
+
+    @Bean
+    public ListarProcessosPaginadoUseCase listarProcessosPaginadoUseCase(ProcessoJpaAdapter adapter) {
+        return new ListarProcessosPaginadoUseCase(adapter);
+    }
 }

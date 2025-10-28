@@ -96,4 +96,11 @@ public class ClienteBeanConfig {
             EventoGateway eventoGateway) {
         return new BuscarDadosClienteCompletoUseCase(clienteGateway, processoGateway, eventoGateway);
     }
+
+    @Bean
+    public ListarClientesPaginadoUseCase listarClientesPaginadoUseCase(
+            ClienteJpaAdapter clienteAdapter,
+            ProcessoJpaAdapter processoAdapter) {
+        return new ListarClientesPaginadoUseCase(clienteAdapter, processoAdapter);
+    }
 }
