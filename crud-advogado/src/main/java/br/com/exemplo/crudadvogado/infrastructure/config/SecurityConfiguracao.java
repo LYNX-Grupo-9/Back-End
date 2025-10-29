@@ -45,10 +45,6 @@ public class SecurityConfiguracao {
             "/configuration/ui",
             "/configuration/security",
             "/api/public/**",
-            "/api/public/authenticate",
-            "/webjars/**",
-            "/v3/api-docs/**",
-            "/actuator/**",
             "/api/advogados/login",
             "/api/advogados/login/**",
             "/api/advogados/cadastrar",
@@ -60,27 +56,40 @@ public class SecurityConfiguracao {
             "/v2/advogados/cadastrar",
             "/v2/advogados/cadastrar/**",
             "/v2/advogados/login",
+            "/actuator/**",
+            "/v3/api-docs/**",
+            "/webjars/**"
     };
 
-    @Bean // no usages ⬆️ Diego Brito +1
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .headers(headers -> headers
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
-                )
+                // Libera acesso ao H2, Swagger e frames
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+
+                // Libera CORS globalmente (qualquer origem)
                 .cors(Customizer.withDefaults())
+
+                // Desativa CSRF (para APIs REST)
                 .csrf(CsrfConfigurer::disable)
+
+                // Configura autorizações
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(URLS_PERMITIDAS).permitAll()
                         .anyRequest().authenticated()
                 )
+
+                // Configura tratamento de exceção
                 .exceptionHandling(handling -> handling
                         .authenticationEntryPoint(autenticacaoEntryPoint)
                 )
+
+                // Define política de sessão stateless (para JWT)
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 
+        // Adiciona o filtro JWT antes da autenticação padrão
         http.addFilterBefore(jwtAutenticacaoFilterBean(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -113,15 +122,18 @@ public class SecurityConfiguracao {
         return new BCryptPasswordEncoder();
     }
 
+    // 🌐 CORS global aberto (sem precisar definir IPs específicos)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuracao = new CorsConfiguration();
-        configuracao.applyPermitDefaultValues();
+        configuracao.setAllowedOriginPatterns(List.of("*")); // aceita qualquer origem dinâmica
         configuracao.setAllowedMethods(Arrays.asList(
                 HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(),
-                HttpMethod.PATCH.name(), HttpMethod.DELETE.name(),
-                HttpMethod.OPTIONS.name(), HttpMethod.HEAD.name(), HttpMethod.TRACE.name()));
+                HttpMethod.PATCH.name(), HttpMethod.DELETE.name(), HttpMethod.OPTIONS.name()
+        ));
+        configuracao.setAllowedHeaders(List.of("*"));
         configuracao.setExposedHeaders(List.of(HttpHeaders.CONTENT_DISPOSITION));
+        configuracao.setAllowCredentials(true); // permite cookies/token via proxy
 
         UrlBasedCorsConfigurationSource origem = new UrlBasedCorsConfigurationSource();
         origem.registerCorsConfiguration("/**", configuracao);
