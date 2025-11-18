@@ -1,14 +1,12 @@
 package br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.adapter.service;
 
 import br.com.exemplo.crudadvogado.core.adapter.gateway.ParcelaGateway;
-import br.com.exemplo.crudadvogado.core.application.dto.response.financeiro.ClientesComPendenciasResponse;
-import br.com.exemplo.crudadvogado.core.application.dto.response.financeiro.ProcessosComPendenciasResponse;
-import br.com.exemplo.crudadvogado.core.application.dto.response.financeiro.TotalAReceberResponse;
-import br.com.exemplo.crudadvogado.core.application.dto.response.financeiro.TotalPendenteResponse;
+import br.com.exemplo.crudadvogado.core.application.dto.response.financeiro.*;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Optional;
 
 @Service
 public class FinanceiroService {
@@ -53,6 +51,15 @@ public class FinanceiroService {
         return new TotalAReceberResponse(totalProximos30, percentual);
     }
 
+    public TotalFaturadoResponse calcularTotalFaturadoMes() {
+        BigDecimal totalAtual = parcelaGateway.calcularTotalFaturadoMesAtual();
+        BigDecimal totalAnterior = parcelaGateway.calcularTotalFaturadoMesAnterior();
+
+        BigDecimal percentual = calcularVariacaoPercentual(totalAnterior, totalAtual);
+
+        return new TotalFaturadoResponse(totalAtual, percentual);
+    }
+
     private BigDecimal calcularVariacaoPercentual(BigDecimal anterior, BigDecimal atual) {
         if (anterior == null || anterior.compareTo(BigDecimal.ZERO) == 0) {
             return (atual != null && atual.compareTo(BigDecimal.ZERO) > 0)
@@ -73,5 +80,9 @@ public class FinanceiroService {
 
         double variacao = ((double) (atual - anterior) / anterior) * 100;
         return Math.round(variacao * 10.0) / 10.0;
+    }
+
+    public Optional<ProximoPagamentoResponse> obterProximoPagamento() {
+        return parcelaGateway.obterProximoPagamento();
     }
 }
