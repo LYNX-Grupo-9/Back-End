@@ -25,7 +25,7 @@ public class RedisCacheConfig {
 
     @Bean
     public RedisCacheManager redisCacheManager(RedisConnectionFactory connectionFactory) {
-        // 🔹 Configuração PADRÃO (JSON) - para List<ClienteResponse>
+        // 🔹 Configuração PADRÃO (JSON) - para List<T>
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
@@ -44,7 +44,7 @@ public class RedisCacheConfig {
                 .disableCachingNullValues()
                 .prefixCacheNameWith("advogado-app::");
 
-        // 🔹 Configuração ESPECIAL para paginação (JDK Serializer) - para Page<ClienteResponse>
+        // 🔹 Configuração ESPECIAL para paginação (JDK Serializer) - para Page<T>
         RedisCacheConfiguration paginadoConfig = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new JdkSerializationRedisSerializer()))
@@ -52,10 +52,10 @@ public class RedisCacheConfig {
                 .disableCachingNullValues()
                 .prefixCacheNameWith("advogado-app::");
 
-        // 🔹 Mapear caches específicos para configurações específicas
+        // 🔹 Mapear TODOS os caches paginados para JDK Serializer
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
         cacheConfigurations.put("clientesPaginados", paginadoConfig);
-        // "clientesPorAdvogado" e outros usarão a config padrão (JSON)
+        cacheConfigurations.put("processosPaginados", paginadoConfig); // ✅ ADICIONE ESTA LINHA
 
         return RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(defaultConfig)

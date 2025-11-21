@@ -6,6 +6,8 @@ import br.com.exemplo.crudadvogado.core.application.dto.response.processo.*;
 import br.com.exemplo.crudadvogado.core.application.usecase.processo.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -163,7 +165,90 @@ public class ProcessoController {
 
     @GetMapping("/paginado")
     @SecurityRequirement(name = "Bearer")
-    public Page<ProcessoResponse> listarPaginado(Pageable pageable) {
+    public Page<ProcessoResponse> listarPaginado(@ParameterObject Pageable pageable) {
         return listarProcessosPaginadoUseCase.executar(pageable);
+    }
+
+    // ======================================
+    // ENDPOINTS DE GERENCIAMENTO DE CACHE
+    // ======================================
+
+    /**
+     * Limpa todo o cache de processos paginados
+     */
+    @PostMapping("/cache/paginado/limpar")
+    @SecurityRequirement(name = "Bearer")
+    @CacheEvict(value = "processosPaginados", allEntries = true)
+    public ResponseEntity<String> limparCacheProcessosPaginados() {
+        System.out.println("🧹 Cache de processos paginados limpo!");
+        return ResponseEntity.ok("Cache de processos paginados limpo com sucesso!");
+    }
+
+    /**
+     * Força a atualização do cache para uma página específica
+     */
+    @PostMapping("/cache/paginado/atualizar")
+    @SecurityRequirement(name = "Bearer")
+    @CachePut(
+            value = "processosPaginados",
+            key = "T(java.util.Objects).hash(#pageable.pageNumber, #pageable.pageSize, #pageable.sort.toString())"
+    )
+    public Page<ProcessoResponse> atualizarCacheProcessosPaginados(@ParameterObject Pageable pageable) {
+        System.out.println("🔄 Atualizando cache forçado para página: " + pageable.getPageNumber());
+        return listarProcessosPaginadoUseCase.executar(pageable);
+    }
+
+    /**
+     * Limpa TODOS os caches de processos
+     */
+    @PostMapping("/cache/limpar-tudo")
+    @SecurityRequirement(name = "Bearer")
+    @CacheEvict(value = {"processosPaginados"}, allEntries = true)
+    public ResponseEntity<String> limparTodosCachesProcessos() {
+        System.out.println("🧹🧹🧹 TODOS os caches de processos limpos!");
+        return ResponseEntity.ok("Todos os caches de processos foram limpos com sucesso!");
+    }
+
+    /**
+     * Endpoint para verificar status do cache
+     */
+    @GetMapping("/cache/status")
+    @SecurityRequirement(name = "Bearer")
+    public ResponseEntity<String> statusCache() {
+        return ResponseEntity.ok("""
+            🎯 Sistema de Cache de Processos Ativo!
+            
+            Caches disponíveis:
+            - processosPaginados: Consultas paginadas de processos (10min TTL)
+            
+            Use os endpoints POST /cache/* para gerenciar
+            """);
+    }
+
+    // ======================================
+    // ENDPOINTS DE CACHE PARA OUTRAS CONSULTAS
+    // (Adicione conforme for implementando cache nos outros use cases)
+    // ======================================
+
+    /**
+     * Limpa cache de processos por advogado (se implementar cache nesse use case)
+     */
+    @PostMapping("/cache/por-advogado/limpar")
+    @SecurityRequirement(name = "Bearer")
+    @CacheEvict(value = "processosPorAdvogado", allEntries = true)
+    public ResponseEntity<String> limparCacheProcessosPorAdvogado() {
+        System.out.println("🧹 Cache de processos por advogado limpo!");
+        return ResponseEntity.ok("Cache de processos por advogado limpo com sucesso!");
+    }
+
+    /**
+     * Limpa cache de processos por cliente (se implementar cache nesse use case)
+     */
+    @PostMapping("/cache/por-cliente/limpar")
+    @SecurityRequirement(name = "Bearer")
+    @CacheEvict(value = "processosPorCliente", allEntries = true)
+    public ResponseEntity<String> limparCacheProcessosPorCliente() {
+        System.out.println("🧹 Cache de processos por cliente limpo!");
+        return ResponseEntity.ok("Cache de processos por cliente limpo com sucesso!");
     }
 }
