@@ -1,0 +1,19 @@
+spring:
+  cache:
+    type: redis
+    redis:
+      time-to-live: PT30M
+      cache-null-values: false
+      key-prefix: "advogado-app::"
+      use-key-prefix: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      # password: sua_senha_se_necessario
+
+  # Configuração do MySQL (mantenha a existente)
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}

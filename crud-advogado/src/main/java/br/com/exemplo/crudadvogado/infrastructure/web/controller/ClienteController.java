@@ -7,6 +7,8 @@ import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.Cliente
 import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.CriarClienteResponse;
 import br.com.exemplo.crudadvogado.core.application.usecase.cliente.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -150,5 +152,66 @@ public class ClienteController {
     @SecurityRequirement(name = "Bearer")
     public Page<ClienteResponse> listarPaginado(Pageable pageable) {
         return listarClientesPaginadoUseCase.executar(pageable);
+    }
+
+    @PostMapping("/cache/paginado/limpar")
+    @SecurityRequirement(name = "Bearer")
+    @CacheEvict(value = "clientesPaginados", allEntries = true)
+    public ResponseEntity<String> limparCacheClientesPaginados() {
+        System.out.println("🧹 Cache de clientes paginados limpo!");
+        return ResponseEntity.ok("Cache de clientes paginados limpo com sucesso!");
+    }
+
+    /**
+     * Força a atualização do cache para uma página específica
+     */
+    @PostMapping("/cache/paginado/atualizar")
+    @SecurityRequirement(name = "Bearer")
+    @CachePut(
+            value = "clientesPaginados",
+            key = "T(java.util.Objects).hash(#pageable.pageNumber, #pageable.pageSize, #pageable.sort.toString())"
+    )
+    public Page<ClienteResponse> atualizarCacheClientesPaginados(Pageable pageable) {
+        System.out.println("🔄 Atualizando cache forçado para página: " + pageable.getPageNumber());
+        return listarClientesPaginadoUseCase.executar(pageable);
+    }
+
+    /**
+     * Limpa o cache de clientes por advogado (se você tiver cache nesse use case)
+     */
+    @PostMapping("/cache/por-advogado/limpar")
+    @SecurityRequirement(name = "Bearer")
+    @CacheEvict(value = "clientesPorAdvogado", allEntries = true)
+    public ResponseEntity<String> limparCacheClientesPorAdvogado() {
+        System.out.println("🧹 Cache de clientes por advogado limpo!");
+        return ResponseEntity.ok("Cache de clientes por advogado limpo com sucesso!");
+    }
+
+    /**
+     * Limpa TODOS os caches de clientes
+     */
+    @PostMapping("/cache/limpar-tudo")
+    @SecurityRequirement(name = "Bearer")
+    @CacheEvict(value = {"clientesPaginados", "clientesPorAdvogado"}, allEntries = true)
+    public ResponseEntity<String> limparTodosCachesClientes() {
+        System.out.println("🧹🧹🧹 TODOS os caches de clientes limpos!");
+        return ResponseEntity.ok("Todos os caches de clientes foram limpos com sucesso!");
+    }
+
+    /**
+     * Endpoint para verificar status do cache (opcional)
+     */
+    @GetMapping("/cache/status")
+    @SecurityRequirement(name = "Bearer")
+    public ResponseEntity<String> statusCache() {
+        return ResponseEntity.ok("""
+            🎯 Sistema de Cache Ativo!
+            
+            Caches disponíveis:
+            - clientesPaginados: Consultas paginadas de clientes
+            - clientesPorAdvogado: Clientes por advogado
+            
+            Use os endpoints POST /cache/* para gerenciar
+            """);
     }
 }
