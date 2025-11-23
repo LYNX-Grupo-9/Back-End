@@ -31,11 +31,15 @@ public interface ParcelaJpaRepository extends JpaRepository<ParcelaEntity, Long>
 
     // CORREÇÃO: Removido p.cliente.id - substitua pelo campo correto quando souber a estrutura
     @Query(value = """
-        SELECT COUNT(DISTINCT p.processo_id)
+
+            SELECT COUNT(DISTINCT pr.id_processo)
         FROM parcela p
-        WHERE p.status = 'ATRASADO'
+        JOIN lancamento l ON l.id_lancamento = p.id_lancamento
+        JOIN processo pr ON pr.id_processo = l.id_processo
+        WHERE p.status = 'ATRASO'
           AND MONTH(p.data_vencimento) = MONTH(CURRENT_DATE)
-          AND YEAR(p.data_vencimento) = YEAR(CURRENT_DATE)
+          AND YEAR(p.data_vencimento) = YEAR(CURRENT_DATE);
+        
         """, nativeQuery = true)
     Long contarClientesComPendenciasAtrasadasMesAtual();
 
@@ -51,7 +55,7 @@ public interface ParcelaJpaRepository extends JpaRepository<ParcelaEntity, Long>
     @Query(value = """
         SELECT COUNT(DISTINCT p.processo_id)
         FROM parcela p
-        WHERE p.status = 'ATRASADO'
+        WHERE p.status = 'ATRASO'
           AND MONTH(p.data_vencimento) = MONTH(CURRENT_DATE)
           AND YEAR(p.data_vencimento) = YEAR(CURRENT_DATE)
         """, nativeQuery = true)
@@ -60,7 +64,7 @@ public interface ParcelaJpaRepository extends JpaRepository<ParcelaEntity, Long>
     @Query(value = """
         SELECT COUNT(DISTINCT p.processo_id)
         FROM parcela p
-        WHERE p.status = 'ATRASADO'
+        WHERE p.status = 'ATRASO'
           AND MONTH(p.data_vencimento) = MONTH(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH))
           AND YEAR(p.data_vencimento) = YEAR(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH))
         """, nativeQuery = true)
@@ -119,7 +123,7 @@ public interface ParcelaJpaRepository extends JpaRepository<ParcelaEntity, Long>
         FROM parcela p
         INNER JOIN lancamento l ON p.id_lancamento = l.id_lancamento
         INNER JOIN cliente c ON l.id_cliente = c.id_cliente
-        WHERE p.status IN ('PENDENTE', 'ATRASADO')
+        WHERE p.status IN ('PENDENTE', 'ATRASO')
         ORDER BY p.data_vencimento ASC
         LIMIT 1
         """, nativeQuery = true)
