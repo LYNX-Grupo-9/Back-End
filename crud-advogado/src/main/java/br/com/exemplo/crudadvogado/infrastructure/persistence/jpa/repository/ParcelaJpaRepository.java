@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface ParcelaJpaRepository extends JpaRepository<ParcelaEntity, Long> {
@@ -29,7 +30,6 @@ public interface ParcelaJpaRepository extends JpaRepository<ParcelaEntity, Long>
         """, nativeQuery = true)
     BigDecimal calcularTotalPendenteMesAnterior();
 
-    // CORREÇÃO: Removido p.cliente.id - substitua pelo campo correto quando souber a estrutura
     @Query(value = """
         SELECT COUNT(DISTINCT p.processo_id)
         FROM parcela p
@@ -82,20 +82,20 @@ public interface ParcelaJpaRepository extends JpaRepository<ParcelaEntity, Long>
         """, nativeQuery = true)
     BigDecimal calcularTotalAReceberUltimos30Dias();
 
+    // CORREÇÃO: Removido data_pagamento que não existe - usando data_vencimento
     @Query(value = """
-    SELECT COALESCE(SUM(p.valor), 0)
-    FROM parcela p
-    WHERE p.status = 'PAGO'
-      AND p.data_pagamento BETWEEN :inicio AND :fim
-    """, nativeQuery = true)
+        SELECT COALESCE(SUM(p.valor), 0)
+        FROM parcela p
+        WHERE p.status = 'PAGO'
+          AND p.data_vencimento BETWEEN :inicio AND :fim
+        """, nativeQuery = true)
     BigDecimal calcularFaturamentoPorPeriodo(@Param("inicio") LocalDate inicio,
                                              @Param("fim") LocalDate fim);
-
 
     @Query(value = """
         SELECT COALESCE(SUM(p.valor), 0)
         FROM parcela p
-        WHERE p.status = 'RECEBIDO'
+        WHERE p.status = 'PAGO'
           AND p.data_vencimento BETWEEN :inicioMes AND :dataAtual
         """, nativeQuery = true)
     BigDecimal calcularTotalFaturadoMesAtual(@Param("inicioMes") LocalDate inicioMes,
@@ -104,7 +104,7 @@ public interface ParcelaJpaRepository extends JpaRepository<ParcelaEntity, Long>
     @Query(value = """
         SELECT COALESCE(SUM(p.valor), 0)
         FROM parcela p
-        WHERE p.status = 'RECEBIDO'
+        WHERE p.status = 'PAGO'
           AND p.data_vencimento BETWEEN :inicioMesAnterior AND :fimMesAnterior
         """, nativeQuery = true)
     BigDecimal calcularTotalFaturadoMesAnterior(@Param("inicioMesAnterior") LocalDate inicioMesAnterior,
@@ -126,30 +126,64 @@ public interface ParcelaJpaRepository extends JpaRepository<ParcelaEntity, Long>
     Optional<Object[]> obterProximaParcela();
 
     @Query(value = """
-        SELECT 
-            COALESCE(SUM(CASE WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY) AND CURRENT_DATE THEN p.valor ELSE 0 END), 0) as total30,
-            COALESCE(SUM(CASE WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 60 DAY) AND CURRENT_DATE THEN p.valor ELSE 0 END), 0) as total60,
-            COALESCE(SUM(CASE WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 90 DAY) AND CURRENT_DATE THEN p.valor ELSE 0 END), 0) as total90,
-            COALESCE(SUM(CASE WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 120 DAY) AND CURRENT_DATE THEN p.valor ELSE 0 END), 0) as total120,
-            COALESCE(SUM(CASE WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 150 DAY) AND CURRENT_DATE THEN p.valor ELSE 0 END), 0) as total150,
-            COALESCE(SUM(CASE WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 180 DAY) AND CURRENT_DATE THEN p.valor ELSE 0 END), 0) as total180
-        FROM parcela p
-        WHERE p.status = 'RECEBIDO'
-          AND p.data_vencimento >= DATE_SUB(CURRENT_DATE, INTERVAL 180 DAY)
-        """, nativeQuery = true)
-    Object[] calcularFaturadoUltimos6Meses();
+    SELECT 
+        CAST(COALESCE(SUM(CASE 
+            WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY) AND CURRENT_DATE
+            THEN p.valor ELSE 0 
+        END), 0) AS DECIMAL(38,2)) as total30,
+        CAST(COALESCE(SUM(CASE 
+            WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 60 DAY) AND DATE_SUB(CURRENT_DATE, INTERVAL 31 DAY)
+            THEN p.valor ELSE 0 
+        END), 0) AS DECIMAL(38,2)) as total60,
+        CAST(COALESCE(SUM(CASE 
+            WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 90 DAY) AND DATE_SUB(CURRENT_DATE, INTERVAL 61 DAY)
+            THEN p.valor ELSE 0 
+        END), 0) AS DECIMAL(38,2)) as total90,
+        CAST(COALESCE(SUM(CASE 
+            WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 120 DAY) AND DATE_SUB(CURRENT_DATE, INTERVAL 91 DAY)
+            THEN p.valor ELSE 0 
+        END), 0) AS DECIMAL(38,2)) as total120,
+        CAST(COALESCE(SUM(CASE 
+            WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 150 DAY) AND DATE_SUB(CURRENT_DATE, INTERVAL 121 DAY)
+            THEN p.valor ELSE 0 
+        END), 0) AS DECIMAL(38,2)) as total150,
+        CAST(COALESCE(SUM(CASE 
+            WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 180 DAY) AND DATE_SUB(CURRENT_DATE, INTERVAL 151 DAY)
+            THEN p.valor ELSE 0 
+        END), 0) AS DECIMAL(38,2)) as total180
+    FROM parcela p
+    WHERE p.status = 'PAGO'
+""", nativeQuery = true)
+    List<Object[]> calcularFaturadoUltimos6Meses();
 
     @Query(value = """
-        SELECT 
-            COALESCE(SUM(CASE WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY) AND CURRENT_DATE THEN p.valor ELSE 0 END), 0) as total30,
-            COALESCE(SUM(CASE WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 60 DAY) AND CURRENT_DATE THEN p.valor ELSE 0 END), 0) as total60,
-            COALESCE(SUM(CASE WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 90 DAY) AND CURRENT_DATE THEN p.valor ELSE 0 END), 0) as total90,
-            COALESCE(SUM(CASE WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 120 DAY) AND CURRENT_DATE THEN p.valor ELSE 0 END), 0) as total120,
-            COALESCE(SUM(CASE WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 150 DAY) AND CURRENT_DATE THEN p.valor ELSE 0 END), 0) as total150,
-            COALESCE(SUM(CASE WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 180 DAY) AND CURRENT_DATE THEN p.valor ELSE 0 END), 0) as total180
-        FROM parcela p
-        WHERE p.status = 'PENDENTE'
-          AND p.data_vencimento >= DATE_SUB(CURRENT_DATE, INTERVAL 180 DAY)
-        """, nativeQuery = true)
-    Object[] calcularPendenteUltimos6Meses();
+    SELECT 
+        CAST(COALESCE(SUM(CASE 
+            WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY) AND CURRENT_DATE
+            THEN p.valor ELSE 0 
+        END), 0) AS DECIMAL(38,2)) as total30,
+        CAST(COALESCE(SUM(CASE 
+            WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 60 DAY) AND DATE_SUB(CURRENT_DATE, INTERVAL 31 DAY)
+            THEN p.valor ELSE 0 
+        END), 0) AS DECIMAL(38,2)) as total60,
+        CAST(COALESCE(SUM(CASE 
+            WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 90 DAY) AND DATE_SUB(CURRENT_DATE, INTERVAL 61 DAY)
+            THEN p.valor ELSE 0 
+        END), 0) AS DECIMAL(38,2)) as total90,
+        CAST(COALESCE(SUM(CASE 
+            WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 120 DAY) AND DATE_SUB(CURRENT_DATE, INTERVAL 91 DAY)
+            THEN p.valor ELSE 0 
+        END), 0) AS DECIMAL(38,2)) as total120,
+        CAST(COALESCE(SUM(CASE 
+            WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 150 DAY) AND DATE_SUB(CURRENT_DATE, INTERVAL 121 DAY)
+            THEN p.valor ELSE 0 
+        END), 0) AS DECIMAL(38,2)) as total150,
+        CAST(COALESCE(SUM(CASE 
+            WHEN p.data_vencimento BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 180 DAY) AND DATE_SUB(CURRENT_DATE, INTERVAL 151 DAY)
+            THEN p.valor ELSE 0 
+        END), 0) AS DECIMAL(38,2)) as total180
+    FROM parcela p
+    WHERE p.status = 'PENDENTE'
+""", nativeQuery = true)
+    List<Object[]> calcularPendenteUltimos6Meses();
 }
