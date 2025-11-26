@@ -7,6 +7,7 @@ import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.Cliente
 import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.CriarClienteResponse;
 import br.com.exemplo.crudadvogado.core.application.usecase.cliente.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.domain.Page;
@@ -150,7 +151,9 @@ public class ClienteController {
 
     @GetMapping("/paginado")
     @SecurityRequirement(name = "Bearer")
-    public Page<ClienteResponse> listarPaginado(Pageable pageable) {
+    public Page<ClienteResponse> listarPaginado(
+            @ParameterObject Pageable pageable
+    ) {
         return listarClientesPaginadoUseCase.executar(pageable);
     }
 

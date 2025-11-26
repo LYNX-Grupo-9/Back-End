@@ -46,7 +46,7 @@ public interface ParcelaJpaRepository extends JpaRepository<ParcelaEntity, Long>
     @Query(value = """
         SELECT COUNT(DISTINCT p.processo_id)
         FROM parcela p
-        WHERE p.status = 'ATRASADO'
+        WHERE p.status = 'ATRASO'
           AND MONTH(p.data_vencimento) = MONTH(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH))
           AND YEAR(p.data_vencimento) = YEAR(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH))
         """, nativeQuery = true)

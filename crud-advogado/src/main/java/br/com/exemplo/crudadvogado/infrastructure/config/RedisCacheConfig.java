@@ -11,7 +11,6 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
@@ -25,7 +24,7 @@ public class RedisCacheConfig {
 
     @Bean
     public RedisCacheManager redisCacheManager(RedisConnectionFactory connectionFactory) {
-        // 🔹 Configuração PADRÃO (JSON) - para List<T>
+
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
@@ -35,7 +34,8 @@ public class RedisCacheConfig {
                 ObjectMapper.DefaultTyping.NON_FINAL
         );
 
-        GenericJackson2JsonRedisSerializer jsonSerializer = new GenericJackson2JsonRedisSerializer(objectMapper);
+        GenericJackson2JsonRedisSerializer jsonSerializer =
+                new GenericJackson2JsonRedisSerializer(objectMapper);
 
         RedisCacheConfiguration defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
@@ -44,18 +44,17 @@ public class RedisCacheConfig {
                 .disableCachingNullValues()
                 .prefixCacheNameWith("advogado-app::");
 
-        // 🔹 Configuração ESPECIAL para paginação (JDK Serializer) - para Page<T>
+        // Configuração ESPECIAL para paginação — AGORA usando JSON também
         RedisCacheConfiguration paginadoConfig = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new JdkSerializationRedisSerializer()))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jsonSerializer))
                 .entryTtl(Duration.ofMinutes(10))
                 .disableCachingNullValues()
                 .prefixCacheNameWith("advogado-app::");
 
-        // 🔹 Mapear TODOS os caches paginados para JDK Serializer
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
         cacheConfigurations.put("clientesPaginados", paginadoConfig);
-        cacheConfigurations.put("processosPaginados", paginadoConfig); // ✅ ADICIONE ESTA LINHA
+        cacheConfigurations.put("processosPaginados", paginadoConfig);
 
         return RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(defaultConfig)
