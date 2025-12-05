@@ -6,6 +6,7 @@ import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.entity.EventoE
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.mapper.EventoMapper;
 import br.com.exemplo.crudadvogado.infrastructure.persistence.jpa.repository.EventoJpaRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,8 +66,13 @@ public class EventoJpaAdapter implements EventoGateway {
     }
 
     @Override
+    @Transactional
     public void deletarPorId(Long id) {
-        repository.deleteById(id);
+        int deleted = repository.deleteDirectlyById(id);
+
+        if (deleted == 0) {
+            throw new EntityNotFoundException("Evento não encontrado com id: " + id);
+        }
     }
 
     @Override
@@ -117,4 +123,10 @@ public class EventoJpaAdapter implements EventoGateway {
                 .map(mapper::toDomain)
                 .toList();
     }
+
+    @Override
+    public boolean existePorId(Long id) {
+        return repository.existsById(id);
+    }
+
 }

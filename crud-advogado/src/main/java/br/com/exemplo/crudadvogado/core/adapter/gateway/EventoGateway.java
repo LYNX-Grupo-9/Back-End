@@ -18,4 +18,5 @@ public interface EventoGateway {
     void desvincularCategoriaDosEventos(Long idCategoria);
     List<Evento> findByAdvogadoIdAdvogadoAndDataReuniaoBetween(UUID idAdvogado, Date startDate, Date endDate);
     List<Evento> listarPorCliente(UUID idCliente);
+    boolean existePorId(Long id);
 }
