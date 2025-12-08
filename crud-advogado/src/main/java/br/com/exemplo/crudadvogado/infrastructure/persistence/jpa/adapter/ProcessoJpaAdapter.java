@@ -259,4 +259,11 @@ public class ProcessoJpaAdapter implements ProcessoGateway {
             entity.setAdvReu(domain.getAdvReu());
         }
     }
+
+    @Override
+    public List<Processo> buscarPorAdvogado(UUID idAdvogado) {
+        return repository.findByAdvogado_IdAdvogado(idAdvogado).stream()
+                .map(ProcessoMapper::toDomain)
+                .collect(Collectors.toList());
+    }
 }

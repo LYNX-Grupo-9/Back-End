@@ -29,4 +29,5 @@ public interface ProcessoGateway {
     List<Processo> listarProcessosOrdenadosPorNumeroProcesso(UUID idAdvogado);
     Processo atualizar(Processo domain);
     Page<Processo> listarPaginado(Pageable pageable);
+    List<Processo> buscarPorAdvogado(UUID idAdvogado);
 }

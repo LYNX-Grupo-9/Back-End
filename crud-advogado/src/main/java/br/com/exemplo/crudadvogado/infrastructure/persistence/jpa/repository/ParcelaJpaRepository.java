@@ -190,4 +190,7 @@ public interface ParcelaJpaRepository extends JpaRepository<ParcelaEntity, Long>
     WHERE p.status = 'PENDENTE'
 """, nativeQuery = true)
     List<Object[]> calcularPendenteUltimos6Meses();
+
+    @Query("SELECT p FROM ParcelaEntity p WHERE p.lancamento.idLancamento = :idLancamento")
+    List<ParcelaEntity> findByIdLancamento(@Param("idLancamento") Long idLancamento);
 }
