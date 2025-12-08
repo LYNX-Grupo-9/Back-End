@@ -5,12 +5,19 @@ import br.com.exemplo.crudadvogado.core.application.dto.command.cliente.CriarCli
 import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.ClienteProcessoEventoResponse;
 import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.ClienteResponse;
 import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.CriarClienteResponse;
+import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.PageCacheDTO;
+import br.com.exemplo.crudadvogado.core.application.dto.response.processo.PageResponse;
 import br.com.exemplo.crudadvogado.core.application.usecase.cliente.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +28,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/clientes")
 public class ClienteController {
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private final CriarClienteUseCase criarClienteUseCase;
     private final ListarClientesPorAdvogadoUseCase listarClientesPorAdvogadoUseCase;
@@ -151,11 +161,30 @@ public class ClienteController {
 
     @GetMapping("/paginado")
     @SecurityRequirement(name = "Bearer")
-    public Page<ClienteResponse> listarPaginado(
-            @ParameterObject Pageable pageable
-    ) {
-        return listarClientesPaginadoUseCase.executar(pageable);
+    public Page<ClienteResponse> listarPaginado(@ParameterObject Pageable pageable) throws JsonProcessingException {
+
+        Object raw = listarClientesPaginadoUseCase.executar(pageable);
+
+        PageCacheDTO<ClienteResponse> dto;
+
+        if (raw instanceof PageCacheDTO<?> pageDTO) {
+            dto = (PageCacheDTO<ClienteResponse>) pageDTO;
+        } else {
+            dto = objectMapper.convertValue(raw, new TypeReference<PageCacheDTO<ClienteResponse>>() {});
+        }
+
+        int safeSize = dto.pageSize() < 1 ? 1 : dto.pageSize();
+        int safePage = dto.pageNumber() < 0 ? 0 : dto.pageNumber();
+
+        Pageable springPageable = PageRequest.of(safePage, safeSize);
+
+        return new org.springframework.data.domain.PageImpl<>(
+                dto.content(),
+                springPageable,
+                dto.totalElements()
+        );
     }
+
 
     @PostMapping("/cache/paginado/limpar")
     @SecurityRequirement(name = "Bearer")
@@ -163,20 +192,6 @@ public class ClienteController {
     public ResponseEntity<String> limparCacheClientesPaginados() {
         System.out.println("🧹 Cache de clientes paginados limpo!");
         return ResponseEntity.ok("Cache de clientes paginados limpo com sucesso!");
-    }
-
-    /**
-     * Força a atualização do cache para uma página específica
-     */
-    @PostMapping("/cache/paginado/atualizar")
-    @SecurityRequirement(name = "Bearer")
-    @CachePut(
-            value = "clientesPaginados",
-            key = "T(java.util.Objects).hash(#pageable.pageNumber, #pageable.pageSize, #pageable.sort.toString())"
-    )
-    public Page<ClienteResponse> atualizarCacheClientesPaginados(Pageable pageable) {
-        System.out.println("🔄 Atualizando cache forçado para página: " + pageable.getPageNumber());
-        return listarClientesPaginadoUseCase.executar(pageable);
     }
 
     /**
