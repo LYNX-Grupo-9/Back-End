@@ -8,6 +8,7 @@ import br.com.exemplo.crudadvogado.core.domain.Parcela;
 import java.math.BigDecimal;
 import java.time.YearMonth;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface ParcelaGateway {
     Parcela criar(Parcela parcela);
@@ -31,4 +32,7 @@ public interface ParcelaGateway {
 
     FaturadoUltimos6MesesResponse calcularFaturadoUltimos6Meses();
     PendenteUltimos6MesesResponse calcularPendenteUltimos6Meses();
+
+    Optional<Parcela> buscarPorId(Long id);
+    Parcela atualizar(Parcela parcela);
 }

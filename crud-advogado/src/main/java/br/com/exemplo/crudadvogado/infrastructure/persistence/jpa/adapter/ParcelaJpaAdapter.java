@@ -258,6 +258,32 @@ public class ParcelaJpaAdapter implements ParcelaGateway {
         }
     }
 
+    @Override
+    public Optional<Parcela> buscarPorId(Long id) {
+        try {
+            return parcelaRepository.findById(id)
+                    .map(mapper::toDomain);
+        } catch (Exception e) {
+            logger.error("Erro ao buscar parcela por ID: {}", id, e);
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Parcela atualizar(Parcela parcela) {
+        try {
+            ParcelaEntity entity = mapper.toEntity(parcela);
+
+            ParcelaEntity entityAtualizada = parcelaRepository.save(entity);
+
+            return mapper.toDomain(entityAtualizada);
+
+        } catch (Exception e) {
+            logger.error("Erro ao atualizar parcela com ID: {}", parcela.getIdParcela(), e);
+            throw new RuntimeException("Erro ao atualizar parcela", e);
+        }
+    }
+
     private FaturadoUltimos6MesesResponse mapearParaFaturadoResponse(Object[] resultado) {
         if (resultado == null || resultado.length != 6) {
             logger.warn("Resultado inválido para faturado: {}", Arrays.toString(resultado));
