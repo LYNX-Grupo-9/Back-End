@@ -6,8 +6,6 @@ import br.com.exemplo.crudadvogado.core.application.dto.response.parcela.Parcela
 import br.com.exemplo.crudadvogado.core.application.exception.ParcelaNaoEncontradaException;
 import br.com.exemplo.crudadvogado.core.domain.Parcela;
 
-import java.util.UUID;
-
 public class AtualizarParcelaParcialmenteUseCase {
 
     private final ParcelaGateway parcelaGateway;
