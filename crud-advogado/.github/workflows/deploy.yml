@@ -1,0 +1,45 @@
+name: CI/CD - Java Backend
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Cache do Maven
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build com Maven
+        run: mvn -B clean install
+
+      - name: Executar testes
+        run: mvn test
+
+      - name: Gerar artefato JAR
+        run: |
+          mkdir -p build
+          cp target/*.jar build/
+
+      - name: Upload do artefato
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-jar
+          path: build/*.jar
