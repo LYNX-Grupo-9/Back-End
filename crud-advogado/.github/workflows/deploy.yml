@@ -1,0 +1,84 @@
+name: Back-End CI/CD – Crud Advogado
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+  pull_request:
+    branches:
+      - develop
+      - main
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      #      - name: Load environment variables
+      #       run: |
+      #        echo "API_URL={{ secrets.API_URL }}" >> $GITHUB_ENV
+      #          echo "APP_ENV={{ secrets.APP_ENV }}" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run unit tests
+        run: npm test --if-present
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload build artifacts
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: backend-jar
+          path: `target/*.jar`
+
+  governance:
+    name: Repository Governance Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate PR title convention
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "Checking PR title..."
+          TITLE="${{ github.event.pull_request.title }}"
+          if [[ ! $TITLE =~ ^(feat|fix|docs|chore|refactor|test|ci): ]]; then
+            echo "PR title must follow Conventional Commits (e.g., feat: add X)" && exit 1
+          fi
+          echo "PR title valid."
+
+      - name: Enforce required files
+        run: |
+          echo "Checking required files..."
+          [ -f README.md ] || (echo "README.md missing" && exit 1)
+          [ -f package.json ] || (echo "package.json missing" && exit 1)
+          echo "Required files present."
+
+  deploy:
+    needs: [build, governance]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
