@@ -10,6 +10,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class EventoMapper {
 
@@ -41,21 +43,38 @@ public class EventoMapper {
         entity.setHoraInicio(domain.getHoraInicio());
         entity.setHoraFim(domain.getHoraFim());
 
-        AdvogadoEntity advogado = advogadoJpaRepository.findById(domain.getAdvogado())
-                .orElseThrow(() -> new EntityNotFoundException("Advogado não encontrado"));
-        entity.setAdvogado(advogado);
+        if (domain.getAdvogado() != null) {
+            AdvogadoEntity advogado = advogadoJpaRepository.findById(domain.getAdvogado())
+                    .orElseThrow(() -> new EntityNotFoundException("Advogado não encontrado"));
+            entity.setAdvogado(advogado);
+        } else {
+            entity.setAdvogado(null);
+        }
 
-        ClienteEntity cliente = clienteJpaRepository.findById(domain.getCliente())
-                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
-        entity.setCliente(cliente);
+        if (domain.getCliente() != null) {
+            ClienteEntity cliente = clienteJpaRepository.findById(domain.getCliente())
+                    .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
+            entity.setCliente(cliente);
+        } else {
+            entity.setCliente(null);
+        }
 
-        CategoriaEventoEntity categoriaEvento = categoriaEventoJpaRepository.findById(domain.getCategoria())
-                .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
-        entity.setCategoria(categoriaEvento);
+        // Categoria
+        if (domain.getCategoria() != null) {
+            CategoriaEventoEntity categoriaEvento = categoriaEventoJpaRepository.findById(domain.getCategoria())
+                    .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+            entity.setCategoria(categoriaEvento);
+        } else {
+            entity.setCategoria(null);
+        }
 
-        ProcessoEntity processo = processoJpaRepository.findById(domain.getProcesso())
-                .orElseThrow(() -> new EntityNotFoundException("Processo não encontrado"));
-        entity.setProcesso(processo);
+        if (domain.getProcesso() != null) {
+            ProcessoEntity processo = processoJpaRepository.findById(domain.getProcesso())
+                    .orElseThrow(() -> new EntityNotFoundException("Processo não encontrado"));
+            entity.setProcesso(processo);
+        } else {
+            entity.setProcesso(null);
+        }
 
         return entity;
     }
@@ -64,6 +83,11 @@ public class EventoMapper {
         if (entity == null) {
             return null;
         }
+
+        UUID advogadoId = entity.getAdvogado() != null ? entity.getAdvogado().getIdAdvogado() : null;
+        UUID clienteId = entity.getCliente() != null ? entity.getCliente().getIdCliente() : null;
+        Long categoriaId = entity.getCategoria() != null ? entity.getCategoria().getId() : null;
+        UUID processoId = entity.getProcesso() != null ? entity.getProcesso().getIdProcesso() : null;
 
         var domain = Evento.criarExistente(
                 entity.getIdEvento(),
@@ -74,10 +98,10 @@ public class EventoMapper {
                 entity.getDataReuniao(),
                 entity.getHoraInicio(),
                 entity.getHoraFim(),
-                entity.getAdvogado().getIdAdvogado(),
-                entity.getCliente().getIdCliente(),
-                entity.getCategoria().getId(),
-                entity.getProcesso().getIdProcesso()
+                advogadoId,
+                clienteId,
+                categoriaId,
+                processoId
         );
 
         return domain;
