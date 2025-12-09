@@ -30,10 +30,10 @@ jobs:
           distribution: temurin
           java-version: 21
 
-    #  - name: Load environment variables
-     #   run: |
-        #  echo "APP_ENV=${{ secrets.APP_ENV }}" >> $GITHUB_ENV
-        #  echo "API_URL=${{ secrets.API_URL }}" >> $GITHUB_ENV
+      # - name: Load environment variables
+      #   run: |
+      #     echo "APP_ENV=${{ secrets.APP_ENV }}" >> $GITHUB_ENV
+      #     echo "API_URL=${{ secrets.API_URL }}" >> $GITHUB_ENV
 
       - name: Cache Maven packages
         uses: actions/cache@v4
