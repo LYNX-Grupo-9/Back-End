@@ -9,4 +9,8 @@ public record LancamentoComParcelasResponse(
         UUID idProcesso,
         String titulo,
         List<ParcelaResponse> parcelas
-) {}
+) {
+    public UUID idLancamento() {
+        return null;
+    }
+}

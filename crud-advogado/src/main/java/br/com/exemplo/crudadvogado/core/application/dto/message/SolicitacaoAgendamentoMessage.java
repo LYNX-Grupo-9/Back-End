@@ -17,4 +17,19 @@ public record SolicitacaoAgendamentoMessage(
         String status,
         LocalDate dataCriacao
 ) {
+    public Double getIdSolicitacao() {
+        return 0.0;
+    }
+
+    public String getNome() {
+        return "";
+    }
+
+    public String getAssunto() {
+        return "";
+    }
+
+    public String getStatus() {
+        return "";
+    }
 }

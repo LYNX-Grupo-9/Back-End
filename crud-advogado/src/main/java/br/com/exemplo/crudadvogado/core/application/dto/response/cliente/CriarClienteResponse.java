@@ -21,4 +21,7 @@ public record CriarClienteResponse(
         Long qtdProcessos,
         UUID advogadoResponsavel
 ) {
+    public UUID idAdvogado() {
+        return null;
+    }
 }

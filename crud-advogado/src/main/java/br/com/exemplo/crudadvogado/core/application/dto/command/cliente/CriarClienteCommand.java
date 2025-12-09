@@ -1,7 +1,6 @@
 package br.com.exemplo.crudadvogado.core.application.dto.command.cliente;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.UUID;
 
 public record CriarClienteCommand(
@@ -12,7 +11,7 @@ public record CriarClienteCommand(
         String telefone,
         String endereco,
         String genero,
-        Date dataNascimento,
+        LocalDate dataNascimento,
         String estadoCivil,
         String profissao,
         String passaporte,

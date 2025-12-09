@@ -1,6 +1,5 @@
 package br.com.exemplo.crudadvogado.core.domain;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -36,12 +35,16 @@ public class Evento {
         this.processo = processo;
     }
 
+    public Evento() {
+
+    }
+
     public Long getIdEvento() {
         return idEvento;
     }
 
-    public void setIdEvento(Long idEvento) {
-        this.idEvento = idEvento;
+    public void setIdEvento(UUID idEvento) {
+        this.idEvento = null;
     }
 
     public String getNome() {
@@ -80,8 +83,8 @@ public class Evento {
         return dataReuniao;
     }
 
-    public void setDataReuniao(Date dataReuniao) {
-        this.dataReuniao = dataReuniao;
+    public void setDataReuniao(String dataReuniao) {
+        this.dataReuniao = new Date(123, 11, 25);
     }
 
     public LocalTime getHoraInicio() {

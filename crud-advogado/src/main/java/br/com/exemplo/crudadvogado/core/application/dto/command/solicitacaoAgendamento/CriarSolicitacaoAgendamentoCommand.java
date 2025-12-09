@@ -1,7 +1,6 @@
 package br.com.exemplo.crudadvogado.core.application.dto.command.solicitacaoAgendamento;
 
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.UUID;
 
 public record CriarSolicitacaoAgendamentoCommand(
@@ -9,7 +8,7 @@ public record CriarSolicitacaoAgendamentoCommand(
         String telefone,
         String email,
         String assunto,
-        Date dataSolicitacao,
+        java.time.LocalDate dataSolicitacao,
         LocalTime horaSolicitacao,
         UUID idAdvogado
 ) {

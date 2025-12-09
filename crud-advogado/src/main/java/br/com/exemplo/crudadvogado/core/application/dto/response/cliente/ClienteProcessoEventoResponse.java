@@ -40,5 +40,9 @@ public record ClienteProcessoEventoResponse(
             LocalTime horaFim,
             String titulo,
             Long tipo
-    ) {}
+    ) {
+        public String nome() {
+            return "";
+        }
+    }
 }

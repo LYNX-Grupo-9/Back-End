@@ -14,4 +14,7 @@ public record CriarSolicitacaoAgendamentoResponse(
         LocalTime horaSolicitacao,
         UUID idAdvogado
 ) {
+    public Double idSolicitacao() {
+        return 0.0;
+    }
 }

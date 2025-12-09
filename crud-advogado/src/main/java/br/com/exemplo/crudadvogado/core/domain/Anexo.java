@@ -33,6 +33,10 @@ public class Anexo {
         this.idProcesso = idProcesso;
     }
 
+    public Anexo() {
+
+    }
+
     public Long getIdAnexo() {
         return idAnexo;
     }

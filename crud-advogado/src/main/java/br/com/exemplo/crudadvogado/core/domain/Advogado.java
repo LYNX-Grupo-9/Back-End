@@ -25,7 +25,7 @@ public class Advogado {
     private List<UUID> solicitacoesAgendamento;
     private List<UUID> categoriasEvento;
 
-    private Advogado(UUID idAdvogado, String nome, Oab oab, Cpf cpf, Email email, Senha senha) {
+    public Advogado(UUID idAdvogado, String nome, Oab oab, Cpf cpf, Email email, Senha senha) {
         this.idAdvogado = idAdvogado;
         this.nome = nome;
         this.oab = oab;
@@ -38,6 +38,10 @@ public class Advogado {
         this.leads = new ArrayList<>();
         this.solicitacoesAgendamento = new ArrayList<>();
         this.categoriasEvento = new ArrayList<>();
+    }
+
+    public Advogado() {
+
     }
 
     public UUID getIdAdvogado() {
@@ -140,5 +144,8 @@ public class Advogado {
         String uniqueKey = oab + cpf + email;
         UUID id = UUID.nameUUIDFromBytes(uniqueKey.getBytes());
         return new Advogado(id, nome, Oab.criar(oab), Cpf.criar(cpf), Email.criar(email), Senha.criar(senha));
+    }
+
+    public void setId(long l) {
     }
 }

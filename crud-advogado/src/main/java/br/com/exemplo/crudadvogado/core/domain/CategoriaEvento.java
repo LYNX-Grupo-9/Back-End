@@ -25,6 +25,10 @@ public class CategoriaEvento {
         this.idAdvogado = idAdvogado;
     }
 
+    public CategoriaEvento() {
+
+    }
+
 
     public Long getIdCategoria() {
         return idCategoria;

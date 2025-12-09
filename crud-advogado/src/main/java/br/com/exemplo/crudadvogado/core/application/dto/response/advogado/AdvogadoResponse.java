@@ -8,4 +8,11 @@ public record AdvogadoResponse(
         String email,
         String oab
 ) {
+    public String getNome() {
+        return "";
+    }
+
+    public String getEmail() {
+        return "";
+    }
 }

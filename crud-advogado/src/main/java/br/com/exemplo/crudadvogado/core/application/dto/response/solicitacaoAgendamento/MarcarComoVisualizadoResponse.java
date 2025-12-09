@@ -30,4 +30,8 @@ public record MarcarComoVisualizadoResponse(
                 solicitacao.getVisualizado()
         );
     }
+
+    public Object solicitacao() {
+        return null;
+    }
 }

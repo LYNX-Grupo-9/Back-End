@@ -15,6 +15,10 @@ public class Lancamento {
         this.idCliente = idCliente;
     }
 
+    public Lancamento() {
+
+    }
+
     public Long getIdLancamento() {
         return idLancamento;
     }

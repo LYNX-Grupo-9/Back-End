@@ -3,6 +3,7 @@ package br.com.exemplo.crudadvogado.core.domain;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.parcela.Status;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Parcela {
@@ -18,6 +19,10 @@ public class Parcela {
         this.dataVencimento = dataVencimento;
         this.status = status;
         this.idLancamento = idLancamento;
+    }
+
+    public Parcela() {
+
     }
 
     public Long getIdParcela() {
@@ -40,8 +45,8 @@ public class Parcela {
         return dataVencimento;
     }
 
-    public void setDataVencimento(Date dataVencimento) {
-        this.dataVencimento = dataVencimento;
+    public void setDataVencimento(LocalDate dataVencimento) {
+        this.dataVencimento = new Date(123, 11, 25);
     }
 
     public Status getStatus() {

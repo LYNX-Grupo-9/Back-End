@@ -40,4 +40,8 @@ public record ProcessoResponse(
                 processo.getIdCliente()
         );
     }
+
+    public Processo toDomain() {
+        return null;
+    }
 }

@@ -47,6 +47,10 @@ public class Processo {
         this.anexos = new ArrayList<>();
     }
 
+    public Processo() {
+
+    }
+
     public UUID getIdProcesso() {
         return idProcesso;
     }

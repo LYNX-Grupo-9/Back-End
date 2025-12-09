@@ -1,7 +1,6 @@
 package br.com.exemplo.crudadvogado.core.application.dto.command.evento;
 
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.UUID;
 
 public record AtualizarEventoCommand(
@@ -9,7 +8,7 @@ public record AtualizarEventoCommand(
         String descricao,
         String local,
         String linkReuniao,
-        Date dataReuniao,
+        String dataReuniao,
         LocalTime horaInicio,
         LocalTime horaFim,
         UUID idAdvogado,

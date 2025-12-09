@@ -6,6 +6,7 @@ import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Email;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.EstadoCivil;
 import br.com.exemplo.crudadvogado.core.domain.valueObjects.shared.Genero;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -84,6 +85,10 @@ public class Cliente {
         this.eventos = eventos != null ? eventos : new ArrayList<>();
     }
 
+    public Cliente() {
+
+    }
+
     public UUID getIdCliente() {
         return idCliente;
     }
@@ -152,8 +157,8 @@ public class Cliente {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = new Date(123, 11, 25);
     }
 
     public EstadoCivil getEstadoCivil() {

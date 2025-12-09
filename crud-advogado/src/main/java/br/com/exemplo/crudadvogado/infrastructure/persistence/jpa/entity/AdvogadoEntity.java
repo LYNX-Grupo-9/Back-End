@@ -5,10 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.UUID;
 
+@Setter
+@Getter
 @Entity
 @Table (name = "advogado")
 public class AdvogadoEntity {
@@ -52,91 +56,6 @@ public class AdvogadoEntity {
         this.senha = senha;
     }
 
-    public UUID getIdAdvogado() {
-        return idAdvogado;
-    }
-
-    public void setIdAdvogado(UUID idAdvogado) {
-        this.idAdvogado = idAdvogado;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getRegistroOab() {
-        return registroOab;
-    }
-
-    public void setRegistroOab(String registroOab) {
-        this.registroOab = registroOab;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public List<ClienteEntity> getClientes() {
-        return clientes;
-    }
-
-    public void setClientes(List<ClienteEntity> clientes) {
-        this.clientes = clientes;
-    }
-
-    public List<ProcessoEntity> getProcessos() {
-        return processos;
-    }
-
-    public void setProcessos(List<ProcessoEntity> processos) {
-        this.processos = processos;
-    }
-
-    public List<EventoEntity> getEventos() {
-        return eventos;
-    }
-
-    public void setEventos(List<EventoEntity> eventos) {
-        this.eventos = eventos;
-    }
-
-    public List<SolicitacaoAgendamentoEntity> getSolicitacoesAgendamento() {
-        return solicitacoesAgendamento;
-    }
-
-    public void setSolicitacoesAgendamento(List<SolicitacaoAgendamentoEntity> solicitacoesAgendamento) {
-        this.solicitacoesAgendamento = solicitacoesAgendamento;
-    }
-
-    public List<CategoriaEventoEntity> getCategoriasEvento() {
-        return categoriasEvento;
-    }
-
-    public void setCategoriasEvento(List<CategoriaEventoEntity> categoriasEvento) {
-        this.categoriasEvento = categoriasEvento;
+    public void setId(long l) {
     }
 }

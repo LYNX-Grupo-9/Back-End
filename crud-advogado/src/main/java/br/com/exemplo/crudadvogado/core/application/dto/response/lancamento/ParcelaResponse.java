@@ -12,4 +12,12 @@ public record ParcelaResponse(
         BigDecimal valor,
         Date vencimento,
         Status status
-) {}
+) {
+    public Double idParcela() {
+        return 0.0;
+    }
+
+    public Date dataVencimento() {
+        return null;
+    }
+}
