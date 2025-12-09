@@ -21,7 +21,7 @@ public class ListarClientesPorAdvogadoUseCase {
         this.advogadoGateway = advogadoGateway;
     }
 
-    @Cacheable(value = "clientesPorAdvogado", key = "#advogadoId")
+    //@Cacheable(value = "clientesPorAdvogado", key = "#advogadoId")
     public List<ClienteResponse> executar(UUID advogadoId) {
         System.out.println("🚀 CONSULTANDO BANCO - Clientes do advogado: " + advogadoId);
 
