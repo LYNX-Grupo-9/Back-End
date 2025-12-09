@@ -5,9 +5,19 @@ import br.com.exemplo.crudadvogado.core.application.dto.command.cliente.CriarCli
 import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.ClienteProcessoEventoResponse;
 import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.ClienteResponse;
 import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.CriarClienteResponse;
+import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.PageCacheDTO;
+import br.com.exemplo.crudadvogado.core.application.dto.response.processo.PageResponse;
 import br.com.exemplo.crudadvogado.core.application.usecase.cliente.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +28,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/clientes")
 public class ClienteController {
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private final CriarClienteUseCase criarClienteUseCase;
     private final ListarClientesPorAdvogadoUseCase listarClientesPorAdvogadoUseCase;
@@ -148,7 +161,75 @@ public class ClienteController {
 
     @GetMapping("/paginado")
     @SecurityRequirement(name = "Bearer")
-    public Page<ClienteResponse> listarPaginado(Pageable pageable) {
-        return listarClientesPaginadoUseCase.executar(pageable);
+    public Page<ClienteResponse> listarPaginado(@ParameterObject Pageable pageable) throws JsonProcessingException {
+
+        Object raw = listarClientesPaginadoUseCase.executar(pageable);
+
+        PageCacheDTO<ClienteResponse> dto;
+
+        if (raw instanceof PageCacheDTO<?> pageDTO) {
+            dto = (PageCacheDTO<ClienteResponse>) pageDTO;
+        } else {
+            dto = objectMapper.convertValue(raw, new TypeReference<PageCacheDTO<ClienteResponse>>() {});
+        }
+
+        int safeSize = dto.pageSize() < 1 ? 1 : dto.pageSize();
+        int safePage = dto.pageNumber() < 0 ? 0 : dto.pageNumber();
+
+        Pageable springPageable = PageRequest.of(safePage, safeSize);
+
+        return new org.springframework.data.domain.PageImpl<>(
+                dto.content(),
+                springPageable,
+                dto.totalElements()
+        );
+    }
+
+
+    @PostMapping("/cache/paginado/limpar")
+    @SecurityRequirement(name = "Bearer")
+    @CacheEvict(value = "clientesPaginados", allEntries = true)
+    public ResponseEntity<String> limparCacheClientesPaginados() {
+        System.out.println("🧹 Cache de clientes paginados limpo!");
+        return ResponseEntity.ok("Cache de clientes paginados limpo com sucesso!");
+    }
+
+    /**
+     * Limpa o cache de clientes por advogado (se você tiver cache nesse use case)
+     */
+    @PostMapping("/cache/por-advogado/limpar")
+    @SecurityRequirement(name = "Bearer")
+    @CacheEvict(value = "clientesPorAdvogado", allEntries = true)
+    public ResponseEntity<String> limparCacheClientesPorAdvogado() {
+        System.out.println("🧹 Cache de clientes por advogado limpo!");
+        return ResponseEntity.ok("Cache de clientes por advogado limpo com sucesso!");
+    }
+
+    /**
+     * Limpa TODOS os caches de clientes
+     */
+    @PostMapping("/cache/limpar-tudo")
+    @SecurityRequirement(name = "Bearer")
+    @CacheEvict(value = {"clientesPaginados", "clientesPorAdvogado"}, allEntries = true)
+    public ResponseEntity<String> limparTodosCachesClientes() {
+        System.out.println("🧹🧹🧹 TODOS os caches de clientes limpos!");
+        return ResponseEntity.ok("Todos os caches de clientes foram limpos com sucesso!");
+    }
+
+    /**
+     * Endpoint para verificar status do cache (opcional)
+     */
+    @GetMapping("/cache/status")
+    @SecurityRequirement(name = "Bearer")
+    public ResponseEntity<String> statusCache() {
+        return ResponseEntity.ok("""
+            🎯 Sistema de Cache Ativo!
+            
+            Caches disponíveis:
+            - clientesPaginados: Consultas paginadas de clientes
+            - clientesPorAdvogado: Clientes por advogado
+            
+            Use os endpoints POST /cache/* para gerenciar
+            """);
     }
 }

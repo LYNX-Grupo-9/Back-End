@@ -2,13 +2,14 @@ package br.com.exemplo.crudadvogado.core.application.usecase.cliente;
 
 import br.com.exemplo.crudadvogado.core.adapter.gateway.AdvogadoGateway;
 import br.com.exemplo.crudadvogado.core.adapter.gateway.ClienteGateway;
-import br.com.exemplo.crudadvogado.core.adapter.gateway.ProcessoGateway;
 import br.com.exemplo.crudadvogado.core.application.dto.response.cliente.ClienteResponse;
 import br.com.exemplo.crudadvogado.core.application.exception.AdvogadoNaoEncontradoException;
 import br.com.exemplo.crudadvogado.core.domain.Cliente;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ListarClientesPorAdvogadoUseCase {
 
@@ -20,12 +21,17 @@ public class ListarClientesPorAdvogadoUseCase {
         this.advogadoGateway = advogadoGateway;
     }
 
+    @Cacheable(value = "clientesPorAdvogado", key = "#advogadoId")
     public List<ClienteResponse> executar(UUID advogadoId) {
+        System.out.println("🚀 CONSULTANDO BANCO - Clientes do advogado: " + advogadoId);
+
         validarAdvogado(advogadoId);
 
-        return clienteGateway.buscarPorAdvogado(advogadoId).stream()
+        List<Cliente> clientes = clienteGateway.buscarPorAdvogado(advogadoId);
+
+        return clientes.stream()
                 .map(this::mapToResponse)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     private void validarAdvogado(UUID advogadoId) {

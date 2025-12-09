@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -21,4 +22,9 @@ public interface EventoJpaRepository extends JpaRepository<EventoEntity, Long> {
     @Modifying
     @Query("UPDATE EventoEntity e SET e.categoria = null WHERE e.categoria.id = :idCategoria")
     void desvincularCategoriaPorId(@Param("idCategoria") Long idCategoria);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM EventoEntity e WHERE e.idEvento = :id")
+    int deleteDirectlyById(@Param("id") Long id);
 }

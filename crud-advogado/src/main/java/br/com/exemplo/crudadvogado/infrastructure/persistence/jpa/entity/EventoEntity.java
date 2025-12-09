@@ -32,7 +32,6 @@ public class EventoEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
-    @com.fasterxml.jackson.annotation.JsonManagedReference
     private ClienteEntity cliente;
 
     @ManyToOne

@@ -34,4 +34,7 @@ public interface ProcessoJpaRepository extends JpaRepository<ProcessoEntity, UUI
 
     @Query("SELECT p.classeProcessual, COUNT(p) FROM ProcessoEntity p WHERE p.advogado.idAdvogado = :idAdvogado GROUP BY p.classeProcessual")
     List<Object[]> contarProcessosPorClasseProcessualPorAdvogado(@Param("idAdvogado") UUID idAdvogado);
+
+    @Query("SELECT p FROM ProcessoEntity p WHERE p.advogado.idAdvogado = :idAdvogado")
+    List<ProcessoEntity> findByAdvogado_IdAdvogado(@Param("idAdvogado") UUID idAdvogado);
 }
